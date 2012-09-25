@@ -4,7 +4,6 @@ import java.awt.Color;
 
 import javax.swing.*;
 
-
 public class Main{
 	public static int WIDTH=900;
 	public static int HEIGHT=720;
