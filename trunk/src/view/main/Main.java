@@ -4,6 +4,7 @@ import java.awt.Color;
 
 import javax.swing.*;
 	// dong nay viet tren may cua Sang
+	// them mot dong nua tren may cua Sang
 public class Main{
 	public static int WIDTH=900;
 	public static int HEIGHT=720;
