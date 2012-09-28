@@ -1,4 +1,4 @@
-package model.chess;
+ package model.chess;
 
 import java.awt.Image;
 
