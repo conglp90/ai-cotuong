@@ -9,4 +9,6 @@ public class Constant {
 	public final static int UNDO_Y=300;
 	public final static int SAVE_X=700;
 	public final static int SAVE_Y=200;
+	public final static int BOARD_X=5;
+	public final static int BOARD_Y=5;
 }
