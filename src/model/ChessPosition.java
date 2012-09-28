@@ -4,7 +4,7 @@ package model;
  * 
  */
 
-public class Position {
+public class ChessPosition {
 	private  int row ;
 	private  int col ;
 	private  boolean CanBeEaten;
