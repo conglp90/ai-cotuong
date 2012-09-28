@@ -8,9 +8,9 @@ import model.ChessPosition;
 
 public class Pawn extends Chess {
 
-	public Pawn(Image shape, int row, int col) {
+	public Pawn(String img, int row, int col) {
 		// TODO Auto-generated constructor stub
-		super(shape, row, col);
+		super(img, row, col);
 	}
 
 	@Override

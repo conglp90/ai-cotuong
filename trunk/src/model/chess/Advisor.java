@@ -12,20 +12,20 @@ import java.util.*;
 
 public class Advisor extends Chess {
 
-	public Advisor(Image shape, int row, int col) {
-		super(shape, row, col);
+	public Advisor(String img, int row, int col) {
+		super(img, row, col);
 	}
 
 	@Override
 	public List <ChessPosition> getPosCanMove(ChessPosition current) {
 		List <ChessPosition> pos = new ArrayList<ChessPosition>();
-		int x,y,upBound,lowBound,leftBound,rightBound,value;
+		/*int x,y,upBound,lowBound,leftBound,rightBound,value;
 		int dx[] = {1,1,-1,-1};
 		int dy[] = {1,-1,1,-1};
 		ChessPosition CpTemp = new ChessPosition();
-		/*
-		 * khoi tao gioi han di chuyen cho quan sy
-		 */
+		
+		//khoi tao gioi han di chuyen cho quan sy
+		 
 		
 		x = this.getCol() ;
 		y = this.getRow() ;
@@ -39,9 +39,9 @@ public class Advisor extends Chess {
 		}
 		leftBound = 3 ;
 		rightBound = 5;
-		/*
-		 * Xet 4 o quanh o sy, kiem tra hop le, neu hop le thi cho di
-		 */
+		
+		//Xet 4 o quanh o sy, kiem tra hop le, neu hop le thi cho di
+		
 		for (int i=1 ; i<=4 ; i++){
 			x=this.getCol()+dx[i];
 			y=this.getRow()+dy[i];
@@ -58,7 +58,7 @@ public class Advisor extends Chess {
 				}
 				
 			}
-		}
+		}*/
 				return pos;
 	}
 

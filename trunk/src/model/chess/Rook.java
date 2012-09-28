@@ -12,24 +12,24 @@ import model.Match;
 
 public class Rook extends Chess {
 
-	public Rook(Image shape, int row, int col) {
-		super(shape, row, col);
+	public Rook(String img, int row, int col) {
+		super(img, row, col);
 		
 	}
 
 	@Override
 	public List <ChessPosition> getPosCanMove(ChessPosition current) {
 		List <ChessPosition> pos = new ArrayList<ChessPosition>();
-		int x,y,upBound,lowBound,leftBound,rightBound,value,i,omg;
+		/*int x,y,upBound,lowBound,leftBound,rightBound,value,i,omg;
 		ChessPosition CpTemp = new ChessPosition();
 		x=this.getCol();
 		y=this.getRow();
 		value = Match.tablePos[y][x];
 		upBound  = 0 ; lowBound = 9;
 		leftBound = 0; rightBound = 8;
-		/*
-		 * Thuc hien kiem tra 4 huong, de xet o di duoc cua quan xe
-		 */
+		//
+		 // Thuc hien kiem tra 4 huong, de xet o di duoc cua quan xe
+		 //
 		//Sang ben phai
 		for (i=x+1 ; x<=rightBound ; i++ ){
 			omg = Match.tablePos[y][i] ;
@@ -102,7 +102,7 @@ public class Rook extends Chess {
 			} 
 			if (omg * value >0) break;
 		}
-		
+		*/
 		return pos;
 	}
 }

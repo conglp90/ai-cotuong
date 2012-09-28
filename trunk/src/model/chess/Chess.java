@@ -3,6 +3,8 @@ package model.chess;
 import java.awt.Image;
 import java.util.List;
 
+import javax.swing.ImageIcon;
+
 import model.ChessPosition;
 
 public abstract class Chess {
@@ -11,10 +13,10 @@ public abstract class Chess {
 	Image shape;
 	boolean died =false;
 	
-	public Chess(Image shape, int row, int col) {
+	public Chess(String img, int row, int col) {
 		this.row = row;
 		this.col = col;
-		this.shape = shape;
+		this.shape = new ImageIcon(img).getImage();
 	}
 	
 	public int getRow() {
