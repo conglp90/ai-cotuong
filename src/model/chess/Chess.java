@@ -1,6 +1,7 @@
 package model.chess;
 
 import java.awt.Image;
+import java.util.List;
 
 import model.ChessPosition;
 
@@ -53,5 +54,5 @@ public abstract class Chess {
 	}
 	
 	// tra ve mang chua vi tri 
-	public abstract ChessPosition[] getPosCanMove(ChessPosition current);
+	public abstract List<ChessPosition> getPosCanMove(ChessPosition current);
 }
