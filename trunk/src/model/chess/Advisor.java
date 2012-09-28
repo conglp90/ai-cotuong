@@ -3,6 +3,8 @@ package model.chess;
 import java.awt.Image;
 
 import model.ChessPosition;
+import model.Match;
+
 import java.util.*;
 
 public class Advisor extends Chess {
@@ -16,9 +18,15 @@ public class Advisor extends Chess {
 	public List <ChessPosition> getPosCanMove(ChessPosition current) {
 		// TODO Auto-generated method stub
 		List <ChessPosition> pos = new ArrayList<ChessPosition>();
-		int x,y,upBound,lowBound,leftBound,rightBound ;
+		int x,y,upBound,lowBound,leftBound,rightBound,value;
+		int dx[] = {1,1,-1,-1};
+		int dy[] = {1,-1,1,-1};
+		ChessPosition CpTemp = new ChessPosition();
+		//khoi tao gioi han di chuyen cho quan sy
+		
 		x = this.getCol() ;
 		y = this.getRow() ;
+		value = Match.tablePos[x][y];
 		if (x <= 2) {
 			upBound = 0;
 			lowBound= 2;
@@ -29,31 +37,24 @@ public class Advisor extends Chess {
 		leftBound = 3 ;
 		rightBound = 5;
 		//diem phai duoi
-		x=this.getCol()+1;
-		y=this.getCol()+1;
-		if (((x>=leftBound)&&(x<=rightBound))&&((y>=upBound)&&(y<=lowBound))){
-			
+		for (int i=1 ; i<=4 ; i++){
+			x=this.getCol()+dx[i];
+			y=this.getCol()+dy[i];
+			if (((x>=leftBound)&&(x<=rightBound))&&((y>=upBound)&&(y<=lowBound))){
+				if ((Match.tablePos[x][y]==0)||(Match.tablePos[x][y]*value < 0)){
+					CpTemp.setCol(x);
+					CpTemp.setRow(y);
+					if (Match.tablePos[x][y]*value < 0) {
+						CpTemp.setCanBeEaten(true);
+					} else {
+						CpTemp.setCanBeEaten(false);
+					}
+					pos.add(CpTemp);
+				}
+				
+			}
 		}
-		//diem phai tren
-		x=this.getCol()+1;
-		y=this.getCol()-1;
-		if (((x>=leftBound)&&(x<=rightBound))&&((y>=upBound)&&(y<=lowBound))){
-			
-		}
-		//diem trai duoi
-		x=this.getCol()-1;
-		y=this.getCol()+1;
-		if (((x>=leftBound)&&(x<=rightBound))&&((y>=upBound)&&(y<=lowBound))){
-			
-		}
-		//diem trai tren 
-		x=this.getCol()-1;
-		y=this.getCol()-1;
-		if (((x>=leftBound)&&(x<=rightBound))&&((y>=upBound)&&(y<=lowBound))){
-			
-		}
-		
-		return pos;
+				return pos;
 	}
 
 }
