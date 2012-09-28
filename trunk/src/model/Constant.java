@@ -5,10 +5,10 @@ public class Constant {
 	public final static int MAIN_HEIGHT=720;
 	public final static int LOCATEX=250;
 	public final static int LOCATEY=5;
-	public final static int UNDO_X=700;
+	public final static int UNDO_X=800;
 	public final static int UNDO_Y=300;
-	public final static int SAVE_X=700;
+	public final static int SAVE_X=800;
 	public final static int SAVE_Y=200;
-	public final static int BOARD_X=5;
-	public final static int BOARD_Y=5;
+	public final static int BOARD_X=200;
+	public final static int BOARD_Y=0;
 }
