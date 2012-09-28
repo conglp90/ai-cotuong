@@ -8,8 +8,8 @@ import model.ChessPosition;
 
 public class Bishop extends Chess {
 
-	public Bishop(Image shape, int row, int col) {
-		super(shape, row, col);
+	public Bishop(String img, int row, int col) {
+		super(img, row, col);
 		// TODO Auto-generated constructor stub
 	}
 

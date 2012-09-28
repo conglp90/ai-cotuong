@@ -8,8 +8,8 @@ import model.ChessPosition;
 
 public class Cannon extends Chess {
 
-	public Cannon(Image shape, int row, int col) {
-		super(shape, row, col);
+	public Cannon(String img, int row, int col) {
+		super(img, row, col);
 		// TODO Auto-generated constructor stub
 	}
 

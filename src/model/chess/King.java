@@ -8,9 +8,9 @@ import model.ChessPosition;
 
 public class King extends Chess {
 
-	public King(Image shape, int row, int col) {
+	public King(String img, int row, int col) {
 		// TODO Auto-generated constructor stub
-		super(shape, row, col);
+		super(img, row, col);
 	}
 
 	@Override
