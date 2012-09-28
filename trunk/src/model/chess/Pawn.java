@@ -1,6 +1,8 @@
 package model.chess;
 
 import java.awt.Image;
+import java.util.ArrayList;
+import java.util.List;
 
 import model.ChessPosition;
 
@@ -12,10 +14,9 @@ public class Pawn extends Chess {
 	}
 
 	@Override
-	public ChessPosition[] getPosCanMove(ChessPosition current) {
+	public List <ChessPosition> getPosCanMove(ChessPosition current) {
+		List <ChessPosition> pos = new ArrayList<ChessPosition>();
 		// TODO Auto-generated method stub
-		return null;
+		return pos;
 	}
-	
-	
 }
