@@ -1,3 +1,6 @@
+/*
+ * Author : HoangNV , 11h41 28.9.2012
+ */
 package model.chess;
 
 import java.awt.Image;
@@ -10,19 +13,19 @@ import java.util.*;
 public class Advisor extends Chess {
 
 	public Advisor(Image shape, int row, int col) {
-		// TODO Auto-generated constructor stub
 		super(shape, row, col);
 	}
 
 	@Override
 	public List <ChessPosition> getPosCanMove(ChessPosition current) {
-		// TODO Auto-generated method stub
 		List <ChessPosition> pos = new ArrayList<ChessPosition>();
 		int x,y,upBound,lowBound,leftBound,rightBound,value;
 		int dx[] = {1,1,-1,-1};
 		int dy[] = {1,-1,1,-1};
 		ChessPosition CpTemp = new ChessPosition();
-		//khoi tao gioi han di chuyen cho quan sy
+		/*
+		 * khoi tao gioi han di chuyen cho quan sy
+		 */
 		
 		x = this.getCol() ;
 		y = this.getRow() ;
@@ -36,7 +39,9 @@ public class Advisor extends Chess {
 		}
 		leftBound = 3 ;
 		rightBound = 5;
-		//diem phai duoi
+		/*
+		 * Xet 4 o quanh o sy, kiem tra hop le, neu hop le thi cho di
+		 */
 		for (int i=1 ; i<=4 ; i++){
 			x=this.getCol()+dx[i];
 			y=this.getCol()+dy[i];
