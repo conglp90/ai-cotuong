@@ -1,5 +1,5 @@
 /*
- * Author : HoangNV , 11h41 28.9.2012
+ * Author : HoangNV , 28.9.2012
  */
 package model.chess;
 
@@ -29,7 +29,7 @@ public class Advisor extends Chess {
 		
 		x = this.getCol() ;
 		y = this.getRow() ;
-		value = Match.tablePos[x][y];
+		value = Match.tablePos[y][x];
 		if (x <= 2) {
 			upBound = 0;
 			lowBound= 2;
@@ -44,12 +44,12 @@ public class Advisor extends Chess {
 		 */
 		for (int i=1 ; i<=4 ; i++){
 			x=this.getCol()+dx[i];
-			y=this.getCol()+dy[i];
+			y=this.getRow()+dy[i];
 			if (((x>=leftBound)&&(x<=rightBound))&&((y>=upBound)&&(y<=lowBound))){
-				if ((Match.tablePos[x][y]==0)||(Match.tablePos[x][y]*value < 0)){
+				if ((Match.tablePos[y][x]==0)||(Match.tablePos[y][x]*value < 0)){
 					CpTemp.setCol(x);
 					CpTemp.setRow(y);
-					if (Match.tablePos[x][y]*value < 0) {
+					if (Match.tablePos[y][x]*value < 0) {
 						CpTemp.setCanBeEaten(true);
 					} else {
 						CpTemp.setCanBeEaten(false);
