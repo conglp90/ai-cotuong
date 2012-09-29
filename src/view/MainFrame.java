@@ -17,7 +17,7 @@ public class MainFrame extends JFrame {
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocation(Constant.LOCATEX, Constant.LOCATEY);
-		setResizable(false);
+		//setResizable(false);
 		menuPanel = new MenuPanel();
 		add(menuPanel);
 		chessBoardPanel = new ChessBoardPanel();
