@@ -16,4 +16,5 @@ public class Constant {
 	public static final int OX=165;//tam toa do OX
 	public static final int OY=15;
 	public static final int length=67;//khoang cach giua 2 o ban co
+	public static final String IMG_PATH = "src/images";
 }
