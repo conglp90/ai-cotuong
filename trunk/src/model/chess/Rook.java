@@ -2,8 +2,6 @@
  * Author : HoangNV , 28.9.2012
  */ 
 package model.chess;
-
-import java.awt.Image;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,8 +20,8 @@ public class Rook extends Chess {
 		List <ChessPosition> pos = new ArrayList<ChessPosition>();
 		int x,y,upBound,lowBound,leftBound,rightBound,value,i,omg;
 		ChessPosition CpTemp = new ChessPosition();
-		x=this.getCol();
-		y=this.getRow();
+		x=current.getCol();
+		y=current.getRow();
 		value = match.tablePos[y][x];
 		upBound  = 0 ; lowBound = 9;
 		leftBound = 0; rightBound = 8;
