@@ -1,12 +1,14 @@
 package view;
 
-import java.awt.*;
+import java.awt.Graphics;
+import java.awt.Image;
 
-import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.swing.JPanel;
 
 import model.Constant;
 
-public class MenuPanel extends JPanel{
+public class MenuPanel extends JPanel {
 	/**
 	 * 
 	 */
@@ -21,18 +23,34 @@ public class MenuPanel extends JPanel{
 	Image imgPlay;
 	Image imgSound;
 	Image imgHint;
-	public MenuPanel(){
+
+	public MenuPanel() {
 		loadImage();
+	}
+
+	public void loadImage() {
+		imgPause = new ImageIcon(Constant.OPT_DIR + "/pause.png").getImage();
+		imgHint = new ImageIcon(Constant.OPT_DIR + "/hint.png").getImage();
+		imgUndo = new ImageIcon(Constant.OPT_DIR + "/undo.png").getImage();
+		imgRedo = new ImageIcon(Constant.OPT_DIR + "/redo.png").getImage();
+		imgNewGame = new ImageIcon(Constant.OPT_DIR + "/newgame.gif").getImage();
+		imgLoadGame = new ImageIcon(Constant.OPT_DIR + "/loadgame.gif").getImage();
+		imgSaveGame = new ImageIcon(Constant.OPT_DIR + "/savegame.gif").getImage();
+		imgExit = new ImageIcon(Constant.OPT_DIR + "/exit.gif").getImage();
+		imgUndo = new ImageIcon(Constant.OPT_DIR + "/undo.png").getImage();
+	}
+
+	@Override
+	public void paint(Graphics g) {
 		
+		g.drawImage(imgPause, Constant.MENU_X, Constant.MENU_Y - 2*Constant.IMG_HEIGHT, null);
+		g.drawImage(imgHint, Constant.MENU_X + Constant.IMG_WIDTH, Constant.MENU_Y - 2*Constant.IMG_HEIGHT, null);
+		g.drawImage(imgUndo, Constant.MENU_X, Constant.MENU_Y - Constant.IMG_HEIGHT, null);
+		g.drawImage(imgRedo, Constant.MENU_X + Constant.IMG_WIDTH, Constant.MENU_Y - Constant.IMG_HEIGHT, null);
+		g.drawImage(imgNewGame, Constant.MENU_X, Constant.MENU_Y, null);
+		g.drawImage(imgLoadGame, Constant.MENU_X, Constant.MENU_Y + Constant.IMG_HEIGHT, null);
+		g.drawImage(imgSaveGame, Constant.MENU_X, Constant.MENU_Y + 2*Constant.IMG_HEIGHT, null);
+		g.drawImage(imgExit, Constant.MENU_X, Constant.MENU_Y + 3*Constant.IMG_HEIGHT, null);
 	}
-	public void loadImage(){
-		imgSaveGame=new ImageIcon("src/images/option/Save.png").getImage();
-		imgUndo=new ImageIcon("src/images/option/Undo.png").getImage();
-	}
-	public void paint(Graphics g){
-		g.drawImage(imgSaveGame,Constant.SAVE_X,Constant.SAVE_Y,null);
-		g.drawImage(imgUndo,Constant.UNDO_X,Constant.UNDO_Y,null);
-	}
-	
 
 }
