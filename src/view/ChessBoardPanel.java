@@ -12,6 +12,10 @@ public class ChessBoardPanel extends JPanel {
 	/**
 	 * 
 	 */
+	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
 	// private static final long serialVersionUID = 1976248615976616148L;
 	Match match = new Match();
 

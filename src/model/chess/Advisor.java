@@ -22,13 +22,16 @@ public class Advisor extends Chess {
 		int dx[] = {1,1,-1,-1};
 		int dy[] = {1,-1,1,-1};
 		ChessPosition CpTemp = new ChessPosition();
-		
-		//khoi tao gioi han di chuyen cho quan sy
-		 
-		
 		x = current.getCol() ;
 		y = current.getRow() ;
 		value = match.tablePos[y][x];
+
+		//khoi tao gioi han di chuyen cho quan sy
+		 
+		x = current.getCol() ;
+		y = current.getRow() ;
+		value = match.tablePos[y][x];
+
 		if (x <= 2) {
 			upBound = 0;
 			lowBound= 2;
