@@ -17,8 +17,8 @@ public class Bishop extends Chess {
 	public List<ChessPosition> getPosCanMove(ChessPosition current, Match match) {
 		List<ChessPosition> pos = new ArrayList<ChessPosition>();
 		int x,y,upBound,lowBound,leftBound,rightBound,value;
-		int dx[] = {2,2,-2,-2};
-		int dy[] = {2,-2,2,-2};
+		int dx[] = {0,2,2,-2,-2};
+		int dy[] = {0,2,-2,2,-2};
 		ChessPosition CpTemp = new ChessPosition();
 		/*
 		 * khoi tao gioi han di chuyen cho quan sy

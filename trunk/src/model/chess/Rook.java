@@ -25,10 +25,9 @@ public class Rook extends Chess {
 		value = match.tablePos[y][x];
 		upBound  = 0 ; lowBound = 9;
 		leftBound = 0; rightBound = 8;
-		//
-		 // Thuc hien kiem tra 4 huong, de xet o di duoc cua quan xe
-		 //
-		//Sang ben phai
+		/*
+		 * Thuc hien kiem tra cac o co the di duoc va an duoc cua quan xe
+		 */
 		for (i=x+1 ; x<=rightBound ; i++ ){
 			omg = match.tablePos[y][i] ;
 			if (omg == 0) {

@@ -19,8 +19,8 @@ public class Advisor extends Chess {
 	public List <ChessPosition> getPosCanMove(ChessPosition current, Match match) {
 		List <ChessPosition> pos = new ArrayList<ChessPosition>();
 		int x,y,upBound,lowBound,leftBound,rightBound,value;
-		int dx[] = {1,1,-1,-1};
-		int dy[] = {1,-1,1,-1};
+		int dx[] = {0,1,1,-1,-1};
+		int dy[] = {0,1,-1,1,-1};
 		ChessPosition CpTemp = new ChessPosition();
 		x = current.getCol() ;
 		y = current.getRow() ;
@@ -45,8 +45,8 @@ public class Advisor extends Chess {
 		//Xet 4 o quanh o sy, kiem tra hop le, neu hop le thi cho di
 		
 		for (int i=1 ; i<=4 ; i++){
-			x=this.getCol()+dx[i];
-			y=this.getRow()+dy[i];
+			x=current.getCol()+dx[i];
+			y=current.getRow()+dy[i];
 			if (((x>=leftBound)&&(x<=rightBound))&&((y>=upBound)&&(y<=lowBound))){
 				if ((match.tablePos[y][x]==0)||(match.tablePos[y][x]*value < 0)){
 					CpTemp.setCol(x);

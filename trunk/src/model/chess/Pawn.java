@@ -7,7 +7,7 @@ import model.ChessPosition;
 import model.Match;
 
 public class Pawn extends Chess {
-
+	private boolean passedRiver = false;
 	public Pawn(String img, int row, int col) {
 		// TODO Auto-generated constructor stub
 		super(img, row, col);
@@ -16,7 +16,67 @@ public class Pawn extends Chess {
 	@Override
 	public List <ChessPosition> getPosCanMove(ChessPosition current, Match match) {
 		List <ChessPosition> pos = new ArrayList<ChessPosition>();
-		// TODO Auto-generated method stub
+		ChessPosition CpTemp = new ChessPosition();
+		int x,y,value,omg,tmpX,tmpY;
+		x = current.getCol() ;
+		y = current.getRow() ;
+		if (y <= 4 )  omg = 1 ; 
+		 else omg = -1;
+		value = match.tablePos[y][x];
+		if (passedRiver) {
+			tmpX = x;
+			tmpY = y - omg;
+			if ((tmpY >= 0)&&((match.tablePos[tmpY][tmpX]==0)||(match.tablePos[tmpY][tmpX] * value < 0))) {
+				CpTemp.setCol(tmpX);
+				CpTemp.setRow(tmpY);
+				if (match.tablePos[tmpY][tmpX]*value < 0) {
+					CpTemp.setCanBeEaten(true);
+				} else {
+					CpTemp.setCanBeEaten(false);
+				}
+				pos.add(CpTemp);	
+			}
+			tmpX = x-1;
+			tmpY = y;
+			if ((tmpX >= 0)&&((match.tablePos[tmpY][tmpX]==0)||(match.tablePos[tmpY][tmpX] * value < 0))) {
+				CpTemp.setCol(tmpX);
+				CpTemp.setRow(tmpY);
+				if (match.tablePos[tmpY][tmpX]*value < 0) {
+					CpTemp.setCanBeEaten(true);
+				} else {
+					CpTemp.setCanBeEaten(false);
+				}
+				pos.add(CpTemp);	
+			}
+			tmpX = x+1;
+			tmpY = y;
+			if ((tmpX <= 8)&&((match.tablePos[tmpY][tmpX]==0)||(match.tablePos[tmpY][tmpX] * value < 0))) {
+				CpTemp.setCol(tmpX);
+				CpTemp.setRow(tmpY);
+				if (match.tablePos[tmpY][tmpX]*value < 0) {
+					CpTemp.setCanBeEaten(true);
+				} else {
+					CpTemp.setCanBeEaten(false);
+				}
+				pos.add(CpTemp);	
+			}
+		} else {
+			tmpX = x;
+			tmpY = y + omg;
+			if ((tmpY >= 0)&&((match.tablePos[tmpY][tmpX]==0)||(match.tablePos[tmpY][tmpX] * value < 0))) {
+				CpTemp.setCol(tmpX);
+				CpTemp.setRow(tmpY);
+				if (match.tablePos[tmpY][tmpX]*value < 0) {
+					CpTemp.setCanBeEaten(true);
+				} else {
+					CpTemp.setCanBeEaten(false);
+				}
+				if (((tmpY == 5) && (omg == 1)) || ((tmpY==4) && (omg==-1)))  passedRiver = true;
+				pos.add(CpTemp);	
+			}
+				
+		}
+				
 		return pos;
 	}
 }
