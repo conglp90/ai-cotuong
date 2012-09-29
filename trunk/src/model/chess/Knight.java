@@ -1,10 +1,10 @@
 package model.chess;
 
-import java.awt.Image;
 import java.util.ArrayList;
 import java.util.List;
 
 import model.ChessPosition;
+import model.Match;
 
 public class Knight extends Chess {
 
@@ -14,8 +14,8 @@ public class Knight extends Chess {
 	}
 
 	@Override
-	public List <ChessPosition> getPosCanMove(ChessPosition current) {
-		List <ChessPosition> pos = new ArrayList<ChessPosition>();
+	public List<ChessPosition> getPosCanMove(ChessPosition current, Match match) {
+		List<ChessPosition> pos = new ArrayList<ChessPosition>();
 		// TODO Auto-generated method stub
 		return pos;
 	}

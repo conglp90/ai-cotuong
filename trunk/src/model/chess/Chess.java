@@ -6,11 +6,12 @@ import java.util.List;
 import javax.swing.ImageIcon;
 
 import model.ChessPosition;
+import model.Match;
 
 public abstract class Chess {
 
 	private int row, col; //toa do 9 x 10
-	Image shape;
+	private Image shape;
 	boolean died =false;
 	
 	public Chess(String img, int row, int col) {
@@ -56,5 +57,5 @@ public abstract class Chess {
 	}
 	
 	// tra ve mang chua vi tri 
-	public abstract List<ChessPosition> getPosCanMove(ChessPosition current);
+	public abstract List<ChessPosition> getPosCanMove(ChessPosition current, Match match);
 }
