@@ -1,3 +1,6 @@
+/*
+ * Author : HoangNv
+ */
 package model.chess;
 
 import java.util.ArrayList;
