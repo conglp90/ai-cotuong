@@ -9,6 +9,7 @@ public class Main {
         f.setSize(Constant.MAIN_WIDTH,Constant.MAIN_HEIGHT);
         f.setLocation(200, 2);
         f.setVisible(true);
+        f.setResizable(false);
     }
 
 }
