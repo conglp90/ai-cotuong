@@ -18,7 +18,7 @@ public class Rook extends Chess {
 	public List <ChessPosition> getPosCanMove(ChessPosition current,Match match) {
 		List <ChessPosition> pos = new ArrayList<ChessPosition>();
 		int x,y,upBound,lowBound,leftBound,rightBound,value,i,omg;
-		ChessPosition CpTemp = new ChessPosition();
+		ChessPosition CpTemp ;
 		x=current.getCol();
 		y=current.getRow();
 		value = match.tablePos[y][x];
@@ -31,15 +31,12 @@ public class Rook extends Chess {
 		for (i=x+1 ; x<=rightBound ; i++ ){
 			omg = match.tablePos[y][i] ;
 			if (omg == 0) {
-				CpTemp.setCol(i);
-				CpTemp.setRow(y);
-				CpTemp.setCanBeEaten(false);
+				CpTemp = new ChessPosition(i,y,false);
 				pos.add(CpTemp);
 			}
 			if (omg * value < 0) {
-				CpTemp.setCol(i);
-				CpTemp.setRow(y);
-				CpTemp.setCanBeEaten(true);
+				CpTemp = new ChessPosition(i,y,true);
+				
 				pos.add(CpTemp);
 				break;
 			} 
@@ -49,15 +46,11 @@ public class Rook extends Chess {
 		for (i=x-1 ; x>leftBound ; i-- ){
 			omg = match.tablePos[y][i] ;
 			if (omg == 0) {
-				CpTemp.setCol(i);
-				CpTemp.setRow(y);
-				CpTemp.setCanBeEaten(false);
+				CpTemp = new ChessPosition(i,y,false);
 				pos.add(CpTemp);
 			}
 			if (omg * value < 0) {
-				CpTemp.setCol(i);
-				CpTemp.setRow(y);
-				CpTemp.setCanBeEaten(true);
+				CpTemp = new ChessPosition(i,y,true);
 				pos.add(CpTemp);
 				break;
 			} 
@@ -67,15 +60,11 @@ public class Rook extends Chess {
 		for (i=y-1 ; y>upBound ; i-- ){
 			omg = match.tablePos[i][x] ;
 			if (omg == 0) {
-				CpTemp.setCol(x);
-				CpTemp.setRow(i);
-				CpTemp.setCanBeEaten(false);
+				CpTemp = new ChessPosition(x,i,false);
 				pos.add(CpTemp);
 			}
 			if (omg * value < 0) {
-				CpTemp.setCol(x);
-				CpTemp.setRow(i);
-				CpTemp.setCanBeEaten(true);
+				CpTemp = new ChessPosition(x,i,true);
 				pos.add(CpTemp);
 				break;
 			} 
@@ -85,15 +74,11 @@ public class Rook extends Chess {
 		for (i=y+1 ; y<=lowBound ; i++ ){
 			omg = match.tablePos[i][x] ;
 			if (omg == 0) {
-				CpTemp.setCol(x);
-				CpTemp.setRow(i);
-				CpTemp.setCanBeEaten(false);
+				CpTemp = new ChessPosition(x,i,false);
 				pos.add(CpTemp);
 			}
 			if (omg * value < 0) {
-				CpTemp.setCol(x);
-				CpTemp.setRow(i);
-				CpTemp.setCanBeEaten(true);
+				CpTemp = new ChessPosition(x,i,true);
 				pos.add(CpTemp);
 				break;
 			} 

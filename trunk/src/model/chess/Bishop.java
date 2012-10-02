@@ -19,7 +19,7 @@ public class Bishop extends Chess {
 		int x,y,upBound,lowBound,leftBound,rightBound,value;
 		int dx[] = {0,2,2,-2,-2};
 		int dy[] = {0,2,-2,2,-2};
-		ChessPosition CpTemp = new ChessPosition();
+		ChessPosition CpTemp ;
 		/*
 		 * khoi tao gioi han di chuyen cho quan sy
 		 */
@@ -44,12 +44,11 @@ public class Bishop extends Chess {
 			y=this.getRow()+dy[i];
 			if (((x>=leftBound)&&(x<=rightBound))&&((y>=upBound)&&(y<=lowBound))){
 				if ((match.tablePos[y][x]==0)||(match.tablePos[y][x]*value < 0)){
-					CpTemp.setCol(x);
-					CpTemp.setRow(y);
+					
 					if (match.tablePos[y][x]*value < 0) {
-						CpTemp.setCanBeEaten(true);
+						CpTemp = new ChessPosition(x,y,true);
 					} else {
-						CpTemp.setCanBeEaten(false);
+						CpTemp = new ChessPosition(x,y,false);
 					}
 					pos.add(CpTemp);
 				}

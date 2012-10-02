@@ -22,7 +22,7 @@ public class King extends Chess {
 		boolean loMatTuong ;
 		int dx[] = {0,1,-1,0,0};
 		int dy[] = {0,0,0,1,-1};
-		ChessPosition CpTemp = new ChessPosition();
+		ChessPosition CpTemp;
 		x = current.getCol() ;
 		y = current.getRow() ;
 		value = match.tablePos[y][x];
@@ -76,12 +76,11 @@ public class King extends Chess {
 					}
 					
 					if (!loMatTuong) {
-						CpTemp.setCol(x);
-						CpTemp.setRow(y);
+						
 						if (match.tablePos[y][x]*value < 0) {
-							CpTemp.setCanBeEaten(true);
+							CpTemp = new ChessPosition(x,y,true);
 						} else {
-							CpTemp.setCanBeEaten(false);
+							CpTemp = new ChessPosition(x,y,false);
 						}
 						pos.add(CpTemp);
 					}

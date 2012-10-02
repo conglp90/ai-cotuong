@@ -79,14 +79,17 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,Mouse
 	public void mouseClicked(MouseEvent e) {
 		int x=(e.getX()-Constant.OX)/Constant.length;
 		int y=(e.getY()-Constant.OY)/Constant.length;
-		if (x>=0&&x<9&& y>=0&&y<10&&match.tablePos[y][x]!=0){
+		if ((x>=0)&&(x<9)&&(y>=0)&&(y<10)&&(match.tablePos[y][x]!=0)){
 			x1=x;
 			y1=y;
 		}
 		if (x>=0&&x<9&& y>=0&&y<10&&match.tablePos[y][x]==6){
 			rook=new Rook(Constant.CHESS_DIR + "/xedo.png",y,x);
-			current=new ChessPosition();
+			current=new ChessPosition(x,y,false);
+			
+			
 			pos=rook.getPosCanMove(current, match);
+			System.out.println(pos.size());
 			for (int i=0;i<pos.size();i++){
 				h=pos.get(i);
 				System.out.println(h.getRow()+" "+h.getCol());
