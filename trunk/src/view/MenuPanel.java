@@ -17,7 +17,7 @@ public class MenuPanel extends JPanel implements MouseListener {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	public final Dimension menuDim = new Dimension(Constant.MAIN_WIDTH - Constant.BOARD_WIDTH - 20,
+	public final Dimension menuDim = new Dimension(Constant.MAIN_WIDTH - Constant.BOARD_WIDTH - 50,
 													Constant.MAIN_HEIGHT); // kich thuoc khung menu
 	CardLayout card = new CardLayout();
 	
@@ -125,6 +125,7 @@ public class MenuPanel extends JPanel implements MouseListener {
 			homeMenu.add(backPlay);
 		} else if (source == exitGame)
 			System.exit(0);
+		
 	}
 
 	@Override
@@ -151,7 +152,7 @@ public class MenuPanel extends JPanel implements MouseListener {
 		
 	}
 
-/*	@Override
+/*@Override
 	public void paint(Graphics g) {
 		
 		g.drawImage(imgPause, Constant.MENU_X, Constant.MENU_Y - 2*Constant.IMG_HEIGHT, null);
@@ -162,8 +163,8 @@ public class MenuPanel extends JPanel implements MouseListener {
 		g.drawImage(imgLoadGame, Constant.MENU_X, Constant.MENU_Y + Constant.IMG_HEIGHT, null);
 		g.drawImage(imgSaveGame, Constant.MENU_X, Constant.MENU_Y + 2*Constant.IMG_HEIGHT, null);
 		g.drawImage(imgExit, Constant.MENU_X, Constant.MENU_Y + 3*Constant.IMG_HEIGHT, null);
-	}*/
+	}
 
-	
+*/	
 
 }
