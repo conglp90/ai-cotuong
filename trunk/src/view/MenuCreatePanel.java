@@ -17,6 +17,11 @@ public class MenuCreatePanel extends JPanel {
 	/**
 	 * 
 	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * 
+	 */
 	public MenuCreatePanel() {
 		// TODO Auto-generated constructor stub
 		add(new JLabel("Create Game"));

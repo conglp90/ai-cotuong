@@ -9,8 +9,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import control.MyEvent;
-
 import model.Constant;
 
 public class MenuPanel extends JPanel implements MouseListener {
@@ -24,11 +22,10 @@ public class MenuPanel extends JPanel implements MouseListener {
 	CardLayout card = new CardLayout();
 	
 	// cac panel phu
-	MenuHomePanel homeMenu = new MenuHomePanel();
+	MenuHomePanel homeMenu = new MenuHomePanel(this, card);
 	MenuNewPanel newMenu = new MenuNewPanel();
 	MenuCreatePanel createMenu = new MenuCreatePanel();
 	MenuLoadPanel loadMenu = new MenuLoadPanel();
-	MenuPlayPanel playMenu = new MenuPlayPanel();
 	
 	ImageIcon imgNewGame;
 	ImageIcon imgCreateGame;
@@ -64,13 +61,11 @@ public class MenuPanel extends JPanel implements MouseListener {
 		homeMenu.add(createGame);
 		homeMenu.add(loadGame);
 		homeMenu.add(exitGame);
-		homeMenu.add(backPlay);
 		
 		add(homeMenu, "HomeMenu");
 		add(newMenu, "NewMenu");
 		add(createMenu, "CreateMenu");
 		add(loadMenu, "LoadMenu");
-		add(playMenu, "PlayMenu");
 		
 		
 	}
@@ -90,9 +85,6 @@ public class MenuPanel extends JPanel implements MouseListener {
 		
 		exitGame = new JLabel(imgExit);
 		exitGame.addMouseListener(this);
-		
-		backPlay = new JLabel(imgBack);
-		backPlay.addMouseListener(this);
 		
 		goHome = new JLabel(imgHome);
 		goHome.addMouseListener(this);
@@ -128,9 +120,6 @@ public class MenuPanel extends JPanel implements MouseListener {
 			loadMenu.add(backHome);
 		} else if (source == backHome) {
 			card.show(this, "HomeMenu");
-		} else if (source == backPlay) {
-			card.show(this, "PlayMenu");
-			playMenu.add(goHome);
 		} else if (source == goHome) {
 			card.show(this, "HomeMenu");
 			homeMenu.add(backPlay);
