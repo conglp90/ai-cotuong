@@ -25,7 +25,7 @@ public class MainFrame extends JFrame {
 		//setResizable(false);
 		
 		chessBoardPanel = new ChessBoardPanel();
-		add(chessBoardPanel);
+		add(chessBoardPanel); //van de o day
 		menuPanel = new MenuPanel();
 		add(menuPanel);
 	}
