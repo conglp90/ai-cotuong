@@ -24,7 +24,7 @@ public class Knight extends Chess {
 		int Tdy[] = {0,-2,-2,-1,1,2,2,1,-1} ;
 		int dx[] = {0,0,1,0,-1};
 		int dy[] = {0,-1,0,1,0};
-		ChessPosition CpTemp = new ChessPosition();
+		ChessPosition CpTemp ;
 		x = current.getCol() ;
 		y = current.getRow() ;
 		value = match.tablePos[y][x];
@@ -47,12 +47,10 @@ public class Knight extends Chess {
 			cy = current.getRow() + dy[(i+1/2)];
 			if (((x>=leftBound)&&(x<=rightBound))&&((y>=upBound)&&(y<=lowBound))){
 				if (((match.tablePos[y][x]==0)||(match.tablePos[y][x]*value < 0))&&(match.tablePos[cy][cx]==0)){
-					CpTemp.setCol(x);
-					CpTemp.setRow(y);
 					if (match.tablePos[y][x]*value < 0) {
-						CpTemp.setCanBeEaten(true);
+						CpTemp = new ChessPosition(x,y,true);
 					} else {
-						CpTemp.setCanBeEaten(false);
+						CpTemp = new ChessPosition(x,y,false);
 					}
 					pos.add(CpTemp);
 				}

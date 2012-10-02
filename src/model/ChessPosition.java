@@ -9,11 +9,15 @@ public class ChessPosition {
 	private int row;
 	private int col;
 	private boolean CanBeEaten;
-
+	
 	public int getRow() {
 		return this.row;
 	}
-
+	public ChessPosition(int x, int y ,boolean bool){
+		this.col = x;
+		this.row = y;
+		this.CanBeEaten=bool;
+	}
 	public int getCol() {
 		return this.col;
 	}

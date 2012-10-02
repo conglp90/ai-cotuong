@@ -19,7 +19,7 @@ public class Cannon extends Chess {
 	public List<ChessPosition> getPosCanMove(ChessPosition current, Match match) {
 		List<ChessPosition> pos = new ArrayList<ChessPosition>();
 		int x,y,upBound,lowBound,leftBound,rightBound,value,i,omg,j;
-		ChessPosition CpTemp = new ChessPosition();
+		ChessPosition CpTemp;
 		x=current.getCol();
 		y=current.getRow();
 		value = match.tablePos[y][x];
@@ -34,17 +34,13 @@ public class Cannon extends Chess {
 			omg = match.tablePos[y][i] ;
 			if (omg == 0) {
 				
-				CpTemp.setCol(i);
-				CpTemp.setRow(y);
-				CpTemp.setCanBeEaten(false);
+				CpTemp = new ChessPosition(i,y,false);
 				pos.add(CpTemp);
 			} else {
 				for (j=i+1 ; j<=rightBound ; j++) {
 					if (match.tablePos[y][j] != 0) {
 						if (value * match.tablePos[y][j] < 0) {
-							CpTemp.setCol(j);
-							CpTemp.setRow(y);
-							CpTemp.setCanBeEaten(true);
+							CpTemp = new ChessPosition(i,y,true);
 							pos.add(CpTemp);
 						}
 					break;
@@ -59,17 +55,13 @@ public class Cannon extends Chess {
 		for (i=x-1 ; x>=leftBound ; i--){
 			omg = match.tablePos[y][i] ;
 			if (omg == 0) {
-				CpTemp.setCol(i);
-				CpTemp.setRow(y);
-				CpTemp.setCanBeEaten(false);
+				CpTemp = new ChessPosition(i,y,false);
 				pos.add(CpTemp);
 			} else {
 				for (j=i-1 ; j>=leftBound ; j--) {
 					if (match.tablePos[y][j] != 0) {
 						if (value * match.tablePos[y][j] < 0) {
-							CpTemp.setCol(j);
-							CpTemp.setRow(y);
-							CpTemp.setCanBeEaten(true);
+							CpTemp = new ChessPosition(j,y,true);
 							pos.add(CpTemp);
 						}
 					break;
@@ -82,17 +74,13 @@ public class Cannon extends Chess {
 		for (i=y-1 ; y>=upBound ; i--){
 			omg = match.tablePos[i][x] ;
 			if (omg == 0) {
-				CpTemp.setCol(x);
-				CpTemp.setRow(i);
-				CpTemp.setCanBeEaten(false);
+				CpTemp = new ChessPosition(x,i,false);
 				pos.add(CpTemp);
 			} else {
 				for (j=i-1 ; j>=upBound ; j--) {
 					if (match.tablePos[j][x] != 0) {
 						if (value * match.tablePos[j][x] < 0) {
-							CpTemp.setCol(x);
-							CpTemp.setRow(j);
-							CpTemp.setCanBeEaten(true);
+							CpTemp = new ChessPosition(x,j,true);
 							pos.add(CpTemp);
 						}
 					break;
@@ -105,17 +93,13 @@ public class Cannon extends Chess {
 		for (i=y+1 ; y<=lowBound ; i++){
 			omg = match.tablePos[i][x] ;
 			if (omg == 0) {
-				CpTemp.setCol(x);
-				CpTemp.setRow(i);
-				CpTemp.setCanBeEaten(false);
+				CpTemp = new ChessPosition(x,i,false);
 				pos.add(CpTemp);
 			} else {
 				for (j=i+1 ; j<=lowBound ; j++) {
 					if (match.tablePos[j][x] != 0) {
 						if (value * match.tablePos[j][x] < 0) {
-							CpTemp.setCol(x);
-							CpTemp.setRow(j);
-							CpTemp.setCanBeEaten(true);
+							CpTemp = new ChessPosition(x,j,true);
 							pos.add(CpTemp);
 						}
 					break;

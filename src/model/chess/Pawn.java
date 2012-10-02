@@ -16,7 +16,7 @@ public class Pawn extends Chess {
 	@Override
 	public List <ChessPosition> getPosCanMove(ChessPosition current, Match match) {
 		List <ChessPosition> pos = new ArrayList<ChessPosition>();
-		ChessPosition CpTemp = new ChessPosition();
+		ChessPosition CpTemp ;
 		int x,y,value,omg,tmpX,tmpY;
 		x = current.getCol() ;
 		y = current.getRow() ;
@@ -27,36 +27,32 @@ public class Pawn extends Chess {
 			tmpX = x;
 			tmpY = y - omg;
 			if ((tmpY >= 0)&&((match.tablePos[tmpY][tmpX]==0)||(match.tablePos[tmpY][tmpX] * value < 0))) {
-				CpTemp.setCol(tmpX);
-				CpTemp.setRow(tmpY);
+				
 				if (match.tablePos[tmpY][tmpX]*value < 0) {
-					CpTemp.setCanBeEaten(true);
+					CpTemp = new ChessPosition(tmpX,tmpY,true);
 				} else {
-					CpTemp.setCanBeEaten(false);
+					CpTemp = new ChessPosition(tmpX,tmpY,false);
 				}
 				pos.add(CpTemp);	
 			}
 			tmpX = x-1;
 			tmpY = y;
 			if ((tmpX >= 0)&&((match.tablePos[tmpY][tmpX]==0)||(match.tablePos[tmpY][tmpX] * value < 0))) {
-				CpTemp.setCol(tmpX);
-				CpTemp.setRow(tmpY);
+				
 				if (match.tablePos[tmpY][tmpX]*value < 0) {
-					CpTemp.setCanBeEaten(true);
+					CpTemp = new ChessPosition(tmpX,tmpY,true);
 				} else {
-					CpTemp.setCanBeEaten(false);
+					CpTemp = new ChessPosition(tmpX,tmpY,false);
 				}
 				pos.add(CpTemp);	
 			}
 			tmpX = x+1;
 			tmpY = y;
 			if ((tmpX <= 8)&&((match.tablePos[tmpY][tmpX]==0)||(match.tablePos[tmpY][tmpX] * value < 0))) {
-				CpTemp.setCol(tmpX);
-				CpTemp.setRow(tmpY);
 				if (match.tablePos[tmpY][tmpX]*value < 0) {
-					CpTemp.setCanBeEaten(true);
+					CpTemp = new ChessPosition(tmpX,tmpY,true);
 				} else {
-					CpTemp.setCanBeEaten(false);
+					CpTemp = new ChessPosition(tmpX,tmpY,false);
 				}
 				pos.add(CpTemp);	
 			}
@@ -64,12 +60,10 @@ public class Pawn extends Chess {
 			tmpX = x;
 			tmpY = y + omg;
 			if ((tmpY >= 0)&&((match.tablePos[tmpY][tmpX]==0)||(match.tablePos[tmpY][tmpX] * value < 0))) {
-				CpTemp.setCol(tmpX);
-				CpTemp.setRow(tmpY);
 				if (match.tablePos[tmpY][tmpX]*value < 0) {
-					CpTemp.setCanBeEaten(true);
+					CpTemp = new ChessPosition(tmpX,tmpY,true);
 				} else {
-					CpTemp.setCanBeEaten(false);
+					CpTemp = new ChessPosition(tmpX,tmpY,false);
 				}
 				if (((tmpY == 5) && (omg == 1)) || ((tmpY==4) && (omg==-1)))  passedRiver = true;
 				pos.add(CpTemp);	
