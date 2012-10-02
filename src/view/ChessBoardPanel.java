@@ -1,18 +1,22 @@
 package view;
 
-import javax.swing.*;
-
-import model.ChessPosition;
-import model.Constant;
-import model.Match;
-import model.chess.*;
-
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+import model.ChessPosition;
+import model.Constant;
+import model.Match;
+import model.chess.Rook;
+
 
 public class ChessBoardPanel extends JPanel implements MouseMotionListener,MouseListener{
 	/**
@@ -28,6 +32,9 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,Mouse
 	List <ChessPosition> pos = new ArrayList<ChessPosition>();
 	
 	public ChessBoardPanel() {
+		setBackground(Color.GREEN);
+		setPreferredSize(new Dimension(Constant.BOARD_WIDTH, Constant.MAIN_HEIGHT));
+		add(new JLabel("Chess"));
 		loadImage();
 		addMouseListener(this);
 	}
@@ -36,6 +43,7 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,Mouse
 
 	}
 
+	@Override
 	public void paint(Graphics g) {
 		drawBoard(g);
 		drawChess(g);
