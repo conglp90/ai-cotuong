@@ -29,20 +29,16 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,Mouse
 	 */
 	Match match = new Match();
 	Rook rook;
+	ChessPosition current = null,h=null;
 	List <ChessPosition> pos = new ArrayList<ChessPosition>();
 	
 	public ChessBoardPanel() {
+
 		setBackground(Color.GREEN);
 		setPreferredSize(new Dimension(Constant.BOARD_WIDTH, Constant.MAIN_HEIGHT));
 		add(new JLabel("Chess"));
-		loadImage();
 		addMouseListener(this);
 	}
-
-	public void loadImage() {
-
-	}
-
 	@Override
 	public void paint(Graphics g) {
 		drawBoard(g);
@@ -89,7 +85,12 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,Mouse
 		}
 		if (x>=0&&x<9&& y>=0&&y<10&&match.tablePos[y][x]==6){
 			rook=new Rook(Constant.CHESS_DIR + "/xedo.png",y,x);
-			pos=rook.getPosCanMove(null,match);
+			current=new ChessPosition();
+			pos=rook.getPosCanMove(current, match);
+			for (int i=0;i<pos.size();i++){
+				h=pos.get(i);
+				System.out.println(h.getRow()+" "+h.getCol());
+			}
 		}
 		if (x>=0&&x<9&& y>=0&&y<10&&match.tablePos[y][x]==0&&x1>=0&&y1>=0){
 			match.tablePos[y][x]=match.tablePos[y1][x1];
