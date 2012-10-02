@@ -17,6 +17,7 @@ public class Match {
 	private Player redPlayer, blackPlayer;
 	public final Chess[] redChess, blackChess;
 	public final Image imgBoard = new ImageIcon(Constant.BOARD_DIR+"/banco.png").getImage();
+	public final Image imgSelect = new ImageIcon(Constant.CHESS_DIR+"/select.png").getImage();
 	private boolean isFinish = false;
 	public int tablePos[][]={{6, 4, 3, 2, 7, 2, 3, 4, 6},
   			  				  {0, 0, 0, 0, 0, 0, 0, 0, 0},
