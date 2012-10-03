@@ -18,8 +18,11 @@ public class Match {
 	public final Chess[] redChess, blackChess;
 	public final Image imgBoard = new ImageIcon(Constant.BOARD_DIR+"/banco.png").getImage();
 	public final Image imgSelect = new ImageIcon(Constant.CHESS_DIR+"/select.png").getImage();
+	public final Image imgWelcome = new ImageIcon(Constant.IMG_DIR + "/welcome.jpg").getImage();
 	public final Image imgDiduoc = new ImageIcon(Constant.CHESS_DIR+"/diduoc.png").getImage();
 	private boolean isFinish = false;
+	private boolean isActive = false;
+	private boolean isPause = false;
 	public int tablePos[][]={{6, 4, 3, 2, 7, 2, 3, 4, 6},
   			  				  {0, 0, 0, 0, 0, 0, 0, 0, 0},
   			  				  {0, 5, 0, 0, 0, 0, 0, 5, 0},
@@ -51,5 +54,13 @@ public class Match {
 		blackChess[6] = new Rook(Constant.CHESS_DIR + "/xeden.png", 0, 0); // Xe den
 		blackChess[7]= new King(Constant.CHESS_DIR + "/black_king.png", 0, 0); // Tuong den
 		
+	}
+	
+	public void setActive(boolean status) {
+		this.isActive = status;
+	}
+	
+	public boolean isActive() {
+		return this.isActive;
 	}
 }

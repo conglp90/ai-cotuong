@@ -23,23 +23,54 @@ public class MenuNewPanel extends JPanel implements MouseListener {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	JLabel label = new JLabel(new ImageIcon(Constant.OPT_DIR +"/newgame.gif"));
+	
+	private MenuPanel cardPanel;
+	
+	private ImageIcon imgBackHome, imgOk;
+	
+	private JLabel lbBackHome, lbOk;
+	
+
+	
 	
 	/**
 	 * 
 	 */
-	public MenuNewPanel() {
+	public MenuNewPanel(MenuPanel mp) {
 		// TODO Auto-generated constructor stub
 		setBackground(Color.RED);
-		label.addMouseListener(this);
-		add(label);
+		this.cardPanel = mp;
+		loadImage();
+		initLabel();
 		
+	}
+	
+	private void initLabel() {
+		lbBackHome = new JLabel(imgBackHome);
+		lbBackHome.addMouseListener(this);
+		add(lbBackHome);
+		
+		lbOk = new JLabel(imgOk);
+		lbOk.addMouseListener(this);
+		add(lbOk);
+	}
+	
+	private void loadImage() {
+		imgBackHome = new ImageIcon(Constant.OPT_DIR + "/back.png");
+		imgOk = new ImageIcon(Constant.OPT_DIR + "/ok.png");
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
-		System.out.println("Clicked");
+		JLabel source = (JLabel) e.getSource();
+		if (source == lbBackHome) {
+			cardPanel.swapPanel("HomeMenu");
+		} else if (source == lbOk) {
+			cardPanel.swapPanel("PlayMenu");
+			cardPanel.getMainFrame().getMatch().setActive(true);
+			cardPanel.getMainFrame().getChessBoardPanel().repaint();
+		}
 	}
 
 	@Override
