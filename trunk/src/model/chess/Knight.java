@@ -44,7 +44,7 @@ public class Knight extends Chess {
 			x=current.getCol()+Tdx[i];
 			y=current.getRow()+Tdy[i];
 			cx=current.getCol() + dx[(i+1)/2];
-			cy = current.getRow() + dy[(i+1/2)];
+			cy = current.getRow() + dy[(i+1)/2];
 			if (((x>=leftBound)&&(x<=rightBound))&&((y>=upBound)&&(y<=lowBound))){
 				if (((match.tablePos[y][x]==0)||(match.tablePos[y][x]*value < 0))&&(match.tablePos[cy][cx]==0)){
 					if (match.tablePos[y][x]*value < 0) {
