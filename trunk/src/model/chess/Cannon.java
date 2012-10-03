@@ -30,7 +30,7 @@ public class Cannon extends Chess {
 		 *  Dong thoi kiem tra xem o co the an duoc
 		 */
  
-		for (i=x+1 ; x<=rightBound ; i++){
+		for (i=x+1 ; i<=rightBound ; i++){
 			omg = match.tablePos[y][i] ;
 			if (omg == 0) {
 				
@@ -52,7 +52,7 @@ public class Cannon extends Chess {
 	
 		
 		//Sang ben trai
-		for (i=x-1 ; x>=leftBound ; i--){
+		for (i=x-1 ; i>=leftBound ; i--){
 			omg = match.tablePos[y][i] ;
 			if (omg == 0) {
 				CpTemp = new ChessPosition(i,y,false);
@@ -71,7 +71,7 @@ public class Cannon extends Chess {
 			}
 		}
 		//Di len tren
-		for (i=y-1 ; y>=upBound ; i--){
+		for (i=y-1 ; i>=upBound ; i--){
 			omg = match.tablePos[i][x] ;
 			if (omg == 0) {
 				CpTemp = new ChessPosition(x,i,false);
@@ -90,7 +90,7 @@ public class Cannon extends Chess {
 			}
 		}
 		//di xuong duoi
-		for (i=y+1 ; y<=lowBound ; i++){
+		for (i=y+1 ; i<=lowBound ; i++){
 			omg = match.tablePos[i][x] ;
 			if (omg == 0) {
 				CpTemp = new ChessPosition(x,i,false);
