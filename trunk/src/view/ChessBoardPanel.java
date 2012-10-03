@@ -23,12 +23,12 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,Mouse
 	 * 
 	 */
 	private int x1=-1,y1=-1;
+	//private 
 	private static final long serialVersionUID = 1L;
 	/**
 	 * 
 	 */
 	Match match = new Match();
-	Rook rook;
 	ChessPosition current = null,h=null;
 	List <ChessPosition> pos = new ArrayList<ChessPosition>();
 	
@@ -54,6 +54,13 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,Mouse
 		for (int i = 0; i < 10; i++)
 			for (int j = 0; j < 9; j++) {
 				int x = match.tablePos[i][j];
+				for (int i1=0;i1<pos.size();i1++){
+					h=pos.get(i1);
+					g.drawImage(match.imgDiduoc,
+							Constant.OX	+ h.getCol()*Constant.length,
+							Constant.OY + h.getRow()*Constant.length,
+							42, 42, null);
+				}
 				if (j==x1&&i==y1){
 					g.drawImage(match.imgSelect,
 							Constant.OX+j*Constant.length,
@@ -70,7 +77,6 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,Mouse
 								Constant.OX	+ j*Constant.length,
 								Constant.OY + i*Constant.length,
 								42, 42, null);
-				
 			}
 		repaint();	
 	}
@@ -79,28 +85,33 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,Mouse
 	public void mouseClicked(MouseEvent e) {
 		int x=(e.getX()-Constant.OX)/Constant.length;
 		int y=(e.getY()-Constant.OY)/Constant.length;
+		//x1,y1 la toa do select
 		if ((x>=0)&&(x<9)&&(y>=0)&&(y<10)&&(match.tablePos[y][x]!=0)){
 			x1=x;
 			y1=y;
 		}
-		if (x>=0&&x<9&& y>=0&&y<10&&match.tablePos[y][x]==6){
-			rook=new Rook(Constant.CHESS_DIR + "/xedo.png",y,x);
+		//khi click hien o co the di va an duoc
+		if (x>=0&&x<9&& y>=0&&y<10&&match.tablePos[y][x]!=0){
+			int table=Math.abs(match.tablePos[y][x]);
 			current=new ChessPosition(x,y,false);
-			
-			
-			pos=rook.getPosCanMove(current, match);
-			System.out.println(pos.size());
-			for (int i=0;i<pos.size();i++){
-				h=pos.get(i);
-				System.out.println(h.getRow()+" "+h.getCol());
+			pos=match.redChess[table].getPosCanMove(current, match);
 			}
-		}
+		//chi cho di vao nhung o sang
 		if (x>=0&&x<9&& y>=0&&y<10&&match.tablePos[y][x]==0&&x1>=0&&y1>=0){
-			match.tablePos[y][x]=match.tablePos[y1][x1];
-			match.tablePos[y1][x1]=0;
-			x1=-1;
-			y1=-1;
-		}	
+			for (int i1=0;i1<pos.size();i1++){
+				h=pos.get(i1);
+				int y2=h.getRow();
+				int x2=h.getCol();
+				if (x1>=0&&y1>=0&&x==x2 &&y==y2){
+					match.tablePos[y][x]=match.tablePos[y1][x1];
+					match.tablePos[y1][x1]=0;
+					x1=-1;
+					y1=-1;
+				}
+			}
+			pos.clear();
+			
+		}
 	}
 
 	@Override
