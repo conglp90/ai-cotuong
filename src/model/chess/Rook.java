@@ -28,7 +28,7 @@ public class Rook extends Chess {
 		 * Thuc hien kiem tra cac o co the di duoc va an duoc cua quan xe
 		 */
 		//sang phai
-		for (i=x+1 ; x<=rightBound ; i++ ){
+		for (i=x+1 ; i<=rightBound ; i++ ){
 			omg = match.tablePos[y][i] ;
 			if (omg == 0) {
 				CpTemp = new ChessPosition(i,y,false);
@@ -43,7 +43,7 @@ public class Rook extends Chess {
 			if (omg * value >0) break;
 		}
 		//Sang ben trai
-		for (i=x-1 ; x>leftBound ; i-- ){
+		for (i=x-1 ; i>=leftBound ; i-- ){
 			omg = match.tablePos[y][i] ;
 			if (omg == 0) {
 				CpTemp = new ChessPosition(i,y,false);
@@ -57,7 +57,7 @@ public class Rook extends Chess {
 			if (omg * value >0) break;
 		}
 		//Di len tren
-		for (i=y-1 ; y>upBound ; i-- ){
+		for (i=y-1 ; i>=upBound ; i-- ){
 			omg = match.tablePos[i][x] ;
 			if (omg == 0) {
 				CpTemp = new ChessPosition(x,i,false);
@@ -71,7 +71,7 @@ public class Rook extends Chess {
 			if (omg * value >0) break;
 		}
 		//di xuong duoi
-		for (i=y+1 ; y<=lowBound ; i++ ){
+		for (i=y+1 ; i<=lowBound ; i++ ){
 			omg = match.tablePos[i][x] ;
 			if (omg == 0) {
 				CpTemp = new ChessPosition(x,i,false);
