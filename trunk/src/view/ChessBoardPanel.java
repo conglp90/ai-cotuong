@@ -70,9 +70,9 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,Mouse
 				for (int i1=0;i1<pos.size();i1++){
 					h=pos.get(i1);
 					g.drawImage(match.imgDiduoc,
-							Constant.OX	+ h.getCol()*Constant.length,
-							Constant.OY + h.getRow()*Constant.length,
-							42, 42, null);
+							Constant.OX	+ h.getCol()*Constant.length+5,
+							Constant.OY + h.getRow()*Constant.length+5,
+							30, 30, null);
 				}
 				if (j==x1&&i==y1){
 					g.drawImage(match.imgSelect,
