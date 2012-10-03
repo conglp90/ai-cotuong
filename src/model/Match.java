@@ -52,7 +52,7 @@ public class Match {
 		blackChess[4] = new Knight(Constant.CHESS_DIR + "/maden.png", 0, 0); // Ma den
 		blackChess[5] = new Cannon(Constant.CHESS_DIR + "/phaoden.png", 0, 0); // Phao den
 		blackChess[6] = new Rook(Constant.CHESS_DIR + "/xeden.png", 0, 0); // Xe den
-		blackChess[7]= new King(Constant.CHESS_DIR + "/black_king.png", 0, 0); // Tuong den
+		blackChess[7]= new King(Constant.CHESS_DIR + "/tuongden.png", 0, 0); // Tuong den
 		
 	}
 	
