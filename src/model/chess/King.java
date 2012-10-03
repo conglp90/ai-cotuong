@@ -33,7 +33,7 @@ public class King extends Chess {
 		y = current.getRow() ;
 		value = match.tablePos[y][x];
 
-		if (x <= 2) {
+		if (y <= 2) {
 			upBound = 0;
 			lowBound= 2;
 		} else {
@@ -48,14 +48,14 @@ public class King extends Chess {
 		 */
 		
 		for (i=1 ; i<=4 ; i++){
-			x=this.getCol()+dx[i];
-			y=this.getRow()+dy[i];
+			x=current.getCol()+dx[i];
+			y=current.getRow()+dy[i];
 			if (((x>=leftBound)&&(x<=rightBound))&&((y>=upBound)&&(y<=lowBound))){
 				if ((match.tablePos[y][x]==0)||(match.tablePos[y][x]*value < 0)){
 					//Kiem tra xem co lo mat tuong ?
 					loMatTuong = false;
 					if (upBound == 0) {
-						for (j = y +1 ; j<= lowBound ; j++) {
+						for (j = y +1 ; j<= 9 ; j++) {
 							if (match.tablePos[j][x] !=0) {
 								if (match.tablePos[j][x] + value ==0 ) {
 									loMatTuong= true;
@@ -64,7 +64,7 @@ public class King extends Chess {
 							}
 						}
 					} else {
-						for (j = y - 1 ; j>= upBound ; j++) {
+						for (j = y - 1 ; j>=0 ; j--) {
 							if (match.tablePos[j][x] !=0) {
 								if (match.tablePos[j][x] + value == 0 ) {
 									loMatTuong= true;
