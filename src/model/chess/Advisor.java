@@ -32,7 +32,7 @@ public class Advisor extends Chess {
 		y = current.getRow() ;
 		value = match.tablePos[y][x];
 
-		if (x <= 2) {
+		if (y <= 2) {
 			upBound = 0;
 			lowBound= 2;
 		} else {
@@ -49,7 +49,6 @@ public class Advisor extends Chess {
 			y=current.getRow()+dy[i];
 			if (((x>=leftBound)&&(x<=rightBound))&&((y>=upBound)&&(y<=lowBound))){
 				if ((match.tablePos[y][x]==0)||(match.tablePos[y][x]*value < 0)){
-					
 					if (match.tablePos[y][x]*value < 0) {
 						CpTemp = new ChessPosition(x,y,true);
 					} else {
