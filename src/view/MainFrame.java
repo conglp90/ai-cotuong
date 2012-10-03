@@ -2,18 +2,22 @@ package view;
 
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.Menu;
 
 import javax.swing.JFrame;
 
 import model.Constant;
+import model.Match;
 
 public class MainFrame extends JFrame {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	MenuPanel menuPanel;
-	ChessBoardPanel chessBoardPanel;
+	private MenuPanel menuPanel;
+	private ChessBoardPanel chessBoardPanel;
+	
+	private Match match = new Match();
 
 	public MainFrame() {
 		setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -24,9 +28,23 @@ public class MainFrame extends JFrame {
 		setLocation(Constant.LOCATEX, Constant.LOCATEY);
 		//setResizable(false);
 		
-		chessBoardPanel = new ChessBoardPanel();
-		add(chessBoardPanel); //van de o day
-		menuPanel = new MenuPanel();
+		chessBoardPanel = new ChessBoardPanel(this);
+		add(chessBoardPanel);
+		menuPanel = new MenuPanel(this);
 		add(menuPanel);
 	}
+	
+	public ChessBoardPanel getChessBoardPanel() {
+		return this.chessBoardPanel;
+	}
+	
+	public MenuPanel getMenuPanel() {
+		return this.menuPanel;
+	}
+	
+	public Match getMatch() {
+		return this.match;
+	}
+	
+	
 }

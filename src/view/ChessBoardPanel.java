@@ -28,12 +28,15 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,Mouse
 	/**
 	 * 
 	 */
-	Match match = new Match();
+	
+	MainFrame mainFrame;
+	Match match;
 	ChessPosition current = null,h=null;
 	List <ChessPosition> pos = new ArrayList<ChessPosition>();
 	
-	public ChessBoardPanel() {
-
+	public ChessBoardPanel(MainFrame mainFrame) {
+		this.mainFrame = mainFrame;
+		this.match = this.mainFrame.getMatch();
 		setBackground(Color.GREEN);
 		setPreferredSize(new Dimension(Constant.BOARD_WIDTH, Constant.MAIN_HEIGHT));
 		add(new JLabel("Chess"));
@@ -41,8 +44,18 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,Mouse
 	}
 	@Override
 	public void paint(Graphics g) {
-		drawBoard(g);
-		drawChess(g);
+		if (match.isActive()) {
+			drawBoard(g);
+			drawChess(g);
+		} else {
+			drawWelcome(g);
+		}
+		
+	}
+	
+	private void drawWelcome(Graphics g) {
+		g.drawImage(match.imgWelcome, Constant.BOARD_X, Constant.BOARD_Y,
+				Constant.BOARD_WIDTH, Constant.BOARD_HEIGHT, null);
 	}
 
 	private void drawBoard(Graphics g) {
