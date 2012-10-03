@@ -27,7 +27,7 @@ public class Bishop extends Chess {
 		x = current.getCol() ;
 		y = current.getRow() ;
 		value = match.tablePos[y][x];
-		if (x <= 2) {
+		if (y <= 2) {
 			upBound = 0;
 			lowBound= 4;
 		} else {
@@ -37,14 +37,13 @@ public class Bishop extends Chess {
 		leftBound = 0 ;
 		rightBound = 8;
 		/*
-		 * Xet 4 o quanh o sy, kiem tra hop le, neu hop le thi cho di
+		 * Xet 4 o quanh o tinh, kiem tra hop le, neu hop le thi cho di
 		 */
 		for (int i=1 ; i<=4 ; i++){
-			x=this.getCol()+dx[i];
-			y=this.getRow()+dy[i];
+			x=current.getCol()+dx[i];
+			y=current.getRow()+dy[i];
 			if (((x>=leftBound)&&(x<=rightBound))&&((y>=upBound)&&(y<=lowBound))){
 				if ((match.tablePos[y][x]==0)||(match.tablePos[y][x]*value < 0)){
-					
 					if (match.tablePos[y][x]*value < 0) {
 						CpTemp = new ChessPosition(x,y,true);
 					} else {
