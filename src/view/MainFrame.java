@@ -1,8 +1,6 @@
 package view;
 
-import java.awt.Color;
 import java.awt.FlowLayout;
-import java.awt.Menu;
 
 import javax.swing.JFrame;
 
@@ -23,15 +21,14 @@ public class MainFrame extends JFrame {
 		setLayout(new FlowLayout(FlowLayout.LEFT));
 		setSize(Constant.MAIN_WIDTH, Constant.MAIN_HEIGHT);
 		setVisible(true);
-		setBackground(Color.YELLOW);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocation(Constant.LOCATEX, Constant.LOCATEY);
 		//setResizable(false);
 		
 		chessBoardPanel = new ChessBoardPanel(this);
-		add(chessBoardPanel);
+		getContentPane().add(chessBoardPanel);
 		menuPanel = new MenuPanel(this);
-		add(menuPanel);
+		getContentPane().add(menuPanel);
 	}
 	
 	public ChessBoardPanel getChessBoardPanel() {
@@ -45,6 +42,5 @@ public class MainFrame extends JFrame {
 	public Match getMatch() {
 		return this.match;
 	}
-	
 	
 }
