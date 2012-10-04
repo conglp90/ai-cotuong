@@ -2,6 +2,7 @@ package view;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -11,11 +12,11 @@ import java.util.List;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 
 import model.ChessPosition;
 import model.Constant;
 import model.Match;
-import model.chess.Rook;
 
 
 public class ChessBoardPanel extends JPanel implements MouseMotionListener,MouseListener{
@@ -38,24 +39,32 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,Mouse
 		this.mainFrame = mainFrame;
 		this.match = this.mainFrame.getMatch();
 		setBackground(Color.GREEN);
+		setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
 		setPreferredSize(new Dimension(Constant.BOARD_WIDTH, Constant.MAIN_HEIGHT));
 		add(new JLabel("Chess"));
 		addMouseListener(this);
 	}
 	@Override
 	public void paint(Graphics g) {
-		if (match.isActive()) {
+		if (!match.isActive()) {
+			drawWelcome(g);
+		} else if (match.isPause()) {
+			drawPaseScreen(g);
+		} else {
 			drawBoard(g);
 			drawChess(g);
-		} else {
-			drawWelcome(g);
 		}
 		
 	}
 	
+	private void drawPaseScreen(Graphics g) {
+		g.drawImage(match.imgPause, Constant.BOARD_X, Constant.BOARD_Y,
+				Constant.BOARD_WIDTH, Constant.MAIN_HEIGHT, null);
+	}
+	
 	private void drawWelcome(Graphics g) {
 		g.drawImage(match.imgWelcome, Constant.BOARD_X, Constant.BOARD_Y,
-				Constant.BOARD_WIDTH, Constant.BOARD_HEIGHT, null);
+				Constant.BOARD_WIDTH, Constant.MAIN_HEIGHT, null);
 	}
 
 	private void drawBoard(Graphics g) {

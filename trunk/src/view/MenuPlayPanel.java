@@ -3,6 +3,7 @@
  */
 package view;
 
+import java.awt.Cursor;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -25,7 +26,7 @@ public class MenuPlayPanel extends JPanel implements MouseListener {
 
 	MenuPanel cardPanel;
 	
-	ImageIcon imgGoHome, imgPause, imgPlay;
+	ImageIcon imgGoHome, imgPause, imgPlay, imgStore;
 	JLabel lbGoHome, lbPausePlay;
 	
 	/**
@@ -53,9 +54,9 @@ public class MenuPlayPanel extends JPanel implements MouseListener {
 	}
 	
 	private void loadImage() {
-		imgGoHome = new ImageIcon(Constant.OPT_DIR + "/home.png");
-		imgPause = new ImageIcon(Constant.OPT_DIR + "/pause.png");
-		imgPlay = new ImageIcon(Constant.OPT_DIR + "/play.png");
+		imgGoHome = new ImageIcon(Constant.OPT_DIR + "/home");
+		imgPause = new ImageIcon(Constant.OPT_DIR + "/pause");
+		imgPlay = new ImageIcon(Constant.OPT_DIR + "/play");
 	}
 
 	@Override
@@ -65,11 +66,11 @@ public class MenuPlayPanel extends JPanel implements MouseListener {
 		if (source == lbGoHome) {
 			cardPanel.swapPanel("HomeMenu");
 		} if (source == lbPausePlay) {
-			if (cardPanel.getMainFrame().getMatch().isActive()) {
-				cardPanel.getMainFrame().getMatch().setActive(false);
+			if (cardPanel.getMainFrame().getMatch().isPause()) {
+				cardPanel.getMainFrame().getMatch().setPause(false);
 				lbPausePlay.setIcon(imgPlay);
 			} else {
-				cardPanel.getMainFrame().getMatch().setActive(true);
+				cardPanel.getMainFrame().getMatch().setPause(true);
 				lbPausePlay.setIcon(imgPause);
 			}
 			cardPanel.getMainFrame().getChessBoardPanel().repaint();
@@ -91,13 +92,22 @@ public class MenuPlayPanel extends JPanel implements MouseListener {
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		// TODO Auto-generated method stub
+		JLabel source = (JLabel) e.getSource();
+		imgStore = (ImageIcon) source.getIcon();
+		source.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		source.setIcon(new ImageIcon(source.getIcon().toString() + "-hover"));
 		
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+		JLabel source = (JLabel) e.getSource();
+		if (source == lbPausePlay) {
+			lbPausePlay.setIcon(cardPanel.getMainFrame().getMatch().isPause()?imgPlay:imgPause);
+		} else {
+			source.setIcon(imgStore);
+		}
 	}
 
 }
