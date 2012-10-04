@@ -19,6 +19,7 @@ public class Match {
 	public final Image imgBoard = new ImageIcon(Constant.BOARD_DIR+"/banco.png").getImage();
 	public final Image imgSelect = new ImageIcon(Constant.CHESS_DIR+"/select.png").getImage();
 	public final Image imgWelcome = new ImageIcon(Constant.IMG_DIR + "/welcome.jpg").getImage();
+	public final Image imgPause = new ImageIcon(Constant.IMG_DIR + "/w1.jpg").getImage();
 	public final Image imgDiduoc = new ImageIcon(Constant.CHESS_DIR+"/diduoc.png").getImage();
 	private boolean isFinish = false;
 	private boolean isActive = false;
@@ -62,5 +63,13 @@ public class Match {
 	
 	public boolean isActive() {
 		return this.isActive;
+	}
+	
+	public void setPause(boolean status) {
+		this.isPause = status;
+	}
+	
+	public boolean isPause() {
+		return this.isPause;
 	}
 }

@@ -3,8 +3,12 @@
  */
 package view;
 
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Cursor;
-import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -17,7 +21,7 @@ import model.ImageService;
 
 /**
  * @author heroandtn3
- *
+ * 
  */
 public class MenuHomePanel extends JPanel implements MouseListener {
 
@@ -25,61 +29,95 @@ public class MenuHomePanel extends JPanel implements MouseListener {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	private MenuPanel cardPanel;
-	
-	private ImageIcon imgNewGame;
-	private ImageIcon imgCreateGame;
-	private ImageIcon imgLoadGame;
-	private ImageIcon imgExit;
-	
-	private JLabel lbNewGame, lbCreateGame, lbLoadGame, lbExit;
-		
+	private GridBagLayout gridBag = new GridBagLayout();
+	private GridBagConstraints gridBC = new GridBagConstraints();
+
+	private ImageIcon imgNewGame, imgCreateGame, imgLoadGame, imgExit,
+			imgCancel, imgOk, imgStore;
+
+	private JLabel lbNewGame, lbCreateGame, lbLoadGame, lbExit, lbWarn,
+			lbCancel, lbOk;
+
 	/**
 	 * 
 	 */
 	public MenuHomePanel(MenuPanel mp) {
 		// TODO Auto-generated constructor stub
-		setPreferredSize(new Dimension(150, Constant.MAIN_HEIGHT));
-		setLayout(null);
 		this.cardPanel = mp;
+		setBackground(Color.GREEN);
+		setPreferredSize(cardPanel.getPreferredSize());
+		setLayout(gridBag);
+		gridBC.anchor = GridBagConstraints.CENTER;
+		gridBC.insets = new Insets(3, 0, 3, 0);
+
 		loadImage();
 		initLabel();
+		addAll();
 	}
-	
+
+	private void addAll() {
+		addComponent(lbNewGame, 0, 0, 1, 3);
+		addComponent(lbCreateGame, 1, 0, 1, 3);
+		addComponent(lbLoadGame, 2, 0, 1, 3);
+		addComponent(lbExit, 3, 0, 1, 3);
+		addComponent(lbWarn, 5, 0, 1, 3);
+		addComponent(lbCancel, 6, 0, 1, 1);
+		addComponent(lbOk, 6, 2, 1, 1);
+	}
+
+	private void setWarnVisible(boolean status) {
+		lbWarn.setVisible(status);
+		lbCancel.setVisible(status);
+		lbOk.setVisible(status);
+	}
+
 	private void initLabel() {
-		int x = (this.getPreferredSize().width - 130)/2;
-		int y = this.getPreferredSize().height/2;
-		int width = 130;
-		int height = 44;
-		int distance = 50;
-		
+
 		lbNewGame = new JLabel(imgNewGame);
 		lbNewGame.addMouseListener(this);
-		lbNewGame.setBounds(x, y - 3*distance, width, height);
-		add(lbNewGame);
-		
+
 		lbCreateGame = new JLabel(imgCreateGame);
 		lbCreateGame.addMouseListener(this);
-		lbCreateGame.setBounds(x, y - 2*distance, width, height);
-		add(lbCreateGame);
-		
+
 		lbLoadGame = new JLabel(imgLoadGame);
 		lbLoadGame.addMouseListener(this);
-		lbLoadGame.setBounds(x, y - distance, width, height);
-		add(lbLoadGame);
-		
+
 		lbExit = new JLabel(imgExit);
 		lbExit.addMouseListener(this);
-		lbExit.setBounds(x, y, width, height);
-		add(lbExit);
+
+		lbWarn = new JLabel("Are you want to exit?");
+
+		lbCancel = new JLabel(imgCancel);
+		lbCancel.addMouseListener(this);
+
+		lbOk = new JLabel(imgOk);
+		lbOk.addMouseListener(this);
+		setWarnVisible(false);
+
 	}
-	
+
 	private void loadImage() {
 		imgNewGame = new ImageIcon(Constant.OPT_DIR + "/newgame.gif");
 		imgCreateGame = new ImageIcon(Constant.OPT_DIR + "/creategame.gif");
 		imgLoadGame = new ImageIcon(Constant.OPT_DIR + "/loadgame.gif");
 		imgExit = new ImageIcon(Constant.OPT_DIR + "/exit.gif");
+		imgOk = new ImageIcon(Constant.OPT_DIR + "/ok");
+		imgCancel = new ImageIcon(Constant.OPT_DIR + "/cancel");
+	}
+
+	private void addComponent(Component c, int row, int col, int nrow, int ncol) {
+		// TODO Auto-generated method stub
+
+		gridBC.gridx = col;
+		gridBC.gridy = row;
+
+		gridBC.gridwidth = ncol;
+		gridBC.gridheight = nrow;
+
+		this.gridBag.setConstraints(c, gridBC);
+		this.add(c);
 	}
 
 	@Override
@@ -92,14 +130,19 @@ public class MenuHomePanel extends JPanel implements MouseListener {
 			cardPanel.swapPanel("CreateMenu");
 		} else if (source == lbLoadGame) {
 			cardPanel.swapPanel("LoadMenu");
-		} else if (source == lbExit)
+		} else if (source == lbExit) {
+			setWarnVisible(true);
+		} else if (source == lbCancel) {
+			setWarnVisible(false);
+		} else if (source == lbOk) {
 			System.exit(0);
+		}
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -112,25 +155,20 @@ public class MenuHomePanel extends JPanel implements MouseListener {
 	public void mouseEntered(MouseEvent e) {
 		// TODO Auto-generated method stub
 		JLabel source = (JLabel) e.getSource();
-		source.setIcon(ImageService.hightlight((ImageIcon)source.getIcon()));
-		this.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		imgStore = (ImageIcon) source.getIcon();
+		if (source == lbOk || source == lbCancel) {
+			source.setIcon(new ImageIcon(source.getIcon().toString() + "-hover"));
+		} else {
+			source.setIcon(ImageService.hightlight((ImageIcon) source.getIcon()));
+		}
+		source.setCursor(new Cursor(Cursor.HAND_CURSOR));
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
 		JLabel source = (JLabel) e.getSource();
-		if (source == lbNewGame) {
-			lbNewGame.setIcon(imgNewGame);
-		} else if (source == lbCreateGame) {
-			lbCreateGame.setIcon(imgCreateGame);
-		} else if (source == lbLoadGame) {
-			lbLoadGame.setIcon(imgLoadGame);
-		} else if (source == lbExit) {
-			lbExit.setIcon(imgExit);
-		}
-		
-		this.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+		source.setIcon(imgStore);
 	}
 
 }
