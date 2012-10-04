@@ -35,7 +35,7 @@ public class MenuPanel extends JPanel {
 		setPreferredSize(menuDim);
 		setLayout(card);
 		setVisible(true);
-
+		
 		add(homeMenu, "HomeMenu");
 		add(newMenu, "NewMenu");
 		add(createMenu, "CreateMenu");

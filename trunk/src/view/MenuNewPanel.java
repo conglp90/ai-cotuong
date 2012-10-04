@@ -3,13 +3,14 @@
  */
 package view;
 
-import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 import model.Constant;
 
@@ -30,15 +31,12 @@ public class MenuNewPanel extends JPanel implements MouseListener {
 	
 	private JLabel lbBackHome, lbOk;
 	
-
-	
 	
 	/**
 	 * 
 	 */
 	public MenuNewPanel(MenuPanel mp) {
 		// TODO Auto-generated constructor stub
-		setBackground(Color.RED);
 		this.cardPanel = mp;
 		loadImage();
 		initLabel();
@@ -46,19 +44,24 @@ public class MenuNewPanel extends JPanel implements MouseListener {
 	}
 	
 	private void initLabel() {
-		lbBackHome = new JLabel(imgBackHome);
+		lbBackHome = new JLabel(imgBackHome, SwingConstants.CENTER);
 		lbBackHome.addMouseListener(this);
 		add(lbBackHome);
 		
-		lbOk = new JLabel(imgOk);
+		lbOk = new JLabel(imgOk, SwingConstants.CENTER);
 		lbOk.addMouseListener(this);
 		add(lbOk);
 	}
 	
 	private void loadImage() {
-		imgBackHome = new ImageIcon(Constant.OPT_DIR + "/back.png");
-		imgOk = new ImageIcon(Constant.OPT_DIR + "/ok.png");
+		imgBackHome = new ImageIcon(Constant.OPT_DIR + "/back");
+		imgOk = new ImageIcon(Constant.OPT_DIR + "/ok");
 	}
+	
+/*	public void paintComponent(Graphics g) {
+		g.drawImage(new ImageIcon(Constant.IMG_DIR +"/welcome.jpg").getImage(), 
+					0, 0, this.getWidth(), this.getHeight(), null);
+	}*/
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
@@ -88,12 +91,20 @@ public class MenuNewPanel extends JPanel implements MouseListener {
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+		JLabel source = (JLabel) e.getSource();
+		source.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		source.setIcon(new ImageIcon(source.getIcon().toString()+ "-hover"));
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
+		JLabel source = (JLabel) e.getSource();
+		if (source == lbBackHome) {
+			lbBackHome.setIcon(imgBackHome);
+		} else if (source == lbOk) {
+			lbOk.setIcon(imgOk);
+		}
 		
 	}
 
