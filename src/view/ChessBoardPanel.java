@@ -28,7 +28,7 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,Mouse
 	/**
 	 * 
 	 */
-	
+	private boolean ok=true,ok1=true;
 	MainFrame mainFrame;
 	Match match;
 	ChessPosition current = null,h=null;
@@ -98,19 +98,38 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,Mouse
 	public void mouseClicked(MouseEvent e) {
 		int x=(e.getX()-Constant.OX)/Constant.length;
 		int y=(e.getY()-Constant.OY)/Constant.length;
-		//x1,y1 la toa do select
-		if ((x>=0)&&(x<9)&&(y>=0)&&(y<10)&&(match.tablePos[y][x]!=0)){
+		int i2=0;
+		//x1,y1 la toa do select dong tho li hien o sang len
+		if (ok && (x>=0)&&(x<9)&&(y>=0)&&(y<10)&&(match.tablePos[y][x]!=0)){
 			x1=x;
 			y1=y;
-		}
-		//khi click hien o co the di va an duoc
-		if (x>=0&&x<9&& y>=0&&y<10&&match.tablePos[y][x]!=0){
 			int table=Math.abs(match.tablePos[y][x]);
 			current=new ChessPosition(x,y,false);
 			pos=match.redChess[table].getPosCanMove(current, match);
+			ok=false;
+		}
+		if (ok && (x>=0)&&(x<9)&&(y>=0)&&(y<10)&&(match.tablePos[y][x]==0)){
+				x1=-1;
+				y1=-1;
+				ok=true;
+		}
+		//kiem tra co an quan khong 
+		for (int i1=0;i1<pos.size();i1++){
+			h=pos.get(i1);
+			int y2=h.getRow();
+			int x2=h.getCol();
+			if (x1>=0&&y1>=0&&match.tablePos[y2][x2]!=0 && x2==x&& y2==y){
+				match.tablePos[y2][x2]=match.tablePos[y1][x1];
+				match.tablePos[y1][x1]=0;
+				pos.clear();
+				x1=-1;
+				y1=-1;
+				ok=true;
+				break;
 			}
+		} 
 		//chi cho di vao nhung o sang
-		if (x>=0&&x<9&& y>=0&&y<10&&match.tablePos[y][x]==0&&x1>=0&&y1>=0){
+		if (!ok&&x>=0&&x<9&& y>=0&&y<10&&match.tablePos[y][x]==0&&x1>=0&&y1>=0){
 			for (int i1=0;i1<pos.size();i1++){
 				h=pos.get(i1);
 				int y2=h.getRow();
@@ -118,12 +137,12 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,Mouse
 				if (x1>=0&&y1>=0&&x==x2 &&y==y2){
 					match.tablePos[y][x]=match.tablePos[y1][x1];
 					match.tablePos[y1][x1]=0;
+					ok=true;
 					x1=-1;
 					y1=-1;
 				}
 			}
 			pos.clear();
-			
 		}
 	}
 
