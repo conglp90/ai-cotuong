@@ -15,12 +15,15 @@ import model.chess.Rook;
 
 public class Match {
 	private Player redPlayer, blackPlayer;
+	public final Chess[][] pieceChess;
 	public final Chess[] redChess, blackChess;
 	public final Image imgBoard = new ImageIcon(Constant.BOARD_DIR+"/banco.png").getImage();
 	public final Image imgSelect = new ImageIcon(Constant.CHESS_DIR+"/select.png").getImage();
-	public final Image imgWelcome = new ImageIcon(Constant.IMG_DIR + "/welcome.jpg").getImage();
+	public final Image imgWelcome = new ImageIcon(Constant.IMG_DIR + "/waiting.jpg").getImage();
+	public final Image imgWaiting = new ImageIcon(Constant.IMG_DIR + "/waiting.jpg").getImage();
 	public final Image imgPause = new ImageIcon(Constant.IMG_DIR + "/w1.jpg").getImage();
 	public final Image imgDiduoc = new ImageIcon(Constant.CHESS_DIR+"/diduoc.png").getImage();
+	public final Image imgAnduoc = new ImageIcon(Constant.CHESS_DIR+"/anduoc.png").getImage();
 	private boolean isFinish = false;
 	private boolean isActive = false;
 	private boolean isPause = false;
@@ -36,9 +39,24 @@ public class Match {
   			  				  {-6, -4,-3,-2,-7,-2,-3,-4,-6}};
 	
 	public Match() {
+		pieceChess = new Chess[2][8];
+		pieceChess[0][1] = new Pawn(Constant.CHESS_DIR + "/totdo.png", 0, 0); // Tot do
+		pieceChess[0][2] = new Advisor(Constant.CHESS_DIR + "/sydo.png", 0, 0); // Tot do
+		pieceChess[0][3] = new Bishop(Constant.CHESS_DIR + "/tinhdo.png", 0, 0); // Tot do
+		pieceChess[0][4] = new Knight(Constant.CHESS_DIR + "/mado.png", 0, 0); // Tot do
+		pieceChess[0][5] = new Cannon(Constant.CHESS_DIR + "/phaodo.png", 0, 0); // Tot do
+		pieceChess[0][6] = new Rook(Constant.CHESS_DIR + "/xedo.png", 0, 0); // Tot do
+		pieceChess[0][7] = new King(Constant.CHESS_DIR + "/tuongdo.png", 0, 0); // Tot do
+		
+		pieceChess[1][1] = new Pawn(Constant.CHESS_DIR + "/totden.png", 0, 0); // Tot do
+		pieceChess[1][2] = new Advisor(Constant.CHESS_DIR + "/syden.png", 0, 0); // Tot do
+		pieceChess[1][3] = new Bishop(Constant.CHESS_DIR + "/tinhden.png", 0, 0); // Tot do
+		pieceChess[1][4] = new Knight(Constant.CHESS_DIR + "/maden.png", 0, 0); // Tot do
+		pieceChess[1][5] = new Cannon(Constant.CHESS_DIR + "/phaoden.png", 0, 0); // Tot do
+		pieceChess[1][6] = new Rook(Constant.CHESS_DIR + "/xeden.png", 0, 0); // Tot do
+		pieceChess[1][7] = new King(Constant.CHESS_DIR + "/tuongden.png", 0, 0); // Tot do
 		redChess = new Chess[8];
 		blackChess = new Chess[8];
-		
 		redChess[1] = new Pawn(Constant.CHESS_DIR + "/totdo.png", 0, 0); // Tot do
 		redChess[2] = new Advisor(Constant.CHESS_DIR + "/sydo.png", 0, 0); // Sy do
 		redChess[3] = new Bishop(Constant.CHESS_DIR + "/tinhdo.png", 0, 0); // Tinh do
