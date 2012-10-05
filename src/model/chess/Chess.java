@@ -57,5 +57,5 @@ public abstract class Chess {
 	}
 	
 	// tra ve mang chua vi tri 
-	public abstract List<ChessPosition> getPosCanMove(ChessPosition current, Match match);
+	public abstract List<ChessPosition> getPosCanMove(ChessPosition current, Match match,int side);
 }

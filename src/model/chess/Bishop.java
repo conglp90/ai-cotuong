@@ -14,12 +14,15 @@ public class Bishop extends Chess {
 	}
 
 	@Override
-	public List<ChessPosition> getPosCanMove(ChessPosition current, Match match) {
+	public List<ChessPosition> getPosCanMove(ChessPosition current, Match match ,int side) {
 		List<ChessPosition> pos = new ArrayList<ChessPosition>();
 		int x,y,upBound,lowBound,leftBound,rightBound,value;
 		int dx[] = {0,2,2,-2,-2};
 		int dy[] = {0,2,-2,2,-2};
-		ChessPosition CpTemp ;
+		int cdx[] = {0,1,1,-1,-1};
+		int cdy[] = {0,1,-1,1,-1};
+		ChessPosition CpTemp  ;
+		int tempX=0,tempY=0;
 		/*
 		 * khoi tao gioi han di chuyen cho quan sy
 		 */
@@ -27,7 +30,7 @@ public class Bishop extends Chess {
 		x = current.getCol() ;
 		y = current.getRow() ;
 		value = match.tablePos[y][x];
-		if (y <= 2) {
+		if (side == -1) {
 			upBound = 0;
 			lowBound= 4;
 		} else {
@@ -42,16 +45,20 @@ public class Bishop extends Chess {
 		for (int i=1 ; i<=4 ; i++){
 			x=current.getCol()+dx[i];
 			y=current.getRow()+dy[i];
+			tempX=current.getCol() + cdx[i];
+			tempY=current.getRow() + cdy[i];
 			if (((x>=leftBound)&&(x<=rightBound))&&((y>=upBound)&&(y<=lowBound))){
 				if ((match.tablePos[y][x]==0)||(match.tablePos[y][x]*value < 0)){
-					if (match.tablePos[y][x]*value < 0) {
-						CpTemp = new ChessPosition(x,y,true);
-					} else {
-						CpTemp = new ChessPosition(x,y,false);
+					if (match.tablePos[tempY][tempX]==0) {
+						if (match.tablePos[y][x]*value < 0) {
+							CpTemp = new ChessPosition(x,y,true);
+						} else {
+							CpTemp = new ChessPosition(x,y,false);
+						}
+						pos.add(CpTemp);
 					}
-					pos.add(CpTemp);
+					
 				}
-				
 			}
 		}
 		// TODO Auto-generated method stub

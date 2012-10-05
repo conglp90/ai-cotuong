@@ -15,7 +15,7 @@ public class Rook extends Chess {
 	}
 
 	@Override
-	public List <ChessPosition> getPosCanMove(ChessPosition current,Match match) {
+	public List <ChessPosition> getPosCanMove(ChessPosition current,Match match, int type) {
 		List <ChessPosition> pos = new ArrayList<ChessPosition>();
 		int x,y,upBound,lowBound,leftBound,rightBound,value,i,omg;
 		ChessPosition CpTemp ;
