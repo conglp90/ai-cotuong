@@ -16,23 +16,19 @@ public class Advisor extends Chess {
 	}
 
 	@Override
-	public List <ChessPosition> getPosCanMove(ChessPosition current, Match match) {
+	public List <ChessPosition> getPosCanMove(ChessPosition current, Match match , int side) {
 		List <ChessPosition> pos = new ArrayList<ChessPosition>();
 		ChessPosition CpTemp ;
 		int x,y,upBound,lowBound,leftBound,rightBound,value;
 		int dx[] = {0,1,1,-1,-1};
 		int dy[] = {0,1,-1,1,-1};
-		x = current.getCol() ;
-		y = current.getRow() ;
-		value = match.tablePos[y][x];
-
 		//khoi tao gioi han di chuyen cho quan sy
 		 
 		x = current.getCol() ;
 		y = current.getRow() ;
 		value = match.tablePos[y][x];
 
-		if (y <= 2) {
+		if (side == -1) {
 			upBound = 0;
 			lowBound= 2;
 		} else {

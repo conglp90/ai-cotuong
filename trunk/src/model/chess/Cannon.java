@@ -16,7 +16,7 @@ public class Cannon extends Chess {
 	}
 
 	@Override
-	public List<ChessPosition> getPosCanMove(ChessPosition current, Match match) {
+	public List<ChessPosition> getPosCanMove(ChessPosition current, Match match , int type) {
 		List<ChessPosition> pos = new ArrayList<ChessPosition>();
 		int x,y,upBound,lowBound,leftBound,rightBound,value,i,omg,j;
 		ChessPosition CpTemp;
@@ -29,18 +29,19 @@ public class Cannon extends Chess {
 		 *  Thuc hien kiem tra 4 huong, de xet o di duoc cua quan phao
 		 *  Dong thoi kiem tra xem o co the an duoc
 		 */
- 
+		
+		//Sang ben phai
+		
 		for (i=x+1 ; i<=rightBound ; i++){
 			omg = match.tablePos[y][i] ;
 			if (omg == 0) {
-				
 				CpTemp = new ChessPosition(i,y,false);
 				pos.add(CpTemp);
 			} else {
 				for (j=i+1 ; j<=rightBound ; j++) {
 					if (match.tablePos[y][j] != 0) {
 						if (value * match.tablePos[y][j] < 0) {
-							CpTemp = new ChessPosition(i,y,true);
+							CpTemp = new ChessPosition(j,y,true);
 							pos.add(CpTemp);
 						}
 					break;

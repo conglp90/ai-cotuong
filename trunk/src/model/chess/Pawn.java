@@ -12,9 +12,11 @@ public class Pawn extends Chess {
 		// TODO Auto-generated constructor stub
 		super(img, row, col);
 	}
-
-	@Override
-	public List <ChessPosition> getPosCanMove(ChessPosition current, Match match) {
+	private boolean CheckPassRiver(ChessPosition current, Match match, int side) {
+		if (side * match.tablePos[current.getRow()][current.getCol()] > 0) return true;
+		return false ; 
+	}
+	public List <ChessPosition> getPosCanMove(ChessPosition current, Match match , int side) {
 		List <ChessPosition> pos = new ArrayList<ChessPosition>();
 		ChessPosition CpTemp ;
 		int x,y,value,omg,tmpX,tmpY;
@@ -22,12 +24,12 @@ public class Pawn extends Chess {
 		y = current.getRow() ;
 		if (y <= 4 )  omg = 1 ; 
 		 else omg = -1;
+		passedRiver = CheckPassRiver(current,match,side);
 		value = match.tablePos[y][x];
 		if (passedRiver) {
 			tmpX = x;
 			tmpY = y - omg;
-			if ((tmpY >= 0)&&((match.tablePos[tmpY][tmpX]==0)||(match.tablePos[tmpY][tmpX] * value < 0))) {
-				
+			if ((tmpY >= 0)&&(tmpY<=9)&&((match.tablePos[tmpY][tmpX]==0)||(match.tablePos[tmpY][tmpX] * value < 0))) {
 				if (match.tablePos[tmpY][tmpX]*value < 0) {
 					CpTemp = new ChessPosition(tmpX,tmpY,true);
 				} else {
@@ -39,13 +41,14 @@ public class Pawn extends Chess {
 			tmpY = y;
 			if ((tmpX >= 0)&&((match.tablePos[tmpY][tmpX]==0)||(match.tablePos[tmpY][tmpX] * value < 0))) {
 				
-				if (match.tablePos[tmpY][tmpX]*value < 0) {
+				if (match.tablePos[tmpY][tmpX] * value < 0) {
 					CpTemp = new ChessPosition(tmpX,tmpY,true);
 				} else {
 					CpTemp = new ChessPosition(tmpX,tmpY,false);
 				}
 				pos.add(CpTemp);	
 			}
+			
 			tmpX = x+1;
 			tmpY = y;
 			if ((tmpX <= 8)&&((match.tablePos[tmpY][tmpX]==0)||(match.tablePos[tmpY][tmpX] * value < 0))) {
@@ -65,7 +68,6 @@ public class Pawn extends Chess {
 				} else {
 					CpTemp = new ChessPosition(tmpX,tmpY,false);
 				}
-				if (((tmpY == 5) && (omg == 1)) || ((tmpY==4) && (omg==-1)))  passedRiver = true;
 				pos.add(CpTemp);	
 			}
 				

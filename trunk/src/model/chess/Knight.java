@@ -17,7 +17,7 @@ public class Knight extends Chess {
 	}
 
 	@Override
-	public List<ChessPosition> getPosCanMove(ChessPosition current, Match match) {
+	public List<ChessPosition> getPosCanMove(ChessPosition current, Match match, int type) {
 		List<ChessPosition> pos = new ArrayList<ChessPosition>();
 		int x,y,upBound,lowBound,leftBound,rightBound,value,cy,cx;
 		int Tdx[] = {0,-1,1,2,2,1,-1,-2,-2} ;

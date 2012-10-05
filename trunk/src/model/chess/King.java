@@ -16,7 +16,7 @@ public class King extends Chess {
 	}
 
 	@Override
-	public List <ChessPosition> getPosCanMove(ChessPosition current, Match match) {
+	public List <ChessPosition> getPosCanMove(ChessPosition current, Match match, int side) {
 		List <ChessPosition> pos = new ArrayList<ChessPosition>();
 		int x,y,upBound,lowBound,leftBound,rightBound,value,i,j;
 		boolean loMatTuong ;
@@ -28,12 +28,7 @@ public class King extends Chess {
 		value = match.tablePos[y][x];
 
 		//khoi tao gioi han di chuyen cho quan tuong
-		 
-		x = current.getCol() ;
-		y = current.getRow() ;
-		value = match.tablePos[y][x];
-
-		if (y <= 2) {
+		if (side == -1) {
 			upBound = 0;
 			lowBound= 2;
 		} else {
