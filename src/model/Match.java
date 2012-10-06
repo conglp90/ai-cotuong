@@ -1,6 +1,12 @@
 package model;
-
 import java.awt.Image;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.ImageIcon;
 
@@ -27,18 +33,11 @@ public class Match {
 	private boolean isFinish = false;
 	private boolean isActive = false;
 	private boolean isPause = false;
-	public int tablePos[][]={{6, 4, 3, 2, 7, 2, 3, 4, 6},
-  			  				  {0, 0, 0, 0, 0, 0, 0, 0, 0},
-  			  				  {0, 5, 0, 0, 0, 0, 0, 5, 0},
-  			  				  {1, 0, 1, 0, 1, 0, 1, 0, 1},
-  			  				  {0, 0, 0, 0, 0, 0, 0, 0, 0},
-  			  				  {0, 0, 0, 0, 0, 0, 0, 0, 0},
-  			  				  {-1, 0, -1, 0,-1, 0,-1, 0,-1},
-  			  				  {0, -5, 0, 0, 0, 0, 0,-5, 0},
-  			  				  {0, 0, 0, 0, 0, 0, 0, 0, 0},
-  			  				  {-6, -4,-3,-2,-7,-2,-3,-4,-6}};
+	public static int tablePos[][];
+	private static File fi;
 	
 	public Match() {
+		LoadMap();
 		pieceChess = new Chess[2][8];
 		pieceChess[0][1] = new Pawn(Constant.CHESS_DIR + "/totdo.png", 0, 0); // Tot do
 		pieceChess[0][2] = new Advisor(Constant.CHESS_DIR + "/sydo.png", 0, 0); // Tot do
@@ -72,7 +71,6 @@ public class Match {
 		blackChess[5] = new Cannon(Constant.CHESS_DIR + "/phaoden.png", 0, 0); // Phao den
 		blackChess[6] = new Rook(Constant.CHESS_DIR + "/xeden.png", 0, 0); // Xe den
 		blackChess[7]= new King(Constant.CHESS_DIR + "/tuongden.png", 0, 0); // Tuong den
-		
 	}
 	
 	public void setActive(boolean status) {
@@ -89,5 +87,30 @@ public class Match {
 	
 	public boolean isPause() {
 		return this.isPause;
+	}
+	public static void LoadMap(){
+        int x=0,y=0,i=0,value;  
+        tablePos=new int[10][9];
+        fi = new File(Constant.MAP_DIR+"/map.txt");
+        try {
+            FileInputStream fi1 = new FileInputStream(fi);
+            BufferedReader br = new BufferedReader( new InputStreamReader( fi1 ));
+            String s=new String();
+            try{
+            	for(y=0;y<10;y++){
+            		s=br.readLine().trim();
+            		String[]B=s.split(" ");
+            		for(x=0;x<9;x++){        
+            			tablePos[y][x]=new Integer(B[x].trim());
+            		}
+            	}
+            }
+            catch(IOException e){
+            	Logger.getLogger(Match.class.getName()).log(Level.SEVERE,null,e);
+            }
+        }
+        catch(IOException e){
+        	Logger.getLogger(Match.class.getName()).log(Level.SEVERE,null,e);
+        }
 	}
 }
