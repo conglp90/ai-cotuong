@@ -23,6 +23,7 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 	private int recentX=-1, recentY=-1 , piece=0, type=0;
 	private static final long serialVersionUID = 1L;
 	private boolean selected = false, okXY = false;
+	//private boolean ok=MenuNewPanel.dichuyen;
 	MainFrame mainFrame;
 	Match match;
 	ChessPosition current = null, h = null;
@@ -37,6 +38,7 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 				Constant.MAIN_HEIGHT));
 		add(new JLabel("Chess"));
 		addMouseListener(this);
+		//System.out.println(ok);
 	}
 
 	@Override
@@ -85,14 +87,14 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 		for (ChessPosition h : posCanMove){
 			if (h.getCanBeEaten()) {
 				g.drawImage(match.imgAnduoc,
-						Constant.OX	+ h.getCol()*Constant.length+5,
-						Constant.OY + h.getRow()*Constant.length+5,
-						30, 30, null);
+						Constant.OX	+ h.getCol()*Constant.length+7,
+						Constant.OY + h.getRow()*Constant.length+7,
+						25, 25, null);
 			} else 
 			g.drawImage(match.imgDiduoc,
-					Constant.OX	+ h.getCol()*Constant.length+5,
-					Constant.OY + h.getRow()*Constant.length+5,
-					30, 30, null);
+					Constant.OX	+ h.getCol()*Constant.length+7,
+					Constant.OY + h.getRow()*Constant.length+7,
+					25,25 , null);
 		}
 		repaint();	
 	}
