@@ -20,7 +20,7 @@ public class Constant {
 	public static final String BOARD_DIR = "src/images/board";
 	public static final String OPT_DIR = "src/images/option";
 	public static final String LEVEL_DIR = "src/images/level";
-
+    public static final String MAP_DIR="src/model/map";
 	// menu
 	public final static int UNDO_X = 800;// toa do Undo
 	public final static int UNDO_Y = 300;
