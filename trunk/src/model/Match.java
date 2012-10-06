@@ -25,9 +25,8 @@ public class Match {
 	public final Chess[] redChess, blackChess;
 	public final Image imgBoard = new ImageIcon(Constant.BOARD_DIR+"/banco.png").getImage();
 	public final Image imgSelect = new ImageIcon(Constant.CHESS_DIR+"/select.png").getImage();
-	public final Image imgWelcome = new ImageIcon(Constant.IMG_DIR + "/waiting.jpg").getImage();
-	public final Image imgWaiting = new ImageIcon(Constant.IMG_DIR + "/waiting.jpg").getImage();
-	public final Image imgPause = new ImageIcon(Constant.IMG_DIR + "/w1.jpg").getImage();
+	public final Image imgWelcome = new ImageIcon(Constant.IMG_DIR + "/welcome2.jpg").getImage();
+	public final Image imgPause = new ImageIcon(Constant.IMG_DIR + "/waiting.jpg").getImage();
 	public final Image imgDiduoc = new ImageIcon(Constant.CHESS_DIR+"/diduoc.png").getImage();
 	public final Image imgAnduoc = new ImageIcon(Constant.CHESS_DIR+"/anduoc.png").getImage();
 	private int level = 0;
