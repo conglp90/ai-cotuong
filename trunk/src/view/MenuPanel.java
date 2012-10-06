@@ -6,7 +6,6 @@ import java.awt.Dimension;
 import javax.swing.JPanel;
 
 import model.Constant;
-import model.Match;
 
 public class MenuPanel extends JPanel {
 	/**
@@ -27,11 +26,9 @@ public class MenuPanel extends JPanel {
 	private MenuPlayPanel playMenu;
 
 	private MainFrame mainFrame;
-	private Match match;
 
 	public MenuPanel(MainFrame mainFrame) {
 		this.mainFrame = mainFrame;
-		this.match = mainFrame.getMatch();
 		setPreferredSize(menuDim);
 		setMinimumSize(menuDim);
 

@@ -4,55 +4,37 @@
 package view;
 
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Cursor;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 import model.Constant;
-import model.ImageService;
 
 /**
  * @author heroandtn3
  * 
  */
-public class MenuHomePanel extends JPanel implements MouseListener {
+public class MenuHomePanel extends MyPanel implements MouseListener {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private MenuPanel cardPanel;
-	private GridBagLayout gridBag = new GridBagLayout();
-	private GridBagConstraints gridBC = new GridBagConstraints();
-
-	private ImageIcon imgNewGame, imgCreateGame, imgLoadGame, imgExit,
-			imgCancel, imgOk, imgStore;
-
-	private JLabel lbNewGame, lbCreateGame, lbLoadGame, lbExit, lbWarn,
+	private MyLabelButton lbNewGame, lbCreateGame, lbLoadGame, lbExit,
 			lbCancel, lbOk;
+	private JLabel lbWarn;
 
 	/**
 	 * 
 	 */
 	public MenuHomePanel(MenuPanel mp) {
 		// TODO Auto-generated constructor stub
-		this.cardPanel = mp;
+		super(mp);
 		setBackground(Color.GREEN);
 		setPreferredSize(cardPanel.getPreferredSize());
-		setLayout(gridBag);
-		gridBC.anchor = GridBagConstraints.CENTER;
-		gridBC.insets = new Insets(3, 0, 3, 0);
 
-		loadImage();
 		initLabel();
 		addAll();
 	}
@@ -75,49 +57,27 @@ public class MenuHomePanel extends JPanel implements MouseListener {
 
 	private void initLabel() {
 
-		lbNewGame = new JLabel(imgNewGame);
+		lbNewGame = new MyLabelButton(Constant.OPT_DIR+ "/newgame.gif", "Play new game", true);
 		lbNewGame.addMouseListener(this);
 
-		lbCreateGame = new JLabel(imgCreateGame);
+		lbCreateGame = new MyLabelButton(Constant.OPT_DIR+ "/creategame.gif", "Create a game", true);
 		lbCreateGame.addMouseListener(this);
 
-		lbLoadGame = new JLabel(imgLoadGame);
+		lbLoadGame = new MyLabelButton(Constant.OPT_DIR+ "/loadgame.gif", "Load a game", true);
 		lbLoadGame.addMouseListener(this);
 
-		lbExit = new JLabel(imgExit);
+		lbExit = new MyLabelButton(Constant.OPT_DIR+ "/exit.gif", "Exit game", true);
 		lbExit.addMouseListener(this);
 
 		lbWarn = new JLabel("Are you want to exit?");
 
-		lbCancel = new JLabel(imgCancel);
+		lbCancel = new MyLabelButton(Constant.OPT_DIR+ "/cancel", "No, back to game",  false);
 		lbCancel.addMouseListener(this);
 
-		lbOk = new JLabel(imgOk);
+		lbOk = new MyLabelButton(Constant.OPT_DIR+ "/ok", "Yes, I want to quit",  false);
 		lbOk.addMouseListener(this);
 		setWarnVisible(false);
 
-	}
-
-	private void loadImage() {
-		imgNewGame = new ImageIcon(Constant.OPT_DIR + "/newgame.gif");
-		imgCreateGame = new ImageIcon(Constant.OPT_DIR + "/creategame.gif");
-		imgLoadGame = new ImageIcon(Constant.OPT_DIR + "/loadgame.gif");
-		imgExit = new ImageIcon(Constant.OPT_DIR + "/exit.gif");
-		imgOk = new ImageIcon(Constant.OPT_DIR + "/ok");
-		imgCancel = new ImageIcon(Constant.OPT_DIR + "/cancel");
-	}
-
-	private void addComponent(Component c, int row, int col, int nrow, int ncol) {
-		// TODO Auto-generated method stub
-
-		gridBC.gridx = col;
-		gridBC.gridy = row;
-
-		gridBC.gridwidth = ncol;
-		gridBC.gridheight = nrow;
-
-		this.gridBag.setConstraints(c, gridBC);
-		this.add(c);
 	}
 
 	@Override
@@ -154,21 +114,12 @@ public class MenuHomePanel extends JPanel implements MouseListener {
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		// TODO Auto-generated method stub
-		JLabel source = (JLabel) e.getSource();
-		imgStore = (ImageIcon) source.getIcon();
-		if (source == lbOk || source == lbCancel) {
-			source.setIcon(new ImageIcon(source.getIcon().toString() + "-hover"));
-		} else {
-			source.setIcon(ImageService.hightlight((ImageIcon) source.getIcon()));
-		}
-		source.setCursor(new Cursor(Cursor.HAND_CURSOR));
+;
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
-		JLabel source = (JLabel) e.getSource();
-		source.setIcon(imgStore);
 	}
 
 }

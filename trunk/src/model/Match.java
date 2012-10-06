@@ -30,11 +30,27 @@ public class Match {
 	public final Image imgPause = new ImageIcon(Constant.IMG_DIR + "/w1.jpg").getImage();
 	public final Image imgDiduoc = new ImageIcon(Constant.CHESS_DIR+"/diduoc.png").getImage();
 	public final Image imgAnduoc = new ImageIcon(Constant.CHESS_DIR+"/anduoc.png").getImage();
+	private int level = 0;
 	private boolean isFinish = false;
 	private boolean isActive = false;
 	private boolean isPause = false;
+
+	private boolean isPlayWithCom = true;
+	private boolean isComPlayFirst = false;
+	/*public int tablePos[][]={{6, 4, 3, 2, 7, 2, 3, 4, 6},
+  			  				  {0, 0, 0, 0, 0, 0, 0, 0, 0},
+  			  				  {0, 5, 0, 0, 0, 0, 0, 5, 0},
+  			  				  {1, 0, 1, 0, 1, 0, 1, 0, 1},
+  			  				  {0, 0, 0, 0, 0, 0, 0, 0, 0},
+  			  				  {0, 0, 0, 0, 0, 0, 0, 0, 0},
+  			  				  {-1, 0, -1, 0,-1, 0,-1, 0,-1},
+  			  				  {0, -5, 0, 0, 0, 0, 0,-5, 0},
+  			  				  {0, 0, 0, 0, 0, 0, 0, 0, 0},
+  			  				  {-6, -4,-3,-2,-7,-2,-3,-4,-6}};*/
+
 	public static int tablePos[][];
 	private static File fi;
+
 	
 	public Match() {
 		LoadMap();
@@ -73,6 +89,22 @@ public class Match {
 		blackChess[7]= new King(Constant.CHESS_DIR + "/tuongden.png", 0, 0); // Tuong den
 	}
 	
+	public boolean isPlayWithCom() {
+		return this.isPlayWithCom;
+	}
+	
+	public void setPLayWithCom(boolean status) {
+		this.isPlayWithCom = status;
+	}
+	
+	public boolean isComPlayFirst() {
+		return this.isComPlayFirst;
+	}
+	
+	public void setComPlayFirst(boolean status) {
+		this.isComPlayFirst = status;
+	}
+	
 	public void setActive(boolean status) {
 		this.isActive = status;
 	}
@@ -88,6 +120,23 @@ public class Match {
 	public boolean isPause() {
 		return this.isPause;
 	}
+	
+	public boolean isFinish() {
+		return this.isFinish;
+	}
+	
+	public void setFinish(boolean status) {
+		this.isFinish = status;
+	}
+	
+	public int getLevel() {
+		return this.level;
+	}
+	
+	public void setLevel(int num) {
+		this.level = num;
+	}
+	
 	public static void LoadMap(){
         int x=0,y=0,i=0,value;  
         tablePos=new int[10][9];
@@ -113,4 +162,5 @@ public class Match {
         	Logger.getLogger(Match.class.getName()).log(Level.SEVERE,null,e);
         }
 	}
+
 }
