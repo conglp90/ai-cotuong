@@ -85,6 +85,8 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 				}
 			}
 		for (ChessPosition h : posCanMove){
+			g.drawImage(match.imgSelect,Constant.OX+Constant.length*recentX,
+					Constant.OY+Constant.length*recentY,42,42,null);
 			if (h.getCanBeEaten()) {
 				g.drawImage(match.imgAnduoc,
 						Constant.OX	+ h.getCol()*Constant.length+7,
