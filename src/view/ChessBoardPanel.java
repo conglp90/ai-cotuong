@@ -20,14 +20,14 @@ import model.*;
 
 public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 		MouseListener {
-	private int recentX=-1, recentY=-1 , piece=0, type=0;
+	private int recentX = -1, recentY = -1, piece = 0, type = 0;
 	private static final long serialVersionUID = 1L;
 	private boolean selected = false, okXY = false;
-	//private boolean ok=MenuNewPanel.dichuyen;
+	// private boolean ok=MenuNewPanel.dichuyen;
 	MainFrame mainFrame;
 	Match match;
 	MoveInfo newmove;
-	Computer com;
+	Computer com = new Computer();
 	Player player;
 	ChessPosition current = null, h = null;
 	List<ChessPosition> posCanMove = new ArrayList<ChessPosition>();
@@ -41,7 +41,7 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 				Constant.MAIN_HEIGHT));
 		add(new JLabel("Chess"));
 		addMouseListener(this);
-		//System.out.println(ok);
+		// System.out.println(ok);
 	}
 
 	@Override
@@ -73,133 +73,89 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 	}
 
 	private void drawChess(Graphics g) {
-		int x = 0 ,i=0, j=0 ;
+		int x = 0, i = 0, j = 0;
 		for (i = 0; i < 10; i++)
 			for (j = 0; j < 9; j++) {
 				piece = match.tablePos[i][j];
 				type = 1;
-				if (piece > 0) type = 0 ;
-				x =Math.abs(piece);
-				if (x>0){
-				g.drawImage(match.pieceChess[type][x].getShape(), 
-						Constant.OX + j*Constant.length, 
-						Constant.OY + i*Constant.length, 
-						42, 42, null);
+				if (piece > 0)
+					type = 0;
+				x = Math.abs(piece);
+				if (x > 0) {
+					g.drawImage(match.pieceChess[type][x].getShape(),
+							Constant.OX + j * Constant.length, Constant.OY + i
+									* Constant.length, 42, 42, null);
 				}
 			}
-		for (ChessPosition h : posCanMove){
-			g.drawImage(match.imgSelect,Constant.OX+Constant.length*recentX,
-					Constant.OY+Constant.length*recentY,42,42,null);
+		for (ChessPosition h : posCanMove) {
+			g.drawImage(match.imgSelect, Constant.OX + Constant.length
+					* recentX, Constant.OY + Constant.length * recentY, 42, 42,
+					null);
 			if (h.getCanBeEaten()) {
-				g.drawImage(match.imgAnduoc,
-						Constant.OX	+ h.getCol()*Constant.length+7,
-						Constant.OY + h.getRow()*Constant.length+7,
-						25, 25, null);
-			} else 
-			g.drawImage(match.imgDiduoc,
-					Constant.OX	+ h.getCol()*Constant.length+7,
-					Constant.OY + h.getRow()*Constant.length+7,
-					25,25 , null);
+				g.drawImage(match.imgAnduoc, Constant.OX + h.getCol()
+						* Constant.length + 7, Constant.OY + h.getRow()
+						* Constant.length + 7, 25, 25, null);
+			} else
+				g.drawImage(match.imgDiduoc, Constant.OX + h.getCol()
+						* Constant.length + 7, Constant.OY + h.getRow()
+						* Constant.length + 7, 25, 25, null);
 		}
-		repaint();	
+		repaint();
 	}
+
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		int x = (e.getX() - Constant.OX) / Constant.length;
 		int y = (e.getY() - Constant.OY) / Constant.length;
 		// x1,y1 la toa do select dong tho li hien o sang len
-			if (((x>=0)&&(x<9)) && ((y>=0)&&(y<10))) {
-				if (!selected){
-					if  (match.tablePos[y][x]>0 && !match.isComPlayFirst()) {
-						piece = match.tablePos[y][x];
-						int side = 1;
-						if (y<=4) side = -1 ;
-						type = 0;
-						current = new ChessPosition(x, y, false);
-						posCanMove = match.pieceChess[type][Math.abs(piece)].getPosCanMove(current, match,side) ;
-						recentX = x; recentY = y;
-						selected = true ;
-					}
-					else
-					if  (match.tablePos[y][x]<0 && match.isComPlayFirst()) {
-						piece = match.tablePos[y][x];
-						int side = 1;
-						if (y<=4) side = -1 ;
-						type = 1;
-						current = new ChessPosition(x, y, false);
-						posCanMove = match.pieceChess[type][Math.abs(piece)].getPosCanMove(current, match,side) ;
-						recentX = x; recentY = y;
-						selected = true ;
-					}
-				} else {
-			   /*
-			    * Neu co mot o duoc chon ,xay ra 4 truong hop cho luot click ke tiep :
-			    * + Thuc hien di chuyen den o (x,y)
-			    * + An quan o o (x,y)
-			    * + Click chon mot quan co khac
-			    * + Click den mot o khong hop le
-			    */
-				//kiem tra xem o x,y co hop le khong
-				// Di chuyen den o x,y
-				
-				okXY = false ;
-				for (int count = 0 ; count < posCanMove.size() ; count ++){
+		if (((x >= 0) && (x < 9)) && ((y >= 0) && (y < 10))) {
+			if (!selected) {
+				if (match.tablePos[y][x] < 0) {
+					piece = match.tablePos[y][x];
+					int side = 1;
+					if (y <= 4)
+						side = -1;
+					type = 1;
+					current = new ChessPosition(x, y, false);
+					posCanMove = match.pieceChess[type][Math.abs(piece)]
+							.getPosCanMove(current, match, side);
+					recentX = x;
+					recentY = y;
+					selected = true;
+				}
+			} else {
+				okXY = false;
+				for (int count = 0; count < posCanMove.size(); count++) {
 					ChessPosition pos = posCanMove.get(count);
-					if ((x == pos.getCol())&&(y == pos.getRow())) {
-						okXY = true ;
+					if ((x == pos.getCol()) && (y == pos.getRow())) {
+						okXY = true;
 					}
 				}
 				if (okXY) {
 					piece = match.tablePos[y][x];
-					if (piece == 0) {
+					if ((piece == 0) ||(piece * match.tablePos[recentY][recentX] < 0)) {
 						match.tablePos[y][x] = match.tablePos[recentY][recentX];
-						match.tablePos[recentY][recentX] = 0;
-						if (match.isComPlayFirst())
-							match.setComPlayFirst(false);
-						else
-							match.setComPlayFirst(true);
-						newmove=new MoveInfo(x,y);
-						MoveInfo m=player.runCom(newmove) ;
-						com.tryMove(m);
-						selected = false ;
-					} else {
-						if (piece * match.tablePos[recentY][recentX] < 0) {
-							match.tablePos[y][x] = match.tablePos[recentY][recentX];
-							match.tablePos[recentY][recentX] = 0;
-							if (match.isComPlayFirst())
-								match.setComPlayFirst(false);
-							else
-								match.setComPlayFirst(true);
-							newmove=new MoveInfo(x,y);
-							MoveInfo m=player.runCom(newmove) ;
-							com.tryMove(m);
-							selected = false ;
-						}
-					}
+						match.tablePos[recentY][recentX] = 0;						
+						selected = false;
+						com.thinking(0);
+						com.tryMove(Match.newMove);
+					} 
 					posCanMove.clear();
-				}  else {
-					if  (match.tablePos[y][x]>0 && !match.isComPlayFirst()) {
+				} else {
+					if (match.tablePos[y][x] < 0) {
 						piece = match.tablePos[y][x];
 						int side = 1;
-						if (y<=4) side = -1 ;
-						type = 0;
+						if (y <= 4)
+							side = -1;
+						type = 1;
 						current = new ChessPosition(x, y, false);
-						posCanMove = match.pieceChess[type][Math.abs(piece)].getPosCanMove(current, match,side) ;
-						recentX = x; recentY = y;
-						selected=true;
+						posCanMove = match.pieceChess[type][Math.abs(piece)]
+								.getPosCanMove(current, match, side);
+						recentX = x;
+						recentY = y;
+						selected = true;
 					}
-					else
-						if  (match.tablePos[y][x]<0 && match.isComPlayFirst()) {
-							piece = match.tablePos[y][x];
-							int side = 1;
-							if (y<=4) side = -1 ;
-							type = 1;
-							current = new ChessPosition(x, y, false);
-							posCanMove = match.pieceChess[type][Math.abs(piece)].getPosCanMove(current, match,side) ;
-							recentX = x; recentY = y;
-							selected=true;
-						}
-					
+
 				}
 			}
 		}
