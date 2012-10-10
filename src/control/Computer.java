@@ -43,7 +43,7 @@ public class Computer {
 		Match.tablePos[nmove.getToY()][nmove.getToX()] = nmove.getValue();
 	}
 	public   List <MoveInfo> InitArrayMoves(int type){
-		
+		initChess();
 		List <MoveInfo> arr = new ArrayList<MoveInfo>();
 		List <ChessPosition> posCanMove; new ArrayList<ChessPosition>();
 		Match match = new Match();
