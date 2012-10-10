@@ -20,9 +20,9 @@ import model.*;
 
 public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 		MouseListener {
-	private int recentX = -1, recentY = -1, piece = 0, type = 0;
+	private int recentX = -1, recentY = -1, piece = 0, type = 0,x1=-1,y1=-1,x2=-1,y2=-1;
 	private static final long serialVersionUID = 1L;
-	private boolean selected = false, okXY = false;
+	private boolean selected = false, okXY = false,ok=true;
 	// private boolean ok=MenuNewPanel.dichuyen;
 	MainFrame mainFrame;
 	Match match;
@@ -105,6 +105,7 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		if (ok){
 		int x = (e.getX() - Constant.OX) / Constant.length;
 		int y = (e.getY() - Constant.OY) / Constant.length;
 		// x1,y1 la toa do select dong tho li hien o sang len
@@ -134,11 +135,10 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 				if (okXY) {
 					piece = match.tablePos[y][x];
 					if ((piece == 0) ||(piece * match.tablePos[recentY][recentX] < 0)) {
-						match.tablePos[y][x] = match.tablePos[recentY][recentX];
-						match.tablePos[recentY][recentX] = 0;						
-						selected = false;
-						com.thinking(0);
-						com.tryMove(Match.newMove);
+							match.tablePos[y][x] = match.tablePos[recentY][recentX];
+							match.tablePos[recentY][recentX] = 0;					
+							selected = false;
+							ok=false;
 					} 
 					posCanMove.clear();
 				} else {
@@ -158,6 +158,12 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 
 				}
 			}
+		}}
+		else
+		if (!ok){
+			com.thinking(0);
+			com.tryMove(Match.newMove);
+			ok=true;
 		}
 	}
 
@@ -175,19 +181,18 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
