@@ -170,6 +170,9 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 								match.setComPlayFirst(false);
 							else
 								match.setComPlayFirst(true);
+							newmove=new MoveInfo(x,y);
+							MoveInfo m=player.runCom(newmove) ;
+							com.tryMove(m);
 							selected = false ;
 						}
 					}
