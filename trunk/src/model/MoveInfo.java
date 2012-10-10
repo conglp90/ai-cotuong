@@ -20,6 +20,10 @@ public class MoveInfo {
 		this.toY = toY;
 		this.value = value;
 	}
+	public MoveInfo(int toX,int toY){
+		this.toX=toX;
+		this.toY=toY;
+	}
 	public int getFromX(){
 		return this.fromX;
 	}

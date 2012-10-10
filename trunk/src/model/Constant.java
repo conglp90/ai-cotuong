@@ -14,7 +14,6 @@ public class Constant {
 	public static final int OY = 15;
 	public static final int INFINITY = 15437998;
 	public static final int length = 67;// khoang cach giua 2 o ban co
-
 	// directory
 	public static final String IMG_DIR = "src/images";
 	public static final String CHESS_DIR = "src/images/chess";
