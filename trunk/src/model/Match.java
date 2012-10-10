@@ -10,6 +10,8 @@ import java.util.logging.Logger;
 
 import javax.swing.ImageIcon;
 
+import control.Position;
+
 import model.chess.Advisor;
 import model.chess.Bishop;
 import model.chess.Cannon;
@@ -20,8 +22,12 @@ import model.chess.Pawn;
 import model.chess.Rook;
 
 public class Match {
-	private Player redPlayer, blackPlayer;
 	public final Chess[][] pieceChess;
+	public static Position Chess[][] = new Position[2][17];
+	public static int  count[] = new int[2];
+	public static int  status[][]=new int[10][10];
+	public static MoveInfo newMove;
+	
 	public final Image imgBoard = new ImageIcon(Constant.BOARD_DIR+"/banco.png").getImage();
 	public final Image imgSelect = new ImageIcon(Constant.CHESS_DIR+"/select.png").getImage();
 	public final Image imgWelcome = new ImageIcon(Constant.IMG_DIR + "/welcome2.jpg").getImage();
@@ -120,7 +126,7 @@ public class Match {
 	}
 	
 	public static void LoadMap(){
-        int x=0,y=0,i=0,value;  
+        int x=0,y=0;  
         tablePos=new int[10][9];
         fi = new File(Constant.MAP_DIR+"/map.txt");
         try {

@@ -12,6 +12,7 @@ public class Constant {
 	public static final int BOARD_HEIGHT = 700 - 30;// chieu cao ban co
 	public static final int OX = 15;// tam toa do OX
 	public static final int OY = 15;
+	public static final int INFINITY = 15437998;
 	public static final int length = 67;// khoang cach giua 2 o ban co
 
 	// directory
@@ -30,4 +31,5 @@ public class Constant {
 
 	public final static int IMG_HEIGHT = 50;
 	public final static int IMG_WIDTH = 75;
+	public static final int Depth = 4;
 }
