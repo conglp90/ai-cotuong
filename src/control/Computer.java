@@ -10,13 +10,16 @@ import model.MoveInfo;
 
 public class Computer {
 	private int BaseValue[] ={0,10,20,20,25,45,50,100,10000};
+	private boolean isFinish = false;
 	Match match = new Match();
 	public void   tryMove(MoveInfo nmove){
+		if (Math.abs(Match.tablePos[nmove.getToY()][nmove.getToX()])==7) isFinish = true;
 		Match.tablePos[nmove.getToY()][nmove.getToX()] =
 				Match.tablePos[nmove.getFromY()][nmove.getFromX()];
 		Match.tablePos[nmove.getFromY()][nmove.getFromX()] = 0;
 	}
 	public void   undoMove(MoveInfo nmove){
+		if (Math.abs(nmove.getValue())==7) isFinish = false;
 		Match.tablePos[nmove.getFromY()][nmove.getFromX()] =
 				Match.tablePos[nmove.getToY()][nmove.getToX()];
 		Match.tablePos[nmove.getToY()][nmove.getToX()] = nmove.getValue();
@@ -84,16 +87,19 @@ public class Computer {
 	public int alphaBeta(int anpha, int beta ,int depth , int type){
 		int value;
 		if (depth == 0) return Evaluate(type);
-		int best = - Constant.INFINITY;
+		if (isFinish) return Evaluate(type)-(Constant.Depth - depth);
+		int best = -Constant.INFINITY;
 		List <MoveInfo> arr = new ArrayList<MoveInfo>();
 		arr = InitArrayMoves(type);
+		if (best < beta)
 		for (MoveInfo move : arr){
 				tryMove(move);
 				value = -alphaBeta(-beta,-anpha,depth - 1, 1 - type);
 				undoMove(move);
 				if (value > best) best = value;
-				if (best >= beta) break;
 				if (best > anpha) anpha = best;
+				if (best >= beta) break;
+				
 			}
 		return best;
 	}
@@ -104,12 +110,13 @@ public class Computer {
 		arr = InitArrayMoves(type);
 		for (MoveInfo move : arr){
 				tryMove(move);
-				int value = alphaBeta(-Constant.INFINITY,Constant.INFINITY,Constant.Depth,1-type);
+				int value = -alphaBeta(-Constant.INFINITY,Constant.INFINITY,Constant.Depth,1-type);
 				undoMove(move);
 				if (value > res){
 					res = value;
+					
 					Match.newMove = move;
-					System.out.println(move.getFromX()+" "+move.getFromY());
+					System.out.println(move.getFromX()+" "+move.getFromY()+ " " + res);
 				}
 			}
 	}
