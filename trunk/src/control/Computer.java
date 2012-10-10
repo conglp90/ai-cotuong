@@ -66,13 +66,13 @@ public class Computer {
 						}
 					}
 				} else {
-					result =result + BaseValue[Math.abs(match.tablePos[i][j])];
+					result =result - BaseValue[Math.abs(match.tablePos[i][j])];
 					//kiem tra xem neu tot da qua song thi tang gia tri cho no
 					side = 1;
 					if (i<=4) side = -1;
 					if (Math.abs(match.tablePos[i][j])==1) {
 						if (side * match.tablePos[i][j] > 0) {
-							result = result + 10;
+							result = result - 10;
 						}
 					}
 				}
