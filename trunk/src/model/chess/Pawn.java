@@ -13,7 +13,7 @@ public class Pawn extends Chess {
 		super(img, row, col);
 	}
 	private boolean CheckPassRiver(ChessPosition current, Match match, int side) {
-		if (side * match.tablePos[current.getRow()][current.getCol()] > 0) return true;
+		if (side * match.tablePos[current.getRow()][current.getCol()] < 0) return true;
 		return false ; 
 	}
 	public List <ChessPosition> getPosCanMove(ChessPosition current, Match match , int side) {
@@ -24,7 +24,7 @@ public class Pawn extends Chess {
 		y = current.getRow() ;
 		if (y <= 4 )  omg = 1 ; 
 		 else omg = -1;
-		passedRiver = CheckPassRiver(current,match,side);
+		passedRiver = CheckPassRiver(current,match,omg);
 		value = match.tablePos[y][x];
 		if (passedRiver) {
 			tmpX = x;

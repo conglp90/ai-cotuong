@@ -28,7 +28,7 @@ public class King extends Chess {
 		value = match.tablePos[y][x];
 
 		//khoi tao gioi han di chuyen cho quan tuong
-		if (side == -1) {
+		if (y<=2) {
 			upBound = 0;
 			lowBound= 2;
 		} else {

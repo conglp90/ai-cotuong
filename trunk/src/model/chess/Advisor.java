@@ -28,7 +28,7 @@ public class Advisor extends Chess {
 		y = current.getRow() ;
 		value = match.tablePos[y][x];
 
-		if (side == -1) {
+		if (y <=2 ) {
 			upBound = 0;
 			lowBound= 2;
 		} else {

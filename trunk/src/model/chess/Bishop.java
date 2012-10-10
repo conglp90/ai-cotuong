@@ -30,7 +30,7 @@ public class Bishop extends Chess {
 		x = current.getCol() ;
 		y = current.getRow() ;
 		value = match.tablePos[y][x];
-		if (side == -1) {
+		if (y<=4) {
 			upBound = 0;
 			lowBound= 4;
 		} else {
