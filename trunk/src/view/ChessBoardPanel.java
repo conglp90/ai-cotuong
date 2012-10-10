@@ -14,9 +14,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import model.ChessPosition;
-import model.Constant;
-import model.Match;
+import control.Computer;
+
+import model.*;
 
 public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 		MouseListener {
@@ -26,6 +26,9 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 	//private boolean ok=MenuNewPanel.dichuyen;
 	MainFrame mainFrame;
 	Match match;
+	MoveInfo newmove;
+	Computer com;
+	Player player;
 	ChessPosition current = null, h = null;
 	List<ChessPosition> posCanMove = new ArrayList<ChessPosition>();
 
@@ -155,6 +158,9 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 							match.setComPlayFirst(false);
 						else
 							match.setComPlayFirst(true);
+						newmove=new MoveInfo(x,y);
+						MoveInfo m=player.runCom(newmove) ;
+						com.tryMove(m);
 						selected = false ;
 					} else {
 						if (piece * match.tablePos[recentY][recentX] < 0) {
