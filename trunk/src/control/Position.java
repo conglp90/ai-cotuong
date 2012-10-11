@@ -31,6 +31,9 @@ public class Position {
 	public void setIsAlive(boolean isAlive){
 		this.isAlive = isAlive;
 	}
+	public void setIsPassed(boolean isPassed){
+		this.isPassed = isPassed;
+	}
 	public int getY(){
 		return this.y;
 	}

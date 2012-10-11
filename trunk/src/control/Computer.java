@@ -10,41 +10,29 @@ import model.MoveInfo;
 
 public class Computer {
 	private int BaseValue[] ={0,10,20,20,25,45,50,100,10000};
-	private boolean isFinish = false;
 	Match match = new Match();
-	public void   tryMove(MoveInfo nmove){
-		if (Math.abs(Match.tablePos[nmove.getToY()][nmove.getToX()])==7) isFinish = true;
-		Match.tablePos[nmove.getToY()][nmove.getToX()] =
-				Match.tablePos[nmove.getFromY()][nmove.getFromX()];
-		Match.tablePos[nmove.getFromY()][nmove.getFromX()] = 0;
-	}
-	public void   undoMove(MoveInfo nmove){
-		if (Math.abs(nmove.getValue())==7) isFinish = false;
-		Match.tablePos[nmove.getFromY()][nmove.getFromX()] =
-				Match.tablePos[nmove.getToY()][nmove.getToX()];
-		Match.tablePos[nmove.getToY()][nmove.getToX()] = nmove.getValue();
-	}
-	public   List <MoveInfo> InitArrayMoves(int side){
-		int type,piece;
+	Evaluate master = new Evaluate();
+	public   List <MoveInfo> InitArrayMoves(int type){
+		int piece,x,y;
 		ChessPosition current;
 		List <MoveInfo> arr = new ArrayList<MoveInfo>();
 		List <ChessPosition> posCanMove = new ArrayList<ChessPosition>();
 		//type = 1,phia duoi <0
 		//type = -1 phia tren >0
-		type = 1;
-		if (side == 0) type = -1; 
-		for (int i=0; i<= 9 ; i++)
-			for (int j=0; j<=8; j++) {
-				piece = Match.tablePos[i][j];
-				if (piece * type < 0 ) {
-					current = new ChessPosition(j, i, false);
-					posCanMove = match.pieceChess[side][Math.abs(piece)].getPosCanMove(current, match,type);
-					for (ChessPosition pos : posCanMove) {
-						MoveInfo nMove = new MoveInfo(j,i,pos.getCol(),pos.getRow(),match.tablePos[pos.getRow()][pos.getCol()]);
-						arr.add(nMove);
-					}
+		for (int i=1 ; i <= Match.count[type]; i++){
+			if (Match.Chess[type][i].getIsAlive()){
+				piece = Match.Chess[type][i].getPiece();
+				x = Match.Chess[type][i].getX();
+				y = Match.Chess[type][i].getY();
+				current = new ChessPosition(x, y, false);
+				posCanMove = match.pieceChess[type][piece].getPosCanMove(current, match,type);
+				for (ChessPosition pos : posCanMove) {
+					MoveInfo nMove = new MoveInfo(x,y,pos.getCol(),pos.getRow(),Match.tablePos[pos.getRow()][pos.getCol()],Match.status[pos.getRow()][pos.getCol()]);
+					arr.add(nMove);
 				}
 			}
+		}
+		
 		return arr;
 	}
 	public int Evaluate(int typeOfChess) {
@@ -86,16 +74,16 @@ public class Computer {
 	}
 	public int alphaBeta(int anpha, int beta ,int depth , int type){
 		int value;
-		if (depth == 0) return Evaluate(type);
-		if (isFinish) return Evaluate(type)-(Constant.Depth - depth);
+		if (depth == 0) return master.Eval(type);
+		if (Match.isFinish) return master.Eval(type)-(Constant.Depth - depth);
 		int best = -Constant.INFINITY;
 		List <MoveInfo> arr = new ArrayList<MoveInfo>();
 		arr = InitArrayMoves(type);
 		if (best < beta)
 		for (MoveInfo move : arr){
-				tryMove(move);
+				Match.tryMove(move);
 				value = -alphaBeta(-beta,-anpha,depth - 1, 1 - type);
-				undoMove(move);
+				Match.undoMove(move);
 				if (value > best) best = value;
 				if (best > anpha) anpha = best;
 				if (best >= beta) break;
@@ -106,17 +94,18 @@ public class Computer {
 	public void thinking(int type) {
 		int res = -Constant.INFINITY;
 		System.out.println("dfasfda");
+		Match.initChess();
 		List <MoveInfo> arr = new ArrayList<MoveInfo>();
 		arr = InitArrayMoves(type);
 		for (MoveInfo move : arr){
-				tryMove(move);
+				Match.tryMove(move);
 				int value = -alphaBeta(-Constant.INFINITY,Constant.INFINITY,Constant.Depth,1-type);
-				undoMove(move);
+				Match.undoMove(move);
 				if (value > res){
 					res = value;
 					
 					Match.newMove = move;
-					System.out.println(move.getFromX()+" "+move.getFromY()+ " " + res);
+					System.out.println(move.getx()+" "+move.gety()+ " " + res);
 				}
 			}
 	}
