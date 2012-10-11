@@ -9,6 +9,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+
+import view.ChessBoardPanel;
 
 import control.Position;
 
@@ -41,6 +44,7 @@ public class Match {
 
 	private boolean isPlayWithCom = true;
 	private boolean isComPlayFirst = false;
+	ChessBoardPanel ches;
 	/*public int tablePos[][]={{6, 4, 3, 2, 7, 2, 3, 4, 6},
   			  				  {0, 0, 0, 0, 0, 0, 0, 0, 0},
   			  				  {0, 5, 0, 0, 0, 0, 0, 5, 0},
@@ -178,8 +182,6 @@ public class Match {
 		id = nmove.getId(),
 		piece = nmove.getpiece(),
 		cur = tablePos[y][x];
-		
-		if (Math.abs(tablePos[yy][xx])==7) isFinish = true;
 		//Mark died chess
 		if (piece > 0) Chess[0][id].setIsAlive(false);
 		if (piece < 0) Chess[1][id].setIsAlive(false);
