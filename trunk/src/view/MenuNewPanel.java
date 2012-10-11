@@ -13,6 +13,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JRadioButton;
+import javax.swing.SwingUtilities;
 
 import control.Computer;
 
@@ -191,13 +192,29 @@ public class MenuNewPanel extends MyPanel implements MouseListener, ActionListen
 			}
 			cardPanel.swapPanel("PlayMenu");
 			match.setActive(true);
-			if (match.isComPlayFirst()) {
-				Computer com = new Computer();
-				com.thinking(0);
-				Match.tryMove(Match.newMove);
-				match.setComPlayFirst(false);
-			}
 			cardPanel.getMainFrame().getChessBoardPanel().repaint();
+			
+			// Sang Hero says: doan code nay suu tam tren mang, to cung chua hieu no lam
+			// to dang doc them ve Threads trong java, hy vong se hieu :)) 
+			// p/s: Computer xu li cham qua
+			new Thread() {
+		        public void run() {
+		                SwingUtilities.invokeLater(new Runnable() {
+							@Override
+							public void run() {
+								// TODO Auto-generated method stub
+								if (match.isComPlayFirst()) {
+									Computer com = new Computer();
+									com.thinking(0);
+									Match.tryMove(Match.newMove);
+									match.setComPlayFirst(false);
+									cardPanel.getMainFrame().getChessBoardPanel().repaint();
+								}
+							}
+		                });
+		        }
+		    }.run();
+		 // end doan code suu tam
 		}
 	}
 

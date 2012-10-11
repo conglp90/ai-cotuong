@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
 import control.Computer;
@@ -47,6 +48,7 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 	}
 	@Override
 	public void paint(Graphics g) {
+		System.out.println("Painted!!!");
 		if (!match.isActive()) {
 			drawWelcome(g);
 		} else if (match.isPause()) {
@@ -101,7 +103,7 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 						* Constant.length + 7, Constant.OY + h.getRow()
 						* Constant.length + 7, 25, 25, null);
 		}
-		repaint();
+		//repaint();
 	}
 
 	@Override
@@ -110,39 +112,8 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 		y = (e.getY() - Constant.OY) / Constant.length;
 		if (!match.isComPlayFirst()){
 		// x1,y1 la toa do select dong tho li hien o sang len
-		if (((x >= 0) && (x < 9)) && ((y >= 0) && (y < 10))) {
-			if (!selected) {
-				if (match.tablePos[y][x] < 0) {
-					piece = match.tablePos[y][x];
-					int side = 1;
-					if (y <= 4)
-						side = -1;
-					type = 1;
-					current = new ChessPosition(x, y, false);
-					posCanMove = match.pieceChess[type][Math.abs(piece)]
-							.getPosCanMove(current, match, side);
-					recentX = x;
-					recentY = y;
-					selected = true;
-				}
-			} else {
-				okXY = false;
-				for (int count = 0; count < posCanMove.size(); count++) {
-					ChessPosition pos = posCanMove.get(count);
-					if ((x == pos.getCol()) && (y == pos.getRow())) {
-						okXY = true;
-					}
-				}
-				if (okXY) {
-					piece = match.tablePos[y][x];
-					if ((piece == 0) ||(piece * match.tablePos[recentY][recentX] < 0)) {
-							match.tablePos[y][x] = match.tablePos[recentY][recentX];
-							match.tablePos[recentY][recentX] = 0;					
-							selected = false;
-							match.setComPlayFirst(true);
-					} 
-					posCanMove.clear();
-				} else {
+			if (((x >= 0) && (x < 9)) && ((y >= 0) && (y < 10))) {
+				if (!selected) {
 					if (match.tablePos[y][x] < 0) {
 						piece = match.tablePos[y][x];
 						int side = 1;
@@ -156,18 +127,66 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 						recentY = y;
 						selected = true;
 					}
-
+				} else {
+					okXY = false;
+					for (int count = 0; count < posCanMove.size(); count++) {
+						ChessPosition pos = posCanMove.get(count);
+						if ((x == pos.getCol()) && (y == pos.getRow())) {
+							okXY = true;
+						}
+					}
+					if (okXY) {
+						piece = match.tablePos[y][x];
+						if ((piece == 0) ||(piece * match.tablePos[recentY][recentX] < 0)) {
+								match.tablePos[y][x] = match.tablePos[recentY][recentX];
+								match.tablePos[recentY][recentX] = 0;					
+								selected = false;
+								match.setComPlayFirst(true);
+						} 
+						posCanMove.clear();
+					} else {
+						if (match.tablePos[y][x] < 0) {
+							piece = match.tablePos[y][x];
+							int side = 1;
+							if (y <= 4)
+								side = -1;
+							type = 1;
+							current = new ChessPosition(x, y, false);
+							posCanMove = match.pieceChess[type][Math.abs(piece)]
+									.getPosCanMove(current, match, side);
+							recentX = x;
+							recentY = y;
+							selected = true;
+						}
+	
+					}
 				}
-			}
-		}}
-		repaint();
-		
-		if (match.isComPlayFirst()){ 
-				com.thinking(0);
-				match.tryMove(Match.newMove);
-				match.setComPlayFirst(false);
 				repaint();
+			}
 		}
+		
+		// Sang Hero says: doan code nay suu tam tren mang, to cung chua hieu no lam
+		// to dang doc them ve Threads trong java, hy vong se hieu :)) 
+		// p/s: Computer xu li cham qua
+		new Thread() {
+	        public void run() {
+	            SwingUtilities.invokeLater(new Runnable() {
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							if (match.isComPlayFirst()){ 
+								com.thinking(0);
+								match.tryMove(match.newMove);
+								match.setComPlayFirst(false);
+								repaint();
+							}
+						}
+	                });
+	        }
+	    }.run();
+	    // end doan code suu tam
+		
+		
 	}
 
 	@Override
