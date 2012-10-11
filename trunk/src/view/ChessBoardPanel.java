@@ -102,11 +102,11 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		
+		if (!match.isFinish()){
 		int x = (e.getX() - Constant.OX) / Constant.length;
 		int y = (e.getY() - Constant.OY) / Constant.length;
+		System.out.println(Match.isFinish + " " + y + " " + x);
 		// x1,y1 la toa do select dong tho li hien o sang len
-		if (!Match.isFinish) {
 		if (((x >= 0) && (x < 9)) && ((y >= 0) && (y < 10))) {
 			if (!selected) {
 				if (match.tablePos[y][x] < 0) {
@@ -131,26 +131,27 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 					if ((x == pos.getCol()) && (y == pos.getRow())) {
 						okXY = true;
 					}
-					posCanMove.clear();
 				}
 				if (okXY) {
+					posCanMove.clear();
+					repaint();
 					piece = match.tablePos[y][x];
 					if ((piece == 0) ||(piece * match.tablePos[recentY][recentX] < 0)) {
+							System.out.println("dsfdsfd");
 							match.tablePos[y][x] = match.tablePos[recentY][recentX];
 							match.tablePos[recentY][recentX] = 0;
-							if (Match.tablePos[y][x] == 7) Match.isFinish = true;
+							if (match.tablePos[y][x] == 7) Match.isFinish = true;
 							System.out.println(Match.isFinish + " " + y + " " + x);
-							posCanMove.clear();
 							repaint();
 							selected = false;
 							com.thinking(0);
 							recentX = Match.newMove.getx();
 							recentY = Match.newMove.gety();
 							Match.tryMove(Match.newMove);
-							
 							repaint();
 							
-					} 
+					}
+					
 				} else {
 					if (match.tablePos[y][x] < 0) {
 						piece = match.tablePos[y][x];
@@ -171,7 +172,6 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 			}
 		}
 		}
-		
 	}
 
 	@Override
