@@ -14,6 +14,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JRadioButton;
 
+import control.Computer;
+
 import model.Constant;
 import model.Match;
 
@@ -188,7 +190,13 @@ public class MenuNewPanel extends MyPanel implements MouseListener, ActionListen
 				match.setPLayWithCom(false);
 			}
 			cardPanel.swapPanel("PlayMenu");
-			cardPanel.getMainFrame().getMatch().setActive(true);
+			match.setActive(true);
+			if (match.isComPlayFirst()) {
+				Computer com = new Computer();
+				com.thinking(0);
+				Match.tryMove(Match.newMove);
+				match.setComPlayFirst(false);
+			}
 			cardPanel.getMainFrame().getChessBoardPanel().repaint();
 		}
 	}
