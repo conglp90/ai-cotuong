@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
@@ -110,7 +111,8 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 	public void mouseClicked(MouseEvent e) {
 		x = (e.getX() - Constant.OX) / Constant.length;
 		y = (e.getY() - Constant.OY) / Constant.length;
-		if (!match.isComPlayFirst()){
+		System.out.println(match.isFinish());
+		if (!match.isComPlayFirst()&& !match.isFinish){
 		// x1,y1 la toa do select dong tho li hien o sang len
 			if (((x >= 0) && (x < 9)) && ((y >= 0) && (y < 10))) {
 				if (!selected) {
@@ -129,6 +131,7 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 					}
 				} else {
 					okXY = false;
+					System.out.println(posCanMove.size());
 					for (int count = 0; count < posCanMove.size(); count++) {
 						ChessPosition pos = posCanMove.get(count);
 						if ((x == pos.getCol()) && (y == pos.getRow())) {
@@ -138,6 +141,10 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 					if (okXY) {
 						piece = match.tablePos[y][x];
 						if ((piece == 0) ||(piece * match.tablePos[recentY][recentX] < 0)) {
+								if (match.tablePos[y][x]==7){
+									match.setFinish(true);
+									showDlg();//hien thong bao nguoi thang
+								}
 								match.tablePos[y][x] = match.tablePos[recentY][recentX];
 								match.tablePos[recentY][recentX] = 0;					
 								selected = false;
@@ -164,10 +171,12 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 				repaint();
 			}
 		}
+		repaint();
 		
 		// Sang Hero says: doan code nay suu tam tren mang, to cung chua hieu no lam
 		// to dang doc them ve Threads trong java, hy vong se hieu :)) 
 		// p/s: Computer xu li cham qua
+		if (!match.isFinish())
 		new Thread() {
 	        public void run() {
 	            SwingUtilities.invokeLater(new Runnable() {
@@ -176,6 +185,10 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 							// TODO Auto-generated method stub
 							if (match.isComPlayFirst()){ 
 								com.thinking(0);
+								if (Math.abs(match.tablePos[match.newMove.getyy()][match.newMove.getxx()])==7){
+									match.setFinish(true);
+									showDlg1();//hien thong bao may thang
+								}
 								match.tryMove(match.newMove);
 								match.setComPlayFirst(false);
 								repaint();
@@ -188,7 +201,18 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 		
 		
 	}
-
+	public void showDlg(){
+		if (JOptionPane.showConfirmDialog(this,"Ban Co Muon Thoat Game?","You Win",
+				JOptionPane.CANCEL_OPTION)==JOptionPane.OK_OPTION){
+					System.exit(0);
+				}
+	}
+	public void showDlg1(){
+		if (JOptionPane.showConfirmDialog(this,"Ban Co Muon Thoat Game?","Com Win",
+				JOptionPane.CANCEL_OPTION)==JOptionPane.OK_OPTION){
+					System.exit(0);
+				}
+	}
 	@Override
 	public void mouseEntered(MouseEvent e) {
 
