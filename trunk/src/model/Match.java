@@ -35,8 +35,8 @@ public class Match {
 	public final Image imgDiduoc = new ImageIcon(Constant.CHESS_DIR+"/diduoc.png").getImage();
 	public final Image imgAnduoc = new ImageIcon(Constant.CHESS_DIR+"/anduoc.png").getImage();
 	private int level = 0;
-	private boolean isFinish = false;
-	private boolean isActive = false;
+	public static boolean isFinish = false;
+	private static boolean isActive = false;
 	private boolean isPause = false;
 
 	private boolean isPlayWithCom = true;
@@ -150,5 +150,67 @@ public class Match {
         	Logger.getLogger(Match.class.getName()).log(Level.SEVERE,null,e);
         }
 	}
-
+	public static void initChess(){
+		count[0]=0;count[1]=0;
+		for (int i=0 ; i<=9 ; i++)
+			for (int j=0 ; j<=8 ; j++){
+				int piece = tablePos[i][j];
+				if (piece > 0 ) {
+					//quan phia 0--4
+					count[0]++;
+					status[i][j]= count[0];
+					boolean passriver = false;
+					if ((piece == 1) && (i>=5)) passriver = true; 
+					Chess[0][count[0]] = new Position(j,i,piece,passriver,true);
+				}
+				if (piece < 0) {
+					count[1]++;
+					status[i][j] = count[1];
+					boolean passriver = false;
+					if ((piece==-1) &&( i<=4)) passriver = true;
+					Chess[1][count[1]] = new Position(j,i,-piece,passriver,true);
+				}
+			}
+	}
+	public static void   tryMove(MoveInfo nmove){
+		int x = nmove.getx(), y = nmove.gety(),
+		xx = nmove.getxx(), yy= nmove.getyy(),
+		id = nmove.getId(),
+		piece = nmove.getpiece(),
+		cur = tablePos[y][x];
+		
+		if (Math.abs(tablePos[yy][xx])==7) isFinish = true;
+		//Mark died chess
+		if (piece > 0) Chess[0][id].setIsAlive(false);
+		if (piece < 0) Chess[1][id].setIsAlive(false);
+		//Mark pawn has passed river
+		if (cur == 1 && yy >=5 ) Chess[0][status[y][x]].setIsPassed(true);
+		if (cur == -1 && yy <=4 ) Chess[1][status[y][x]].setIsPassed(true);
+		//update status[][]
+		status[yy][xx] = status[y][x];
+		status[y][x] = 0;
+		//update tablePos[][]
+		tablePos[yy][xx] = tablePos[y][x];
+		tablePos[y][x] = 0;
+	}
+	public static void   undoMove(MoveInfo nmove){
+		int x= nmove.getx(), y = nmove.gety(),
+			xx = nmove.getxx(), yy= nmove.getyy(),
+			piece = nmove.getpiece(),
+			id = nmove.getId(),
+			cur = tablePos[y][x];
+		if (Math.abs(piece)==7) isFinish = false;
+		//update alive attribute
+		if (piece > 0) Chess[0][id].setIsAlive(true);
+		if (piece < 0) Chess[1][id].setIsAlive(true);
+		//update passriver
+		if (cur == 1 && y <=4 ) Chess[0][status[y][x]].setIsPassed(false);
+		if (cur == -1 && y >=5 ) Chess[1][status[y][x]].setIsPassed(false);
+		//update status[][]
+		status[y][x] = status[yy][xx];
+		status[yy][xx] = id;
+		//update tablePos[][]
+		tablePos[y][x] = tablePos[yy][xx];
+		tablePos[yy][xx] = piece;
+	}
 }
