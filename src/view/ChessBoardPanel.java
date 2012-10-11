@@ -20,7 +20,7 @@ import model.*;
 
 public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 		MouseListener {
-	private int recentX = -1, recentY = -1, piece = 0, type = 0,x1=-1,y1=-1,x2=-1,y2=-1;
+	private int recentX = -1, recentY = -1, piece = 0, type = 0,x=-1,y=-1;
 	private static final long serialVersionUID = 1L;
 	private boolean selected = false, okXY = false,ok=true;
 	// private boolean ok=MenuNewPanel.dichuyen;
@@ -41,9 +41,10 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 				Constant.MAIN_HEIGHT));
 		add(new JLabel("Chess"));
 		addMouseListener(this);
-		// System.out.println(ok);
 	}
-
+	public void NguoiDi(){
+		
+	}
 	@Override
 	public void paint(Graphics g) {
 		if (!match.isActive()) {
@@ -105,9 +106,9 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		if (ok){
-		int x = (e.getX() - Constant.OX) / Constant.length;
-		int y = (e.getY() - Constant.OY) / Constant.length;
+		x = (e.getX() - Constant.OX) / Constant.length;
+		y = (e.getY() - Constant.OY) / Constant.length;
+		if (!match.isComPlayFirst()){
 		// x1,y1 la toa do select dong tho li hien o sang len
 		if (((x >= 0) && (x < 9)) && ((y >= 0) && (y < 10))) {
 			if (!selected) {
@@ -138,7 +139,7 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 							match.tablePos[y][x] = match.tablePos[recentY][recentX];
 							match.tablePos[recentY][recentX] = 0;					
 							selected = false;
-							ok=false;
+							match.setComPlayFirst(true);
 					} 
 					posCanMove.clear();
 				} else {
@@ -160,11 +161,11 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 			}
 		}}
 		else
-		if (!ok){
-			com.thinking(0);
-			com.tryMove(Match.newMove);
-			ok=true;
-		}
+			if (match.isComPlayFirst()){ 
+				com.thinking(0);
+				com.tryMove(Match.newMove);
+				match.setComPlayFirst(false);
+			}
 	}
 
 	@Override
