@@ -209,6 +209,10 @@ public class MenuNewPanel extends MyPanel implements MouseListener, ActionListen
 									com.thinking(0);
 									Match.tryMove(Match.newMove);
 									match.setComPlayFirst(false);
+									match.setX1(match.newMove.getx());
+									match.setY1(match.newMove.gety());
+									match.setX2(match.newMove.getxx());
+									match.setY2(match.newMove.getyy());
 									cardPanel.getMainFrame().getChessBoardPanel().repaint();
 								}
 							}
