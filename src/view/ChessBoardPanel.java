@@ -44,12 +44,8 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 		add(new JLabel("Chess"));
 		addMouseListener(this);
 	}
-	public void NguoiDi(){
-		
-	}
 	@Override
 	public void paint(Graphics g) {
-		System.out.println("Painted!!!");
 		if (!match.isActive()) {
 			drawWelcome(g);
 		} else if (match.isPause()) {
@@ -90,6 +86,12 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 							Constant.OX + j * Constant.length, Constant.OY + i
 									* Constant.length, 42, 42, null);
 				}
+				g.drawImage(match.imgSelect, Constant.OX + Constant.length
+						* match.getX1(), Constant.OY + Constant.length * match.getY1(), 42, 42,
+						null);
+				g.drawImage(match.imgSelect, Constant.OX + Constant.length
+						* match.getX2(), Constant.OY + Constant.length * match.getY2(), 42, 42,
+						null);
 			}
 		for (ChessPosition h : posCanMove) {
 			g.drawImage(match.imgSelect, Constant.OX + Constant.length
@@ -111,7 +113,6 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 	public void mouseClicked(MouseEvent e) {
 		x = (e.getX() - Constant.OX) / Constant.length;
 		y = (e.getY() - Constant.OY) / Constant.length;
-		System.out.println(match.isFinish());
 		if (!match.isComPlayFirst()&& !match.isFinish){
 		// x1,y1 la toa do select dong tho li hien o sang len
 			if (((x >= 0) && (x < 9)) && ((y >= 0) && (y < 10))) {
@@ -131,7 +132,6 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 					}
 				} else {
 					okXY = false;
-					System.out.println(posCanMove.size());
 					for (int count = 0; count < posCanMove.size(); count++) {
 						ChessPosition pos = posCanMove.get(count);
 						if ((x == pos.getCol()) && (y == pos.getRow())) {
@@ -191,6 +191,11 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 								}
 								match.tryMove(match.newMove);
 								match.setComPlayFirst(false);
+								//x1,y1,x2,y2 toa do can select khi maydi
+								match.setX1(match.newMove.getx());
+								match.setY1(match.newMove.gety());
+								match.setX2(match.newMove.getxx());
+								match.setY2(match.newMove.getyy());
 								repaint();
 							}
 						}

@@ -21,6 +21,7 @@ public class MainFrame extends JFrame {
 
 	public MainFrame() {
 		getContentPane().setBackground(Color.BLACK);
+		setUndecorated(true);
 		setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
 		getContentPane().setPreferredSize(new Dimension(Constant.MAIN_WIDTH, Constant.MAIN_HEIGHT));
 		
