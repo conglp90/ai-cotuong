@@ -41,7 +41,7 @@ public class Match {
 	public static boolean isFinish = false;
 	private static boolean isActive = false;
 	private boolean isPause = false;
-
+	private int x1=-1,x2=-1,y1=-1,y2=-1;
 	private boolean isPlayWithCom = true;
 	private boolean isComPlayFirst = false;
 	ChessBoardPanel ches;
@@ -128,9 +128,36 @@ public class Match {
 	public void setLevel(int num) {
 		this.level = num;
 	}
-	
-	public static void LoadMap(){
-        int x=0,y=0;  
+	public void setX1(int x1){
+		this.x1=x1;
+	}
+	public int getX1(){
+		return x1;
+	}
+	public void setY1(int y1){
+		this.y1=y1;
+	}
+	public int getY1(){
+		return y1;
+	}
+	public void setX2(int x2){
+		this.x2=x2;
+	}
+	public int getX2(){
+		return x2;
+	}
+	public void setY2(int y2){
+		this.y2=y2;
+	}
+	public int getY2(){
+		return y2;
+	}
+	public void LoadMap(){
+        int x=0,y=0;
+        setX1(-1);
+        setY1(-1);
+        setY2(-1);
+        setX2(-1);
         tablePos=new int[10][9];
         fi = new File(Constant.MAP_DIR+"/map.txt");
         try {
