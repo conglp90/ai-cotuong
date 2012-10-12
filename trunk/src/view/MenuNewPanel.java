@@ -30,7 +30,7 @@ public class MenuNewPanel extends MyPanel implements MouseListener, ActionListen
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	Match match;
+	Match match=new Match();
 	// cac nut dieu khien
 	private MyLabelButton lbBackHome, lbOk;
 
@@ -61,6 +61,7 @@ public class MenuNewPanel extends MyPanel implements MouseListener, ActionListen
 	public MenuNewPanel(MenuPanel mp) {
 		// TODO Auto-generated constructor stub
 		super(mp);
+		match.LoadMap();
 		match = cardPanel.getMainFrame().getMatch();
 		loadImage();
 		initLabel();

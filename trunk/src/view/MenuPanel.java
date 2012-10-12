@@ -14,7 +14,7 @@ public class MenuPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	private final Dimension menuDim = new Dimension(Constant.MAIN_WIDTH
-			- Constant.BOARD_WIDTH - 30, Constant.MAIN_HEIGHT); // kich thuoc khung menu
+			- Constant.BOARD_WIDTH, Constant.MAIN_HEIGHT); // kich thuoc khung menu
 
 	private CardLayout card = new CardLayout(0, 0);
 
