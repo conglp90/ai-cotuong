@@ -12,28 +12,33 @@ public class MoveInfo {
 	private int y;
 	private int xx;
 	private int yy;
-	private int id;
+	private int from_id;
+	private int to_id;
 	private int piece;
-	private float cost;
+	private int cost;
 	public MoveInfo(){
 		
 	}
-	public MoveInfo(int x,int y,int xx, int yy,int piece,int id){
+	public MoveInfo(int x,int y,int xx, int yy,int piece,int from_id,int to_id){
 		this.x = x;
 		this.y = y;
 		this.xx  = xx;
 		this.yy = yy;
 		this.piece = piece;
-		this.id = id;
+		this.from_id = from_id;
+		this.to_id = to_id;
 	}
-	public void setCost(float X){
+	public void setCost(int X){
 		this.cost = X;
 	}
-	public float getCost(){
+	public int getCost(){
 		return this.cost;
 	}
-	public int getId(){
-		return this.id;
+	public int getfromId(){
+		return this.from_id;
+	}
+	public int gettoId(){
+		return this.to_id;
 	}
 	public int getxx(){
 		return this.xx;

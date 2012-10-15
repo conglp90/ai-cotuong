@@ -188,6 +188,7 @@ public class Match {
 		count[0]=0;count[1]=0;
 		for (int i=0 ; i<=9 ; i++)
 			for (int j=0 ; j<=8 ; j++){
+				status[i][j]=0;
 				int piece = tablePos[i][j];
 				if (piece > 0 ) {
 					//quan phia 0--4
@@ -209,19 +210,26 @@ public class Match {
 	public static void   tryMove(MoveInfo nmove){
 		int x = nmove.getx(), y = nmove.gety(),
 		xx = nmove.getxx(), yy= nmove.getyy(),
-		id = nmove.getId(),
+		toid = nmove.gettoId(),
+		fromid = nmove.getfromId(),
 		piece = nmove.getpiece(),
 		cur = tablePos[y][x];
+		//update chess[][]
+		System.out.println(fromid+" "+ x +" "+ y +" "+cur+" "+piece);
+		int type = 1;
+		if (cur > 0) type = 0;
+		Chess[type][fromid].setX(xx);
+		Chess[type][fromid].setY(yy);
 		//Mark died king
 		if (Math.abs(piece) == 7) isFinish = true;
 		//Mark died chess
-		if (piece > 0) Chess[0][id].setIsAlive(false);
-		if (piece < 0) Chess[1][id].setIsAlive(false);
+		if (piece > 0) Chess[0][toid].setIsAlive(false);
+		if (piece < 0) Chess[1][toid].setIsAlive(false);
 		//Mark pawn has passed river
 		if (cur == 1 && yy >=5 ) Chess[0][status[y][x]].setIsPassed(true);
 		if (cur == -1 && yy <=4 ) Chess[1][status[y][x]].setIsPassed(true);
 		//update status[][]
-		status[yy][xx] = status[y][x];
+		status[yy][xx] = fromid;
 		status[y][x] = 0;
 		//update tablePos[][]
 		tablePos[yy][xx] = tablePos[y][x];
@@ -231,18 +239,37 @@ public class Match {
 		int x= nmove.getx(), y = nmove.gety(),
 			xx = nmove.getxx(), yy= nmove.getyy(),
 			piece = nmove.getpiece(),
-			id = nmove.getId(),
+			fromid = nmove.getfromId(),
+			toid = nmove.gettoId(),
 			cur = tablePos[y][x];
 		if (Math.abs(piece)==7) isFinish = false;
+		//update chess
 		//update alive attribute
-		if (piece > 0) Chess[0][id].setIsAlive(true);
-		if (piece < 0) Chess[1][id].setIsAlive(true);
+		if (cur > 0){
+			Chess[0][fromid].setX(x);
+			Chess[0][fromid].setY(y);
+		} else{
+			Chess[1][fromid].setX(x);
+			Chess[1][fromid].setY(y);
+		}
+			
+		if (piece > 0){
+			Chess[0][toid].setIsAlive(true);
+			Chess[0][toid].setX(xx);
+			Chess[0][toid].setY(yy);
+			
+		} else
+		if (piece < 0) {
+			Chess[1][toid].setIsAlive(true);
+			Chess[1][toid].setX(xx);
+			Chess[1][toid].setY(yy);
+		}
 		//update passriver
-		if (cur == 1 && y <=4 ) Chess[0][id].setIsPassed(false);
-		if (cur == -1 && y >=5 ) Chess[1][id].setIsPassed(false);
+		if (cur == 1 && y <=4 ) Chess[0][toid].setIsPassed(false);
+		if (cur == -1 && y >=5 ) Chess[1][toid].setIsPassed(false);
 		//update status[][]
-		status[y][x] = status[yy][xx];
-		status[yy][xx] = id;
+		status[y][x] = fromid;
+		status[yy][xx] = toid;
 		//update tablePos[][]
 		tablePos[y][x] = tablePos[yy][xx];
 		tablePos[yy][xx] = piece;
@@ -262,7 +289,13 @@ public class Match {
 				current = new ChessPosition(x, y, false);
 				posCanMove = pieceChess[type][piece].getPosCanMove(current,type);
 				for (ChessPosition pos : posCanMove) {
-					MoveInfo nMove = new MoveInfo(x,y,pos.getCol(),pos.getRow(),Match.tablePos[pos.getRow()][pos.getCol()],Match.status[pos.getRow()][pos.getCol()]);
+					int fromid = status[y][x];
+					if (fromid !=0) {
+					int yy = pos.getRow();
+					int xx = pos.getCol();
+					int toid = status[yy][xx];
+					int pi = tablePos[yy][xx];
+					MoveInfo nMove = new MoveInfo(x,y,xx,yy,pi,fromid,toid);
 					tryMove(nMove);
 					nMove.setCost(master.Eval());
 					undoMove(nMove);
@@ -278,7 +311,7 @@ public class Match {
 						if (tmp.getCost() >= nMove.getCost()) first = mid +1;
 					}
 					arr.add(mid,nMove);
-					
+					}
 				}
 			
 			}
