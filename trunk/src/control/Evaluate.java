@@ -118,10 +118,9 @@ public class Evaluate {
 				int y = 9-Match.Chess[0][i].getY();
 				int piece = Match.Chess[0][i].getPiece();
 				int value = PosValue[piece][y][x];
-				float temp = Match.Chess[0][i].getValue();
+				int temp = Match.Chess[0][i].getValue();
 				temp = temp + value;
 				Match.Chess[0][i].setValue(temp);
-				System.out.println(x+" "+ y+" "+piece+" "+ temp+" "+ Match.Chess[0][i].getValue());
 			}
 				
 		for (int i = 1; i <= Match.count[1]; i++)
@@ -130,7 +129,7 @@ public class Evaluate {
 				int y = Match.Chess[1][i].getY();
 				int piece = Match.Chess[1][i].getPiece();
 				int value = PosValue[piece][y][x];
-				float temp = Match.Chess[1][i].getValue();
+				int temp = Match.Chess[1][i].getValue();
 				temp = temp + value;
 				Match.Chess[1][i].setValue(temp);
 			}
@@ -143,7 +142,7 @@ public class Evaluate {
 				int x = Match.Chess[0][i].getX();
 				int y = Match.Chess[0][i].getY();
 				int piece = Match.Chess[0][i].getPiece();
-				float temp = Match.Chess[0][i].getValue();
+				int temp = Match.Chess[0][i].getValue();
 				List <ChessPosition> posCanMove = new ArrayList<ChessPosition>();
 				ChessPosition current = new ChessPosition(x,y,false);
 				posCanMove = Match.pieceChess[0][piece].getTargetPos(current, 0);
@@ -151,7 +150,7 @@ public class Evaluate {
 					int xx = pos.getCol();
 					int yy = pos.getRow();
 					int p  = Math.abs(Match.tablePos[yy][xx]);
-					float ltemp = temp + CurValue[p]/16;
+					int ltemp = temp + CurValue[p]/16;
 					Match.Chess[0][i].setValue(ltemp);
 				}
 			}
@@ -160,7 +159,7 @@ public class Evaluate {
 				int x = Match.Chess[1][i].getX();
 				int y = Match.Chess[1][i].getY();
 				int piece = Match.Chess[1][i].getPiece();
-				float temp = Match.Chess[1][i].getValue();
+				int temp = Match.Chess[1][i].getValue();
 				List <ChessPosition> posCanMove = new ArrayList<ChessPosition>();
 				ChessPosition current = new ChessPosition(x,y,false);
 				posCanMove = Match.pieceChess[1][piece].getTargetPos(current, 0);
@@ -168,7 +167,7 @@ public class Evaluate {
 					int xx = pos.getCol();
 					int yy = pos.getRow();
 					int p  = Math.abs(Match.tablePos[yy][xx]);
-					float ltemp = temp + CurValue[p]/16;
+					int ltemp = temp + CurValue[p]/16;
 					Match.Chess[1][i].setValue(ltemp);
 				}
 			}
@@ -208,14 +207,14 @@ public class Evaluate {
 		}
 	}
 
-	public float Eval() {
+	public int Eval() {
 		IsEndGame();
 		InitValue();
 		PieceValue();
 		PositionValue();
 		//RelationValue();
-		float res0 = 0;
-		float res1 = 0;
+		int res0 = 0;
+		int res1 = 0;
 		for (int i=1 ; i<=Match.count[0] ; i++){
 			if (Match.Chess[0][i].getIsAlive())
 			res0 = res0 + Match.Chess[0][i].getValue();

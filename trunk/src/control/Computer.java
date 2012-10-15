@@ -14,15 +14,14 @@ public class Computer {
 	Evaluate master = new Evaluate();
 
 	
-	public float alphaBeta(float alpha, float beta ,int depth , int type){
-		float value = 0;
+	public int alphaBeta(int alpha, int beta ,int depth , int type){
+		int value = 0;
 		if (depth == 0) return master.Eval();
-		float best = -Constant.INFINITY-1;
+		int best = -Constant.INFINITY-1;
 		List <MoveInfo> arr = new ArrayList<MoveInfo>();
 		arr = match.GetOrderedMoves(type);
 		for (MoveInfo move : arr){
 				Match.tryMove(move);
-				
 				value = -alphaBeta(-beta,-alpha,depth - 1, 1 - type);
 				if (move.getpiece() == -7) System.out.println(value+" "+best+" "+depth);
 				Match.undoMove(move);
@@ -41,22 +40,32 @@ public class Computer {
 		Match.initChess();
 		/*
 		Evaluate master = new Evaluate();
-		master.Eval();
-		System.out.println(master.PosValue[5][3][4]);
 		List <MoveInfo> arr = new ArrayList<MoveInfo>();
-	
 		arr = match.GetOrderedMoves(type);
 		for (MoveInfo move : arr){
-			System.out.println(move.getx()+" " + move.gety()+" "+ move.getxx() +" "+move.getyy() +" " + move.getCost());
+			System.out.println("*"+move.getx()+" " + move.gety()+" "+ move.getxx() +" "+move.getyy() +" " + move.getCost());
 		}
-		
+		Match.initChess();
 		System.out.println("fds");
-		Match.tryMove(arr.get(24));
-		float s = master.Eval();
+		Match.tryMove(arr.get(3));
+		for (int i=0 ; i<=9 ; i++){
+			for (int j=0 ; j<=8; j++)
+				System.out.print(Match.tablePos[i][j]+"  ");
+			System.out.println();
+		}
+		int s = master.Eval();
 		System.out.println(s);
-		Match.undoMove(arr.get(24));
+		for (int i=1 ; i<=Match.count[0] ; i++){
+			if (Match.Chess[0][i].getIsAlive())
+			System.out.println(Match.Chess[0][i].getX()+" "+Match.Chess[0][i].getY()+" "+Match.Chess[0][i].getPiece()+" "+Match.Chess[0][i].getPiece()+" "+Match.Chess[0][i].getValue());
+		}
+		for (int i=1 ; i<=Match.count[1] ; i++){
+			if (Match.Chess[1][i].getIsAlive())
+				System.out.println(Match.Chess[1][i].getX()+" "+Match.Chess[1][i].getY()+" "+Match.Chess[1][i].getPiece()+" "+Match.Chess[1][i].getPiece()+" "+Match.Chess[1][i].getValue());
+		}
+		Match.undoMove(arr.get(3));
 		*/
-		alphaBeta(-Constant.INFINITY,Constant.INFINITY,Constant.Depth,type);
+	alphaBeta(-Constant.INFINITY,Constant.INFINITY,Constant.Depth,type);
 		
 	}
 }
