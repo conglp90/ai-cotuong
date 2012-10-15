@@ -23,12 +23,13 @@ public class Computer {
 		for (MoveInfo move : arr){
 				Match.tryMove(move);
 				value = -alphaBeta(-beta,-alpha,depth - 1, 1 - type);
-				if (move.getpiece() == -7) System.out.println(value+" "+best+" "+depth);
+				//if (move.getpiece() == -7) System.out.println(value+" "+best+" "+depth);
 				Match.undoMove(move);
 				if (value > best) {
 					best = value;
 					if (depth == Constant.Depth){
 						Match.newMove = move;
+						System.out.println(move.getx()+" "+move.gety()+" "+ best);
 					} 
 				}
 				if (best > alpha) alpha = best;
