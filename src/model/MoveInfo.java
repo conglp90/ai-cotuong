@@ -14,6 +14,10 @@ public class MoveInfo {
 	private int yy;
 	private int id;
 	private int piece;
+	private float cost;
+	public MoveInfo(){
+		
+	}
 	public MoveInfo(int x,int y,int xx, int yy,int piece,int id){
 		this.x = x;
 		this.y = y;
@@ -22,7 +26,12 @@ public class MoveInfo {
 		this.piece = piece;
 		this.id = id;
 	}
-	
+	public void setCost(float X){
+		this.cost = X;
+	}
+	public float getCost(){
+		return this.cost;
+	}
 	public int getId(){
 		return this.id;
 	}

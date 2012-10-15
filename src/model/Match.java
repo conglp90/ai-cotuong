@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -13,6 +15,7 @@ import javax.swing.JOptionPane;
 
 import view.ChessBoardPanel;
 
+import control.Evaluate;
 import control.Position;
 
 import model.chess.Advisor;
@@ -25,7 +28,7 @@ import model.chess.Pawn;
 import model.chess.Rook;
 
 public class Match {
-	public final Chess[][] pieceChess;
+	public static  Chess[][] pieceChess;
 	public static Position Chess[][] = new Position[2][17];
 	public static int  count[] = new int[2];
 	public static int  status[][]=new int[10][10];
@@ -209,6 +212,8 @@ public class Match {
 		id = nmove.getId(),
 		piece = nmove.getpiece(),
 		cur = tablePos[y][x];
+		//Mark died king
+		if (Math.abs(piece) == 7) isFinish = true;
 		//Mark died chess
 		if (piece > 0) Chess[0][id].setIsAlive(false);
 		if (piece < 0) Chess[1][id].setIsAlive(false);
@@ -233,13 +238,52 @@ public class Match {
 		if (piece > 0) Chess[0][id].setIsAlive(true);
 		if (piece < 0) Chess[1][id].setIsAlive(true);
 		//update passriver
-		if (cur == 1 && y <=4 ) Chess[0][status[y][x]].setIsPassed(false);
-		if (cur == -1 && y >=5 ) Chess[1][status[y][x]].setIsPassed(false);
+		if (cur == 1 && y <=4 ) Chess[0][id].setIsPassed(false);
+		if (cur == -1 && y >=5 ) Chess[1][id].setIsPassed(false);
 		//update status[][]
 		status[y][x] = status[yy][xx];
 		status[yy][xx] = id;
 		//update tablePos[][]
 		tablePos[y][x] = tablePos[yy][xx];
 		tablePos[yy][xx] = piece;
+	}
+	public   List <MoveInfo> GetOrderedMoves(int type){
+		Evaluate master = new Evaluate();
+		int piece,x,y;
+		ChessPosition current;
+		List <MoveInfo> arr = new ArrayList<MoveInfo>();
+		List <ChessPosition> posCanMove = new ArrayList<ChessPosition>();
+		
+		for (int i=1 ; i <= Match.count[type]; i++){
+			if (Match.Chess[type][i].getIsAlive()){
+				piece = Match.Chess[type][i].getPiece();
+				x = Chess[type][i].getX();
+				y = Chess[type][i].getY();
+				current = new ChessPosition(x, y, false);
+				posCanMove = pieceChess[type][piece].getPosCanMove(current,type);
+				for (ChessPosition pos : posCanMove) {
+					MoveInfo nMove = new MoveInfo(x,y,pos.getCol(),pos.getRow(),Match.tablePos[pos.getRow()][pos.getCol()],Match.status[pos.getRow()][pos.getCol()]);
+					tryMove(nMove);
+					nMove.setCost(master.Eval());
+					undoMove(nMove);
+					/*
+					 * Chen nMove vao vi tri trong mang arr, sap xep giam dan
+					 */
+					int first = 0; int last = arr.size()-1;int mid = 0; 
+					while (first < last) {
+						mid = (first + last) / 2;
+						MoveInfo tmp;
+						tmp = arr.get(mid);
+						if (tmp.getCost() < nMove.getCost()) last = mid -1;
+						if (tmp.getCost() >= nMove.getCost()) first = mid +1;
+					}
+					arr.add(mid,nMove);
+					
+				}
+			
+			}
+		}
+		
+		return arr;
 	}
 }
