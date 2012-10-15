@@ -290,7 +290,6 @@ public class Match {
 				posCanMove = pieceChess[type][piece].getPosCanMove(current,type);
 				for (ChessPosition pos : posCanMove) {
 					int fromid = status[y][x];
-					if (fromid !=0) {
 					int yy = pos.getRow();
 					int xx = pos.getCol();
 					int toid = status[yy][xx];
@@ -311,7 +310,7 @@ public class Match {
 						if (tmp.getCost() >= nMove.getCost()) first = mid +1;
 					}
 					arr.add(mid,nMove);
-					}
+					
 				}
 			
 			}
