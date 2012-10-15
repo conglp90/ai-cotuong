@@ -14,6 +14,7 @@ public abstract class Chess {
 	private Image shape;
 	boolean died =false;
 	
+	
 	public Chess(String img, int row, int col) {
 		this.row = row;
 		this.col = col;
@@ -57,5 +58,6 @@ public abstract class Chess {
 	}
 	
 	// tra ve mang chua vi tri 
-	public abstract List<ChessPosition> getPosCanMove(ChessPosition current, Match match,int side);
+	public abstract List<ChessPosition> getPosCanMove(ChessPosition current,int side);
+	public abstract List<ChessPosition> getTargetPos(ChessPosition current,int side);
 }

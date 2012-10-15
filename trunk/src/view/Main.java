@@ -8,7 +8,7 @@ public class Main {
         MainFrame f = new MainFrame();
         f.pack();
         f.setSize(Constant.MAIN_WIDTH,Constant.MAIN_HEIGHT);
-        f.setLocation(200, 2);
+        f.setLocation(Constant.LOCATEX, Constant.LOCATEY);
         f.setVisible(true);
         f.setResizable(false);
     }

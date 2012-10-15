@@ -12,6 +12,7 @@ public class Position {
 	private int y;
 	private int piece;
 	private int type;
+	private float value;
 	private boolean isAlive;
 	private boolean isPassed;
 	private boolean isChecked;
@@ -33,6 +34,12 @@ public class Position {
 	}
 	public void setIsPassed(boolean isPassed){
 		this.isPassed = isPassed;
+	}
+	public float getValue(){
+		return this.value;
+	}
+	public void setValue(float X){
+		this.value = X;
 	}
 	public int getY(){
 		return this.y;

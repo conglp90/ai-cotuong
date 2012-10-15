@@ -125,7 +125,7 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 						type = 1;
 						current = new ChessPosition(x, y, false);
 						posCanMove = match.pieceChess[type][Math.abs(piece)]
-								.getPosCanMove(current, match, side);
+								.getPosCanMove(current, side);
 						recentX = x;
 						recentY = y;
 						selected = true;
@@ -160,7 +160,7 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 							type = 1;
 							current = new ChessPosition(x, y, false);
 							posCanMove = match.pieceChess[type][Math.abs(piece)]
-									.getPosCanMove(current, match, side);
+									.getPosCanMove(current,  side);
 							recentX = x;
 							recentY = y;
 							selected = true;

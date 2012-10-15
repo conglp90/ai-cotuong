@@ -12,11 +12,11 @@ public class Pawn extends Chess {
 		// TODO Auto-generated constructor stub
 		super(img, row, col);
 	}
-	private boolean CheckPassRiver(ChessPosition current, Match match, int side) {
-		if (side * match.tablePos[current.getRow()][current.getCol()] < 0) return true;
+	private boolean CheckPassRiver(ChessPosition current,  int side) {
+		if (side * Match.tablePos[current.getRow()][current.getCol()] < 0) return true;
 		return false ; 
 	}
-	public List <ChessPosition> getPosCanMove(ChessPosition current, Match match , int side) {
+	public List <ChessPosition> getPosCanMove(ChessPosition current,  int side) {
 		List <ChessPosition> pos = new ArrayList<ChessPosition>();
 		ChessPosition CpTemp ;
 		int x,y,value,omg,tmpX,tmpY;
@@ -24,13 +24,13 @@ public class Pawn extends Chess {
 		y = current.getRow() ;
 		if (y <= 4 )  omg = 1 ; 
 		 else omg = -1;
-		passedRiver = CheckPassRiver(current,match,omg);
-		value = match.tablePos[y][x];
+		passedRiver = CheckPassRiver(current,omg);
+		value = Match.tablePos[y][x];
 		if (passedRiver) {
 			tmpX = x;
 			tmpY = y - omg;
-			if ((tmpY >= 0)&&(tmpY<=9)&&((match.tablePos[tmpY][tmpX]==0)||(match.tablePos[tmpY][tmpX] * value < 0))) {
-				if (match.tablePos[tmpY][tmpX]*value < 0) {
+			if ((tmpY >= 0)&&(tmpY<=9)&&((Match.tablePos[tmpY][tmpX]==0)||(Match.tablePos[tmpY][tmpX] * value < 0))) {
+				if (Match.tablePos[tmpY][tmpX]*value < 0) {
 					CpTemp = new ChessPosition(tmpX,tmpY,true);
 				} else {
 					CpTemp = new ChessPosition(tmpX,tmpY,false);
@@ -39,9 +39,9 @@ public class Pawn extends Chess {
 			}
 			tmpX = x-1;
 			tmpY = y;
-			if ((tmpX >= 0)&&((match.tablePos[tmpY][tmpX]==0)||(match.tablePos[tmpY][tmpX] * value < 0))) {
+			if ((tmpX >= 0)&&((Match.tablePos[tmpY][tmpX]==0)||(Match.tablePos[tmpY][tmpX] * value < 0))) {
 				
-				if (match.tablePos[tmpY][tmpX] * value < 0) {
+				if (Match.tablePos[tmpY][tmpX] * value < 0) {
 					CpTemp = new ChessPosition(tmpX,tmpY,true);
 				} else {
 					CpTemp = new ChessPosition(tmpX,tmpY,false);
@@ -51,8 +51,8 @@ public class Pawn extends Chess {
 			
 			tmpX = x+1;
 			tmpY = y;
-			if ((tmpX <= 8)&&((match.tablePos[tmpY][tmpX]==0)||(match.tablePos[tmpY][tmpX] * value < 0))) {
-				if (match.tablePos[tmpY][tmpX]*value < 0) {
+			if ((tmpX <= 8)&&((Match.tablePos[tmpY][tmpX]==0)||(Match.tablePos[tmpY][tmpX] * value < 0))) {
+				if (Match.tablePos[tmpY][tmpX]*value < 0) {
 					CpTemp = new ChessPosition(tmpX,tmpY,true);
 				} else {
 					CpTemp = new ChessPosition(tmpX,tmpY,false);
@@ -62,8 +62,67 @@ public class Pawn extends Chess {
 		} else {
 			tmpX = x;
 			tmpY = y + omg;
-			if ((tmpY >= 0)&&((match.tablePos[tmpY][tmpX]==0)||(match.tablePos[tmpY][tmpX] * value < 0))) {
-				if (match.tablePos[tmpY][tmpX]*value < 0) {
+			if ((tmpY >= 0)&&((Match.tablePos[tmpY][tmpX]==0)||(Match.tablePos[tmpY][tmpX] * value < 0))) {
+				if (Match.tablePos[tmpY][tmpX]*value < 0) {
+					CpTemp = new ChessPosition(tmpX,tmpY,true);
+				} else {
+					CpTemp = new ChessPosition(tmpX,tmpY,false);
+				}
+				pos.add(CpTemp);	
+			}
+				
+		}
+				
+		return pos;
+	}
+	public List <ChessPosition> getTargetPos(ChessPosition current,  int side) {
+		List <ChessPosition> pos = new ArrayList<ChessPosition>();
+		ChessPosition CpTemp ;
+		int x,y,value,omg,tmpX,tmpY;
+		x = current.getCol() ;
+		y = current.getRow() ;
+		if (y <= 4 )  omg = 1 ; 
+		 else omg = -1;
+		passedRiver = CheckPassRiver(current,omg);
+		value = Match.tablePos[y][x];
+		if (passedRiver) {
+			tmpX = x;
+			tmpY = y - omg;
+			if ((tmpY >= 0)&&(tmpY<=9)&&(Match.tablePos[tmpY][tmpX]!=0)) {
+				if (Match.tablePos[tmpY][tmpX]*value < 0) {
+					CpTemp = new ChessPosition(tmpX,tmpY,true);
+				} else {
+					CpTemp = new ChessPosition(tmpX,tmpY,false);
+				}
+				pos.add(CpTemp);	
+			}
+			tmpX = x-1;
+			tmpY = y;
+			if ((tmpX >= 0)&&(Match.tablePos[tmpY][tmpX]!=0)) {
+				
+				if (Match.tablePos[tmpY][tmpX] * value < 0) {
+					CpTemp = new ChessPosition(tmpX,tmpY,true);
+				} else {
+					CpTemp = new ChessPosition(tmpX,tmpY,false);
+				}
+				pos.add(CpTemp);	
+			}
+			
+			tmpX = x+1;
+			tmpY = y;
+			if ((tmpX <= 8)&&(Match.tablePos[tmpY][tmpX]!=0)) {
+				if (Match.tablePos[tmpY][tmpX]*value < 0) {
+					CpTemp = new ChessPosition(tmpX,tmpY,true);
+				} else {
+					CpTemp = new ChessPosition(tmpX,tmpY,false);
+				}
+				pos.add(CpTemp);	
+			}
+		} else {
+			tmpX = x;
+			tmpY = y + omg;
+			if ((tmpY >= 0)&&(Match.tablePos[tmpY][tmpX]!=0)) {
+				if (Match.tablePos[tmpY][tmpX]*value < 0) {
 					CpTemp = new ChessPosition(tmpX,tmpY,true);
 				} else {
 					CpTemp = new ChessPosition(tmpX,tmpY,false);
