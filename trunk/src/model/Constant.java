@@ -30,5 +30,5 @@ public class Constant {
 
 	public final static int IMG_HEIGHT = 50;
 	public final static int IMG_WIDTH = 75;
-	public static final int Depth = 5;
+	public static final int Depth = 4;
 }

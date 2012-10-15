@@ -31,7 +31,7 @@ public class Match {
 	public static  Chess[][] pieceChess;
 	public static Position Chess[][] = new Position[2][17];
 	public static int  count[] = new int[2];
-	public static int  status[][]=new int[10][10];
+	public static int  status[][]=new int[13][13];
 	public static MoveInfo newMove;
 	
 	public final Image imgBoard = new ImageIcon(Constant.BOARD_DIR+"/banco.png").getImage();
@@ -186,9 +186,11 @@ public class Match {
 	}
 	public static void initChess(){
 		count[0]=0;count[1]=0;
+		for (int i=0 ; i<= 10 ; i++)
+			for (int j=0;j<=10 ;j++)
+				status[i][j] = 0;
 		for (int i=0 ; i<=9 ; i++)
 			for (int j=0 ; j<=8 ; j++){
-				status[i][j]=0;
 				int piece = tablePos[i][j];
 				if (piece > 0 ) {
 					//quan phia 0--4
@@ -215,7 +217,6 @@ public class Match {
 		piece = nmove.getpiece(),
 		cur = tablePos[y][x];
 		//update chess[][]
-		System.out.println(fromid+" "+ x +" "+ y +" "+cur+" "+piece);
 		int type = 1;
 		if (cur > 0) type = 0;
 		Chess[type][fromid].setX(xx);
@@ -241,7 +242,7 @@ public class Match {
 			piece = nmove.getpiece(),
 			fromid = nmove.getfromId(),
 			toid = nmove.gettoId(),
-			cur = tablePos[y][x];
+			cur = tablePos[yy][xx];
 		if (Math.abs(piece)==7) isFinish = false;
 		//update chess
 		//update alive attribute
@@ -265,8 +266,8 @@ public class Match {
 			Chess[1][toid].setY(yy);
 		}
 		//update passriver
-		if (cur == 1 && y <=4 ) Chess[0][toid].setIsPassed(false);
-		if (cur == -1 && y >=5 ) Chess[1][toid].setIsPassed(false);
+		if (cur == 1 && y <=4 ) Chess[0][fromid].setIsPassed(false);
+		if (cur == -1 && y >=5 ) Chess[1][fromid].setIsPassed(false);
 		//update status[][]
 		status[y][x] = fromid;
 		status[yy][xx] = toid;
