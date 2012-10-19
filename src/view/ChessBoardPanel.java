@@ -25,6 +25,7 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 	private int recentX = -1, recentY = -1, piece = 0, type = 0,x=-1,y=-1;
 	private static final long serialVersionUID = 1L;
 	private boolean selected = false, okXY = false,ok=true;
+	private int hienChieu=1;
 	// private boolean ok=MenuNewPanel.dichuyen;
 	MainFrame mainFrame;
 	Match match;
@@ -111,6 +112,7 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		
 		x = (e.getX() - Constant.OX) / Constant.length;
 		y = (e.getY() - Constant.OY) / Constant.length;
 		if (!match.isComPlayFirst()&& !match.isFinish){
@@ -146,9 +148,10 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 									showDlg();//hien thong bao nguoi thang
 								}
 								match.tablePos[y][x] = match.tablePos[recentY][recentX];
-								match.tablePos[recentY][recentX] = 0;					
+								match.tablePos[recentY][recentX] = 0;
 								selected = false;
 								match.setComPlayFirst(true);
+								hienChieu=1;
 						} 
 						posCanMove.clear();
 					} else {
@@ -169,6 +172,13 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 					}
 				}
 				repaint();
+				int a[][]=new int[9][8];
+				a=match.tablePos;
+				if (!Player.kiemtrachieutuong(a,-5)){
+					if (hienChieu<2)
+					showChieu();
+				}
+				
 			}
 		}
 		repaint();
@@ -196,7 +206,15 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 								match.setY1(match.newMove.gety());
 								match.setX2(match.newMove.getxx());
 								match.setY2(match.newMove.getyy());
+								int a[][]=new int[9][8];
+								a=match.tablePos;
 								repaint();
+								if (!Player.kiemtrachieutuong(a,5)){
+									if (hienChieu<2)
+									showChieu();
+								}
+							
+								hienChieu=1;
 							}
 						}
 	                });
@@ -207,16 +225,17 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 		
 	}
 	public void showDlg(){
-		if (JOptionPane.showConfirmDialog(this,"Ban Co Muon Thoat Game?","You Win",
-				JOptionPane.CANCEL_OPTION)==JOptionPane.OK_OPTION){
-					System.exit(0);
-				}
+		JOptionPane.showConfirmDialog(this,"Ban Co Muon Thoat Game?","You Win",
+				JOptionPane.OK_OPTION);
 	}
 	public void showDlg1(){
-		if (JOptionPane.showConfirmDialog(this,"Ban Co Muon Thoat Game?","Com Win",
-				JOptionPane.CANCEL_OPTION)==JOptionPane.OK_OPTION){
-					System.exit(0);
-				}
+		JOptionPane.showConfirmDialog(this,"Ban Co Muon Thoat Game?","Com Win",
+			JOptionPane.OK_OPTION);
+	}
+	public void showChieu(){
+		JOptionPane.showConfirmDialog(this,"Da bi chieu","Chieu Tuong",
+			JOptionPane.OK_OPTION);
+		hienChieu++;
 	}
 	@Override
 	public void mouseEntered(MouseEvent e) {
