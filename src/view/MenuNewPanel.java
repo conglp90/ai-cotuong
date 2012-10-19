@@ -61,7 +61,7 @@ public class MenuNewPanel extends MyPanel implements MouseListener, ActionListen
 	public MenuNewPanel(MenuPanel mp) {
 		// TODO Auto-generated constructor stub
 		super(mp);
-		match.LoadMap();
+		match.LoadMap(); 
 		match = cardPanel.getMainFrame().getMatch();
 		loadImage();
 		initLabel();
