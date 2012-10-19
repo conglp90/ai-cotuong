@@ -28,8 +28,8 @@ import model.chess.Pawn;
 import model.chess.Rook;
 
 public class Match {
-	public static  Chess[][] pieceChess;
 	public static Position Chess[][] = new Position[2][17];
+	public static  Chess[][] pieceChess;
 	public static int  count[] = new int[2];
 	public static int  status[][]=new int[13][13];
 	public static MoveInfo newMove;
@@ -65,6 +65,9 @@ public class Match {
 	
 	public Match() {
 		LoadMap();
+		isFinish = false;
+		isPlayWithCom = true;
+		isComPlayFirst = false;
 		pieceChess = new Chess[2][8];
 		pieceChess[0][1] = new Pawn(Constant.CHESS_DIR + "/totdo.png", 0, 0); // Tot do
 		pieceChess[0][2] = new Advisor(Constant.CHESS_DIR + "/sydo.png", 0, 0); // Tot do
@@ -283,10 +286,11 @@ public class Match {
 		List <ChessPosition> posCanMove = new ArrayList<ChessPosition>();
 		
 		for (int i=1 ; i <= Match.count[type]; i++){
-			if (Match.Chess[type][i].getIsAlive()){
+			if (Chess[type][i].getIsAlive()){
 				piece = Match.Chess[type][i].getPiece();
 				x = Chess[type][i].getX();
 				y = Chess[type][i].getY();
+				//System.out.println(x+" "+y+" "+status[y][x]);
 				current = new ChessPosition(x, y, false);
 				posCanMove = pieceChess[type][piece].getPosCanMove(current,type);
 				for (ChessPosition pos : posCanMove) {
