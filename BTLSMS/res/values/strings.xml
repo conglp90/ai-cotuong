@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="contact">Danh bạ</string>
+    <string name="exit">Thoát</string>
+    <string name="search">Tìm kiếm Danh bạ</string>
+    <string name="set">Cấu hình</string>
+    <string name="message">Tin nhắn</string>
+    <string name="app_name">BKTechSMS</string>
+    <string name="menu_settings">Setting</string>
+    <string name="title_activity_sms">BKTechSMS</string>
+    <string name="contactMain">Quản Lý Danh Bạ</string>
+    <string name="smsMain">Quản Lý Tin Nhắn</string>
+    <string name="searchSMS">Tìm Kiếm Tin Nhắn</string>
+    <string name="about">About</string>
+
+</resources>

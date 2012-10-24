@@ -1,0 +1,18 @@
+﻿Bài tập 5. Quản lý và phân loại tin nhắn
+Phát triển một ứng dụng chạy trên thiết bị đầu cuối di động 
+thực hiện các chức năng sau:
+1. Cho phép quản lý phân loại các contact theo các mức độ ưu tiên.
+2. Cho phép quản lý tin nhắn theo nhóm các contact, theo tháng, năm.
+3. Thông báo cho người dùng bằng âm thanh khi có những tin nhắn thuộc nhóm quan trọng.
+4. Phân tích và tìm kiếm thông tin trong tin nhắn theo những chủ đề quan trọng. 
+	Ví dụ như các tinnhắn liên quan đến “Lịch thi học kỳ”,…Yeu cau:
+ 
+Ghi chú chung:
+ 
+• Sinh viên tiếp nhận bài tập dài theo nhóm. Mỗi nhóm không quá 6 sinh viên. Mỗi sinh viên chỉtham gia một nhóm.
+• Phần mềm được phát triển cho thiết bị đầu cuối Android.
+• Với những tham số và nguồn số liệu không được nêu rõ, sinh viên có quyền tùy chọn.
+• Khuyến khích việc nạp chương trình xuống thiết bị thực để kiểm tra, dù công việc này khôngđược chấm điểm.
+• Chọn thiết bị phần cứng (được mô phỏng) có đầy đủ ngoại vi mà bài tập dài đề cập.
+• Báo cáo cần có ảnh chụp màn hình (screenshot) để chứng tỏ phần mềm chạy thành công.
+• Khai báo mã nguồn mở được sử dụng trong bài tập dài được giao.

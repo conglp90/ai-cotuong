@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget48"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_centerHorizontal="true"
+    android:layout_centerVertical="true"
+    android:background="@color/background"
+    android:orientation="vertical" >
+
+    <Button
+        android:id="@+id/smsMain"
+        android:layout_width="235dp"
+        android:layout_height="57dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="80dp"
+        android:background="@drawable/button_menu"
+        android:onClick="bContactsClick"
+        android:text="@string/smsMain"
+        android:textColor="@color/text_menu"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/searchSMS"
+        android:layout_width="295dp"
+        android:layout_height="57dp"
+        android:layout_gravity="center"
+        android:background="@drawable/button_menu"
+        android:text="@string/searchSMS"
+        android:textColor="@color/text_menu"
+        android:textSize="20sp" />
+    <!--  -->
+
+</LinearLayout>
