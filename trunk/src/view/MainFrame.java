@@ -6,6 +6,8 @@ import java.awt.FlowLayout;
 
 import javax.swing.JFrame;
 
+import control.ComponentMover;
+
 import model.Constant;
 import model.Match;
 
@@ -22,6 +24,8 @@ public class MainFrame extends JFrame {
 	public MainFrame() {
 		getContentPane().setBackground(Color.BLACK);
 		setUndecorated(true);
+		ComponentMover cm = new ComponentMover();
+		cm.registerComponent(this);
 		setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
 		getContentPane().setPreferredSize(new Dimension(Constant.MAIN_WIDTH, Constant.MAIN_HEIGHT));
 		
