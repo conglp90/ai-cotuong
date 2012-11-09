@@ -56,7 +56,7 @@ public class Player {
 			if (a[x][i]!=0) break;
 		}
 		//sang trai
-		for (i=y-1;i>=0;i++){
+		for (i=y-1;i>=0;i--){
 			if (a[x][i]==6) return false;
 			if (a[x][i]!=0) break;
 		}
@@ -86,7 +86,7 @@ public class Player {
 		}
 		//sang trai
 		dem=0;
-		for (i=y-1;i>=0;i++){
+		for (i=y-1;i>=0;i--){
 			if (a[x][i]==5 && dem==1) return false;
 			if (a[x][i]!=0)dem++;
 			if (dem>1)break;

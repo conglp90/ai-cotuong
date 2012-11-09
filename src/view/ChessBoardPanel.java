@@ -145,7 +145,7 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 						if ((piece == 0) ||(piece * match.tablePos[recentY][recentX] < 0)) {
 								if (match.tablePos[y][x]==7){
 									match.setFinish(true);
-									showDlg();//hien thong bao nguoi thang
+									showDlgYou();//hien thong bao nguoi thang
 								}
 								match.tablePos[y][x] = match.tablePos[recentY][recentX];
 								match.tablePos[recentY][recentX] = 0;
@@ -176,8 +176,8 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 				a=match.tablePos;
 				repaint();
 				if (!Player.kiemtraquandenchieutuong(a)){
-					/*if (hienChieu<2)
-					showChieu();*/
+					if (hienChieu<2)
+					showChieu();
 				}
 				
 				
@@ -199,7 +199,7 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 								com.thinking(0);
 								if (Math.abs(match.tablePos[match.newMove.getyy()][match.newMove.getxx()])==7){
 									match.setFinish(true);
-									showDlg1();//hien thong bao may thang
+									showDlgCom();//hien thong bao may thang
 								}
 								match.tryMove(match.newMove);
 								match.setComPlayFirst(false);
@@ -212,8 +212,8 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 								a=match.tablePos;
 								repaint();
 								if (!player.kiemtraquandochieutuong(a)){
-									/*if (hienChieu<2)
-									showChieu();*/
+									if (hienChieu<2)
+									showChieu();
 								}
 								
 								hienChieu=1;
@@ -226,11 +226,11 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 		
 		
 	}
-	public void showDlg(){
-		JOptionPane.showConfirmDialog(this,"Ban Co Muon Thoat Game?","You Win",
+	public void showDlgYou(){
+		JOptionPane.showConfirmDialog(this,"Bạn có muốn thoát Game?","You Win",
 				JOptionPane.OK_OPTION);
 	}
-	public void showDlg1(){
+	public void showDlgCom(){
 		JOptionPane.showConfirmDialog(this,"Ban Co Muon Thoat Game?","Com Win",
 			JOptionPane.OK_OPTION);
 	}
