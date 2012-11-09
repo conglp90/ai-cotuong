@@ -278,6 +278,9 @@ public class Match {
 		tablePos[y][x] = tablePos[yy][xx];
 		tablePos[yy][xx] = piece;
 	}
+	public static boolean isCheck(int type){
+		return false;
+	}
 	public   List <MoveInfo> GetOrderedMoves(int type){
 		Evaluate master = new Evaluate();
 		int piece,x,y;
@@ -311,8 +314,8 @@ public class Match {
 						mid = (first + last) / 2;
 						MoveInfo tmp;
 						tmp = arr.get(mid);
-						if (tmp.getCost() < nMove.getCost()) last = mid -1;
-						if (tmp.getCost() >= nMove.getCost()) first = mid +1;
+						if (tmp.getCost() <= nMove.getCost()) last = mid -1;
+						if (tmp.getCost() > nMove.getCost()) first = mid +1;
 					}
 					arr.add(mid,nMove);
 					

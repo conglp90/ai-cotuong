@@ -176,8 +176,8 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 				a=match.tablePos;
 				repaint();
 				if (!Player.kiemtraquandenchieutuong(a)){
-					if (hienChieu<2)
-					showChieu();
+					/*if (hienChieu<2)
+					showChieu();*/
 				}
 				
 				
@@ -212,8 +212,8 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 								a=match.tablePos;
 								repaint();
 								if (!player.kiemtraquandochieutuong(a)){
-									if (hienChieu<2)
-									showChieu();
+									/*if (hienChieu<2)
+									showChieu();*/
 								}
 								
 								hienChieu=1;
