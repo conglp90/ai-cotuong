@@ -150,9 +150,9 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 									match.setFinish(true);
 									showDlgYou();//hien thong bao nguoi thang
 								}
+								int cuoi=match.tablePos[y][x];
 								match.tablePos[y][x] = match.tablePos[recentY][recentX];
-								int dau=match.tablePos[y][x];
-								int cuoi=match.tablePos[recentY][recentX];
+								int dau=match.tablePos[recentY][recentX];
 								stack.push(new Node(recentY, recentX, y, x,dau,cuoi));
 								match.tablePos[recentY][recentX] = 0;
 								
@@ -208,6 +208,8 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 									match.setFinish(true);
 									showDlgCom();//hien thong bao may thang
 								}
+								int dau=match.tablePos[match.newMove.gety()][match.newMove.getx()];
+								int cuoi=match.tablePos[match.newMove.getyy()][match.newMove.getxx()];
 								match.tryMove(match.newMove);
 								match.setComPlayFirst(false);
 								//x1,y1,x2,y2 toa do can select khi maydi
@@ -215,8 +217,7 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 								match.setY1(match.newMove.gety());
 								match.setX2(match.newMove.getxx());
 								match.setY2(match.newMove.getyy());
-								int dau=match.tablePos[match.newMove.gety()][match.newMove.getx()];
-								int cuoi=match.tablePos[match.newMove.getyy()][match.newMove.getxx()];
+								
 								stack.push(new Node(match.newMove.gety(),match.newMove.getx(),match.newMove.getyy(),match.newMove.getxx(),dau,cuoi));
 								int a[][]=new int[9][8];
 								a=match.tablePos;
@@ -240,15 +241,15 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 			Node node=stack.pop();
 			if(node!=null){
 				System.out.println(node.getXdau()+" "+node.getYdau()+" "+node.getXcuoi()+" "+node.getYcuoi());
-				match.tablePos[node.getXdau()][node.getYdau()] = node.getGtCuoi();
-				match.tablePos[node.getXcuoi()][node.getYcuoi()] = 0;
+				match.tablePos[node.getXdau()][node.getYdau()] = node.getGtDau();
+				match.tablePos[node.getXcuoi()][node.getYcuoi()] = node.getGtCuoi();
 			}
 			else System.out.println("khong con phan tu");
 			Node node1=queue.remove();
 			if(node1!=null){
 				System.out.println(node1.getXdau()+" "+node1.getYdau()+" "+node1.getXcuoi()+" "+node1.getYcuoi());
-				match.tablePos[node1.getXdau()][node1.getYdau()] = node1.getGtCuoi();
-				match.tablePos[node1.getXcuoi()][node1.getYcuoi()] = 0;
+				match.tablePos[node1.getXdau()][node1.getYdau()] = node1.getGtDau();
+				match.tablePos[node1.getXcuoi()][node1.getYcuoi()] = node.getGtCuoi();
 			}
 			else System.out.println("khong con phan tu");
 	}
