@@ -1,5 +1,5 @@
 /**
- * 
+ * Panel dung de tuy chon cac thiet lap va tao game moi
  */
 package view;
 
@@ -21,8 +21,9 @@ public class MenuCreatePanel extends MyPanel implements MouseListener {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	public static final String KEY = "MenuCreatePanel";
 
-	MyLabelButton lbBackHome;
+	private MyLabelButton lbBackHome;
 
 	/**
 	 * 
@@ -51,7 +52,7 @@ public class MenuCreatePanel extends MyPanel implements MouseListener {
 		// TODO Auto-generated method stub
 		JLabel source = (JLabel) e.getSource();
 		if (source == lbBackHome) {
-			cardPanel.swapPanel("HomeMenu");
+			cardPanel.swapPanel(MenuHomePanel.KEY);
 		}
 	}
 

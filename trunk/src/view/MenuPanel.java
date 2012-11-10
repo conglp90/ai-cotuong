@@ -1,3 +1,8 @@
+/**
+ * Day la mot card panel, no co kha nang add nhieu panel vao va khi can show panel nao thi chi can goi 
+ * phuong thuc show(String key)
+ */
+
 package view;
 
 import java.awt.CardLayout;
@@ -13,19 +18,19 @@ public class MenuPanel extends JPanel {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private final Dimension menuDim = new Dimension(Constant.MAIN_WIDTH
-			- Constant.BOARD_WIDTH, Constant.MAIN_HEIGHT); // kich thuoc khung menu
+	private final Dimension menuDim = new Dimension(Constant.MAIN_WIDTH - Constant.BOARD_WIDTH, 
+													Constant.MAIN_HEIGHT); // kich thuoc khung menu
 
 	private CardLayout card = new CardLayout(0, 0);
 
-	// cac panel phu
+	// cac panel
 	private MenuHomePanel homeMenu;
 	private MenuNewPanel newMenu;
 	private MenuCreatePanel createMenu;
 	private MenuLoadPanel loadMenu;
 	private MenuPlayPanel playMenu;
 
-	private MainFrame mainFrame;
+	private MainFrame mainFrame; // frame chinh, su dung de tuong tac voi ChessBoardPanel
 
 	public MenuPanel(MainFrame mainFrame) {
 		this.mainFrame = mainFrame;
@@ -34,28 +39,38 @@ public class MenuPanel extends JPanel {
 
 		setLayout(card);
 
+		// add cac panel vao
 		homeMenu = new MenuHomePanel(this);
-		add(homeMenu, "HomeMenu");
+		add(homeMenu, MenuHomePanel.KEY);
 
 		newMenu = new MenuNewPanel(this);
-		add(newMenu, "NewMenu");
+		add(newMenu, MenuNewPanel.KEY);
 
 		createMenu = new MenuCreatePanel(this);
-		add(createMenu, "CreateMenu");
+		add(createMenu, MenuCreatePanel.KEY);
 
 		loadMenu = new MenuLoadPanel(this);
-		add(loadMenu, "LoadMenu");
+		add(loadMenu, MenuLoadPanel.KEY);
 
 		playMenu = new MenuPlayPanel(this);
-		add(playMenu, "PlayMenu");
+		add(playMenu, MenuPlayPanel.KEY);
 
 		setVisible(true);
 	}
 
+	/**
+	 * Chuyen qua lai giua cac panel
+	 * @param key: chuoi String cua panel can chuyen
+	 * key la String duoc dung khi cardPanel goi phuong thuc add(c, key)
+	 */
 	public void swapPanel(String key) {
 		card.show(this, key);
 	}
 
+	/**
+	 * Lay mainFrame
+	 * @return
+	 */
 	public MainFrame getMainFrame() {
 		return this.mainFrame;
 	}
