@@ -243,16 +243,35 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 				System.out.println(node.getXdau()+" "+node.getYdau()+" "+node.getXcuoi()+" "+node.getYcuoi());
 				match.tablePos[node.getXdau()][node.getYdau()] = node.getGtDau();
 				match.tablePos[node.getXcuoi()][node.getYcuoi()] = node.getGtCuoi();
+				queue.insert(new Node(node.getXdau(),node.getYdau(),node.getXcuoi(),node.getYcuoi(),node.getGtDau(),node.getGtCuoi()));
+				
 			}
 			else System.out.println("khong con phan tu");
-			Node node1=queue.remove();
+			Node node1=stack.pop();
 			if(node1!=null){
 				System.out.println(node1.getXdau()+" "+node1.getYdau()+" "+node1.getXcuoi()+" "+node1.getYcuoi());
 				match.tablePos[node1.getXdau()][node1.getYdau()] = node1.getGtDau();
 				match.tablePos[node1.getXcuoi()][node1.getYcuoi()] = node.getGtCuoi();
+				queue.insert(new Node(node1.getXdau(),node1.getYdau(),node1.getXcuoi(),node1.getYcuoi(),node1.getGtDau(),node1.getGtCuoi()));
 			}
 			else System.out.println("khong con phan tu");
 	}
+	public void showRedo(){
+		Node node=queue.remove();
+		if(node!=null){
+			System.out.println(node.getXdau()+" "+node.getYdau()+" "+node.getXcuoi()+" "+node.getYcuoi());
+			match.tablePos[node.getXdau()][node.getYdau()] = node.getGtCuoi();
+			match.tablePos[node.getXcuoi()][node.getYcuoi()] = node.getGtDau();
+		}
+		else System.out.println("khong con phan tu");
+		Node node1=queue.remove();
+		if(node1!=null){
+			System.out.println(node1.getXdau()+" "+node1.getYdau()+" "+node1.getXcuoi()+" "+node1.getYcuoi());
+			match.tablePos[node1.getXdau()][node1.getYdau()] = node1.getGtCuoi();
+			match.tablePos[node1.getXcuoi()][node1.getYcuoi()] = node1.getGtDau();
+		}
+		else System.out.println("khong con phan tu");
+}
 	public void showDlgYou(){
 		JOptionPane.showConfirmDialog(this,"Bạn có muốn thoát Game?","You Win",
 				JOptionPane.OK_OPTION);
