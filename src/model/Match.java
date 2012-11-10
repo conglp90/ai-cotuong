@@ -35,6 +35,7 @@ public class Match {
 	public static MoveInfo newMove;
 	
 	public final Image imgBoard = new ImageIcon(Constant.BOARD_DIR+"/banco.png").getImage();
+	public final Image imgUndo=   new ImageIcon(Constant.OPT_DIR+"/undo").getImage();
 	public final Image imgSelect = new ImageIcon(Constant.CHESS_DIR+"/select.png").getImage();
 	public final Image imgWelcome = new ImageIcon(Constant.IMG_DIR + "/welcome2.jpg").getImage();
 	public final Image imgPause = new ImageIcon(Constant.IMG_DIR + "/waiting.jpg").getImage();
@@ -43,6 +44,7 @@ public class Match {
 	private int level = 0;
 	public static boolean isFinish = false;
 	private static boolean isActive = false;
+	private boolean isUndo=false;
 	private boolean isPause = false;
 	private int x1=-1,x2=-1,y1=-1,y2=-1;
 	private boolean isPlayWithCom = true;
@@ -114,7 +116,12 @@ public class Match {
 	public void setPause(boolean status) {
 		this.isPause = status;
 	}
-	
+	public void setIsUndo(boolean undo){
+		this.isUndo=undo;
+	}
+	public boolean getIsUndo(){
+		return this.isUndo;
+	}
 	public boolean isPause() {
 		return this.isPause;
 	}

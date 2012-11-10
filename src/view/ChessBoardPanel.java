@@ -26,9 +26,11 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 	private static final long serialVersionUID = 1L;
 	private boolean selected = false, okXY = false,ok=true;
 	private int hienChieu=1;
+	private static MyQueue queue=new MyQueue();
+	private static MyStack stack=new MyStack();
 	// private boolean ok=MenuNewPanel.dichuyen;
 	MainFrame mainFrame;
-	Match match;
+	private static Match match;
 	MoveInfo newmove;
 	Computer com = new Computer();
 	Player player;
@@ -71,6 +73,7 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 	private void drawBoard(Graphics g) {
 		g.drawImage(match.imgBoard, Constant.BOARD_X, Constant.BOARD_Y,
 				Constant.BOARD_WIDTH, Constant.BOARD_HEIGHT, null);
+		//g.drawImage(match.imgUndo,600,600,42,42,null);
 	}
 
 	private void drawChess(Graphics g) {
@@ -148,7 +151,11 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 									showDlgYou();//hien thong bao nguoi thang
 								}
 								match.tablePos[y][x] = match.tablePos[recentY][recentX];
+								int dau=match.tablePos[y][x];
+								int cuoi=match.tablePos[recentY][recentX];
+								stack.push(new Node(recentY, recentX, y, x,dau,cuoi));
 								match.tablePos[recentY][recentX] = 0;
+								
 								selected = false;
 								match.setComPlayFirst(true);
 								hienChieu=1;
@@ -208,6 +215,9 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 								match.setY1(match.newMove.gety());
 								match.setX2(match.newMove.getxx());
 								match.setY2(match.newMove.getyy());
+								int dau=match.tablePos[match.newMove.gety()][match.newMove.getx()];
+								int cuoi=match.tablePos[match.newMove.getyy()][match.newMove.getxx()];
+								stack.push(new Node(match.newMove.gety(),match.newMove.getx(),match.newMove.getyy(),match.newMove.getxx(),dau,cuoi));
 								int a[][]=new int[9][8];
 								a=match.tablePos;
 								repaint();
@@ -215,6 +225,7 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 									if (hienChieu<2)
 									showChieu();
 								}
+								System.out.println(match.getIsUndo());
 								
 								hienChieu=1;
 							}
@@ -222,9 +233,24 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 	                });
 	        }
 	    }.run();
-	    // end doan code suu tam
-		
-		
+	    // end doan code suu tam	
+	}
+	
+	public void showUndo(){
+			Node node=stack.pop();
+			if(node!=null){
+				System.out.println(node.getXdau()+" "+node.getYdau()+" "+node.getXcuoi()+" "+node.getYcuoi());
+				match.tablePos[node.getXdau()][node.getYdau()] = node.getGtCuoi();
+				match.tablePos[node.getXcuoi()][node.getYcuoi()] = 0;
+			}
+			else System.out.println("khong con phan tu");
+			Node node1=queue.remove();
+			if(node1!=null){
+				System.out.println(node1.getXdau()+" "+node1.getYdau()+" "+node1.getXcuoi()+" "+node1.getYcuoi());
+				match.tablePos[node1.getXdau()][node1.getYdau()] = node1.getGtCuoi();
+				match.tablePos[node1.getXcuoi()][node1.getYcuoi()] = 0;
+			}
+			else System.out.println("khong con phan tu");
 	}
 	public void showDlgYou(){
 		JOptionPane.showConfirmDialog(this,"Bạn có muốn thoát Game?","You Win",

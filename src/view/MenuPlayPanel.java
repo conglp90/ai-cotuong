@@ -12,6 +12,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 import model.Constant;
+import model.Match;
 
 /**
  * @author heroandtn3
@@ -25,7 +26,8 @@ public class MenuPlayPanel extends MyPanel implements MouseListener {
 	private static final long serialVersionUID = 1L;
 	ImageIcon imgPause, imgPlay;
 	JLabel lbPausePlay;
-
+	ChessBoardPanel chess;
+	Match match=new Match();
 	MyLabelButton lbUndo, lbRedo, lbGoHome;
 
 	/**
@@ -95,6 +97,8 @@ public class MenuPlayPanel extends MyPanel implements MouseListener {
 			cardPanel.getMainFrame().getChessBoardPanel().repaint();
 		} else if (source == lbUndo) {
 			System.out.println("Undo");
+			cardPanel.getMainFrame().getChessBoardPanel().showUndo();
+			cardPanel.getMainFrame().getChessBoardPanel().repaint();
 		} else if (source == lbRedo) {
 			System.out.println("Redo");
 		}
