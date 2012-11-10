@@ -64,8 +64,8 @@ public class Computer {
 			value = -quiescentSearch(-beta,-alpha,1 - type);
 			Match.undoMove(move);
 			if (value > best)  best = value;
-			if (best > alpha) alpha = best;
-			if (best >= beta) break;
+			if (best  > alpha) alpha = best;
+			if (best  >= beta) break;
 		}
 		return best;
 		
