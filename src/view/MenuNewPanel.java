@@ -30,7 +30,8 @@ public class MenuNewPanel extends MyPanel implements MouseListener, ActionListen
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	Match match=new Match();
+	public static final String KEY = "MenuNewPanel";
+	Match match = new Match();
 	// cac nut dieu khien
 	private MyLabelButton lbBackHome, lbOk;
 
@@ -63,7 +64,6 @@ public class MenuNewPanel extends MyPanel implements MouseListener, ActionListen
 		super(mp);
 		match.LoadMap(); 
 		match = cardPanel.getMainFrame().getMatch();
-		loadImage();
 		initLabel();
 		initRadio();
 		addAll();
@@ -140,14 +140,6 @@ public class MenuNewPanel extends MyPanel implements MouseListener, ActionListen
 		
 		picLevel.setIcon(new ImageIcon(Constant.LEVEL_DIR + "/" + strLevel[0] + ".png"));
 	}
-
-	private void loadImage() {
-
-		/*imgCaptain = new ImageIcon(Constant.LEVEL_DIR + "/captain.png");
-		imgIron = new ImageIcon(Constant.LEVEL_DIR + "/iron.png");
-		imgThor = new ImageIcon(Constant.LEVEL_DIR + "/thor.png");
-		imgHulk = new ImageIcon(Constant.LEVEL_DIR + "/hulk.png");*/
-	}
 	
 	private void setEnableChoice(boolean status) {
 		radioComFirst.setEnabled(status);
@@ -168,7 +160,7 @@ public class MenuNewPanel extends MyPanel implements MouseListener, ActionListen
 		// TODO Auto-generated method stub
 		JLabel source = (JLabel) e.getSource();
 		if (source == lbBackHome) {
-			cardPanel.swapPanel("HomeMenu");
+			cardPanel.swapPanel(MenuHomePanel.KEY);
 		} else if (source == lbOk) {
 			if (modeGroup.getSelection().getActionCommand() == strCom) {
 				// choi voi may
@@ -191,7 +183,7 @@ public class MenuNewPanel extends MyPanel implements MouseListener, ActionListen
 				// 2 nguoi choi
 				match.setPLayWithCom(false);
 			}
-			cardPanel.swapPanel("PlayMenu");
+			cardPanel.swapPanel(MenuPlayPanel.KEY);
 			match.setActive(true);
 			cardPanel.getMainFrame().getChessBoardPanel().repaint();
 			

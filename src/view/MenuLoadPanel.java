@@ -21,8 +21,9 @@ public class MenuLoadPanel extends MyPanel implements MouseListener {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	public static final String KEY = "MenuLoadPanel";
 
-	MyLabelButton lbBackHome;
+	private MyLabelButton lbBackHome;
 
 	/**
 	 * 
@@ -53,7 +54,7 @@ public class MenuLoadPanel extends MyPanel implements MouseListener {
 		// TODO Auto-generated method stub
 		JLabel source = (JLabel) e.getSource();
 		if (source == lbBackHome) {
-			cardPanel.swapPanel("HomeMenu");
+			cardPanel.swapPanel(MenuHomePanel.KEY);
 		}
 	}
 

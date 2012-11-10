@@ -12,7 +12,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 import model.Constant;
-import model.Match;
 
 /**
  * @author heroandtn3
@@ -24,11 +23,10 @@ public class MenuPlayPanel extends MyPanel implements MouseListener {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	ImageIcon imgPause, imgPlay;
-	JLabel lbPausePlay;
-	ChessBoardPanel chess;
-	Match match=new Match();
-	MyLabelButton lbUndo, lbRedo, lbGoHome;
+	public static final String KEY = "MenuPlayPanel";
+	private ImageIcon imgPause, imgPlay;
+	private JLabel lbPausePlay;
+	private MyLabelButton lbUndo, lbRedo, lbGoHome;
 
 	/**
 	 * 
@@ -85,7 +83,7 @@ public class MenuPlayPanel extends MyPanel implements MouseListener {
 		// TODO Auto-generated method stub
 		JLabel source = (JLabel) e.getSource();
 		if (source == lbGoHome) {
-			cardPanel.swapPanel("HomeMenu");
+			cardPanel.swapPanel(MenuHomePanel.KEY);
 		} else if (source == lbPausePlay) {
 			if (cardPanel.getMainFrame().getMatch().isPause()) {
 				cardPanel.getMainFrame().getMatch().setPause(false);
@@ -139,9 +137,8 @@ public class MenuPlayPanel extends MyPanel implements MouseListener {
 		// TODO Auto-generated method stub
 		JLabel source = (JLabel) e.getSource();
 		if (source == lbPausePlay) {
-			lbPausePlay
-					.setIcon(cardPanel.getMainFrame().getMatch().isPause() ? imgPlay
-							: imgPause);
+			lbPausePlay.setIcon(
+					cardPanel.getMainFrame().getMatch().isPause() ? imgPlay : imgPause);
 		}
 	}
 

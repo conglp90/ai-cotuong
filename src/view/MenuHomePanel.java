@@ -10,7 +10,6 @@ import java.awt.event.MouseListener;
 import javax.swing.JLabel;
 
 import model.Constant;
-import model.Match;
 
 /**
  * @author heroandtn3
@@ -22,9 +21,9 @@ public class MenuHomePanel extends MyPanel implements MouseListener {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	public static final String KEY = "MenuHomePanel";
 
 	private MyLabelButton lbNewGame, lbCreateGame, lbLoadGame, lbExit;
-	private Match match = null;
 
 	/**
 	 * 
@@ -67,11 +66,11 @@ public class MenuHomePanel extends MyPanel implements MouseListener {
 		// TODO Auto-generated method stub
 		JLabel source = (JLabel) e.getSource();
 		if (source == lbNewGame) {
-			cardPanel.swapPanel("NewMenu");
+			cardPanel.swapPanel(MenuNewPanel.KEY);
 		} else if (source == lbCreateGame) {
-			cardPanel.swapPanel("CreateMenu");
+			cardPanel.swapPanel(MenuCreatePanel.KEY);
 		} else if (source == lbLoadGame) {
-			cardPanel.swapPanel("LoadMenu");
+			cardPanel.swapPanel(MenuLoadPanel.KEY);
 		} else if (source == lbExit) {
 			System.exit(0);
 		}
