@@ -101,6 +101,8 @@ public class MenuPlayPanel extends MyPanel implements MouseListener {
 			cardPanel.getMainFrame().getChessBoardPanel().repaint();
 		} else if (source == lbRedo) {
 			System.out.println("Redo");
+			cardPanel.getMainFrame().getChessBoardPanel().showRedo();
+			cardPanel.getMainFrame().getChessBoardPanel().repaint();
 		}
 	}
 
