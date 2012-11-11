@@ -16,7 +16,7 @@ public class Advisor extends Chess {
 	}
 
 	@Override
-	public List <ChessPosition> getPosCanMove(ChessPosition current, int side) {
+	public List <ChessPosition> getPosCanMove(Match match, ChessPosition current, int side) {
 		List <ChessPosition> pos = new ArrayList<ChessPosition>();
 		ChessPosition CpTemp ;
 		int x,y,upBound,lowBound,leftBound,rightBound,value;
@@ -26,7 +26,7 @@ public class Advisor extends Chess {
 		 
 		x = current.getCol() ;
 		y = current.getRow() ;
-		value = Match.tablePos[y][x];
+		value = match.getTablePos()[y][x];
 
 		if (y <=2 ) {
 			upBound = 0;
@@ -44,8 +44,8 @@ public class Advisor extends Chess {
 			x=current.getCol()+dx[i];
 			y=current.getRow()+dy[i];
 			if (((x>=leftBound)&&(x<=rightBound))&&((y>=upBound)&&(y<=lowBound))){
-				if ((Match.tablePos[y][x]==0)||(Match.tablePos[y][x]*value < 0)){
-					if (Match.tablePos[y][x]*value < 0) {
+				if ((match.getTablePos()[y][x]==0)||(match.getTablePos()[y][x]*value < 0)){
+					if (match.getTablePos()[y][x]*value < 0) {
 						CpTemp = new ChessPosition(x,y,true);
 					} else {
 						CpTemp = new ChessPosition(x,y,false);
@@ -57,7 +57,9 @@ public class Advisor extends Chess {
 		}
 				return pos;
 	}
-	public List <ChessPosition> getTargetPos(ChessPosition current, int side) {
+	
+	@Override
+	public List <ChessPosition> getTargetPos(Match match, ChessPosition current, int side) {
 		List <ChessPosition> pos = new ArrayList<ChessPosition>();
 		ChessPosition CpTemp ;
 		int x,y,upBound,lowBound,leftBound,rightBound,value;
@@ -67,7 +69,7 @@ public class Advisor extends Chess {
 		 
 		x = current.getCol() ;
 		y = current.getRow() ;
-		value = Match.tablePos[y][x];
+		value = match.getTablePos()[y][x];
 
 		if (y <=2 ) {
 			upBound = 0;
@@ -85,8 +87,8 @@ public class Advisor extends Chess {
 			x=current.getCol()+dx[i];
 			y=current.getRow()+dy[i];
 			if (((x>=leftBound)&&(x<=rightBound))&&((y>=upBound)&&(y<=lowBound))){
-				if (Match.tablePos[y][x]!=0){
-					if (Match.tablePos[y][x]*value < 0) {
+				if (match.getTablePos()[y][x]!=0){
+					if (match.getTablePos()[y][x]*value < 0) {
 						CpTemp = new ChessPosition(x,y,true);
 					} else {
 						CpTemp = new ChessPosition(x,y,false);

@@ -1,5 +1,5 @@
 /**
- * 
+ * Menu tao new game, cho phep thiet lap nguoi choi voi may, do kho, ben nao di truoc,...
  */
 package view;
 
@@ -198,13 +198,13 @@ public class MenuNewPanel extends MyPanel implements MouseListener, ActionListen
 								// TODO Auto-generated method stub
 								if (match.isComPlayFirst()) {
 									Computer com = new Computer();
-									com.thinking(0);
-									Match.tryMove(Match.newMove);
+									com.thinking(match, 0);
+									match.tryMove(match.getNewMove());
 									match.setComPlayFirst(false);
-									match.setX1(match.newMove.getx());
-									match.setY1(match.newMove.gety());
-									match.setX2(match.newMove.getxx());
-									match.setY2(match.newMove.getyy());
+									match.setX1(match.getNewMove().getx());
+									match.setY1(match.getNewMove().gety());
+									match.setX2(match.getNewMove().getxx());
+									match.setY2(match.getNewMove().getyy());
 									cardPanel.getMainFrame().getChessBoardPanel().repaint();
 								}
 							}

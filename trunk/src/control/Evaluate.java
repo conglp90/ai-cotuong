@@ -7,7 +7,7 @@ import model.ChessPosition;
 import model.Match;
 
 public class Evaluate {
-	public static int PosValue[][][] = {
+	public int PosValue[][][] = {
 			{ 		{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },  //zero 
 					{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 					{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -102,73 +102,73 @@ public class Evaluate {
 	private int BaseValue[] = { 0, 30, 120, 120, 270, 285, 600, 6000 };
 	private int CurValue[] = new int[9];
 
-	public void PieceValue() {
-		for (int i = 1; i <= Match.count[0]; i++)
-			if (Match.Chess[0][i].getIsAlive())
-				Match.Chess[0][i].setValue(CurValue[Match.Chess[0][i].getPiece()]);
+	public void PieceValue(Match match) {
+		for (int i = 1; i <= match.getCount()[0]; i++)
+			if (match.getChess()[0][i].getIsAlive())
+				match.getChess()[0][i].setValue(CurValue[match.getChess()[0][i].getPiece()]);
 		
-		for (int i = 1; i <= Match.count[1]; i++)
-			if (Match.Chess[1][i].getIsAlive())
-				Match.Chess[1][i].setValue(CurValue[Match.Chess[1][i].getPiece()]);
+		for (int i = 1; i <= match.getCount()[1]; i++)
+			if (match.getChess()[1][i].getIsAlive())
+				match.getChess()[1][i].setValue(CurValue[match.getChess()[1][i].getPiece()]);
 	}
-	public void PositionValue() {
-		for (int i = 1; i <= Match.count[0]; i++)
-			if (Match.Chess[0][i].getIsAlive()){
-				int x = Match.Chess[0][i].getX();
-				int y = 9-Match.Chess[0][i].getY();
-				int piece = Match.Chess[0][i].getPiece();
+	public void PositionValue(Match match) {
+		for (int i = 1; i <= match.getCount()[0]; i++)
+			if (match.getChess()[0][i].getIsAlive()){
+				int x = match.getChess()[0][i].getX();
+				int y = 9-match.getChess()[0][i].getY();
+				int piece = match.getChess()[0][i].getPiece();
 				int value = PosValue[piece][y][x];
-				int temp = Match.Chess[0][i].getValue();
+				int temp = match.getChess()[0][i].getValue();
 				temp = temp + value;
-				Match.Chess[0][i].setValue(temp);
+				match.getChess()[0][i].setValue(temp);
 			}
 				
-		for (int i = 1; i <= Match.count[1]; i++)
-			if (Match.Chess[1][i].getIsAlive()){
-				int x = Match.Chess[1][i].getX();
-				int y = Match.Chess[1][i].getY();
-				int piece = Match.Chess[1][i].getPiece();
+		for (int i = 1; i <= match.getCount()[1]; i++)
+			if (match.getChess()[1][i].getIsAlive()){
+				int x = match.getChess()[1][i].getX();
+				int y = match.getChess()[1][i].getY();
+				int piece = match.getChess()[1][i].getPiece();
 				int value = PosValue[piece][y][x];
-				int temp = Match.Chess[1][i].getValue();
+				int temp = match.getChess()[1][i].getValue();
 				temp = temp + value;
-				Match.Chess[1][i].setValue(temp);
+				match.getChess()[1][i].setValue(temp);
 			}
 	}
-	public void RelationValue() {
+	public void RelationValue(Match match) {
 		// just apply for Attack and Guard between two pieces
 		
-		for (int i = 1; i <= Match.count[0]; i++)
-			if (Match.Chess[0][i].getIsAlive()){
-				int x = Match.Chess[0][i].getX();
-				int y = Match.Chess[0][i].getY();
-				int piece = Match.Chess[0][i].getPiece();
-				int temp = Match.Chess[0][i].getValue();
+		for (int i = 1; i <= match.getCount()[0]; i++)
+			if (match.getChess()[0][i].getIsAlive()){
+				int x = match.getChess()[0][i].getX();
+				int y = match.getChess()[0][i].getY();
+				int piece = match.getChess()[0][i].getPiece();
+				int temp = match.getChess()[0][i].getValue();
 				List <ChessPosition> posCanMove = new ArrayList<ChessPosition>();
 				ChessPosition current = new ChessPosition(x,y,false);
-				posCanMove = Match.pieceChess[0][piece].getTargetPos(current, 0);
+				posCanMove = match.getPieceChess()[0][piece].getTargetPos(match, current, 0);
 				for (ChessPosition pos : posCanMove){
 					int xx = pos.getCol();
 					int yy = pos.getRow();
-					int p  = Math.abs(Match.tablePos[yy][xx]);
+					int p  = Math.abs(match.getTablePos()[yy][xx]);
 					int ltemp = temp + CurValue[p]/16;
-					Match.Chess[0][i].setValue(ltemp);
+					match.getChess()[0][i].setValue(ltemp);
 				}
 			}
-		for (int i = 1; i <= Match.count[1]; i++)
-			if (Match.Chess[1][i].getIsAlive()){
-				int x = Match.Chess[1][i].getX();
-				int y = Match.Chess[1][i].getY();
-				int piece = Match.Chess[1][i].getPiece();
-				int temp = Match.Chess[1][i].getValue();
+		for (int i = 1; i <= match.getCount()[1]; i++)
+			if (match.getChess()[1][i].getIsAlive()){
+				int x = match.getChess()[1][i].getX();
+				int y = match.getChess()[1][i].getY();
+				int piece = match.getChess()[1][i].getPiece();
+				int temp = match.getChess()[1][i].getValue();
 				List <ChessPosition> posCanMove = new ArrayList<ChessPosition>();
 				ChessPosition current = new ChessPosition(x,y,false);
-				posCanMove = Match.pieceChess[1][piece].getTargetPos(current, 0);
+				posCanMove = match.getPieceChess()[1][piece].getTargetPos(match, current, 0);
 				for (ChessPosition pos : posCanMove){
 					int xx = pos.getCol();
 					int yy = pos.getRow();
-					int p  = Math.abs(Match.tablePos[yy][xx]);
+					int p  = Math.abs(match.getTablePos()[yy][xx]);
 					int ltemp = temp + CurValue[p]/16;
-					Match.Chess[1][i].setValue(ltemp);
+					match.getChess()[1][i].setValue(ltemp);
 				}
 			}
 	}
@@ -176,20 +176,20 @@ public class Evaluate {
 	public int FlexValue() {
 		res0 = 0;
 		res1 = 0;
-		for (int i = 1; i <= Match.count[0]; i++)
-			if (Match.Chess[0][i].getIsAlive())
-				res0 = res0 + CurValue[Match.Chess[0][i].getPiece()];
-		for (int i = 1; i <= Match.count[1]; i++)
-			if (Match.Chess[1][i].getIsAlive())
-				res1 = res1 + CurValue[Match.Chess[1][i].getPiece()];
+		for (int i = 1; i <= match.getCount()[0]; i++)
+			if (match.getChess()[0][i].getIsAlive())
+				res0 = res0 + CurValue[match.getChess()[0][i].getPiece()];
+		for (int i = 1; i <= match.getCount()[1]; i++)
+			if (match.getChess()[1][i].getIsAlive())
+				res1 = res1 + CurValue[match.getChess()[1][i].getPiece()];
 		return res0 - res1;
 	}
    */
-	public void IsEndGame() {
+	public void IsEndGame(Match match) {
 		int count = 0;
 		for (int i = 0; i <= 1; i++)
-			for (int j = 1; j <= Match.count[i]; j++) {
-				if (Match.Chess[i][j].getIsAlive())
+			for (int j = 1; j <= match.getCount()[i]; j++) {
+				if (match.getChess()[i][j].getIsAlive())
 					count++;
 			}
 		endGame = false;
@@ -207,21 +207,21 @@ public class Evaluate {
 		}
 	}
 
-	public int Eval() {
-		IsEndGame();
+	public int Eval(Match match) {
+		IsEndGame(match);
 		InitValue();
-		PieceValue();
-		PositionValue();
+		PieceValue(match);
+		PositionValue(match);
 		//RelationValue();
 		int res0 = 0;
 		int res1 = 0;
-		for (int i=1 ; i<=Match.count[0] ; i++){
-			if (Match.Chess[0][i].getIsAlive())
-			res0 = res0 + Match.Chess[0][i].getValue();
+		for (int i=1 ; i<=match.getCount()[0] ; i++){
+			if (match.getChess()[0][i].getIsAlive())
+			res0 = res0 + match.getChess()[0][i].getValue();
 		}
-		for (int i=1 ; i<=Match.count[1] ; i++){
-			if (Match.Chess[1][i].getIsAlive())
-			res1 = res1 + Match.Chess[1][i].getValue();
+		for (int i=1 ; i<=match.getCount()[1] ; i++){
+			if (match.getChess()[1][i].getIsAlive())
+			res1 = res1 + match.getChess()[1][i].getValue();
 		}
 		return res0 - res1;
 	}

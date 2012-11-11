@@ -14,7 +14,7 @@ public class Bishop extends Chess {
 	}
 
 	@Override
-	public List<ChessPosition> getPosCanMove(ChessPosition current,int side) {
+	public List<ChessPosition> getPosCanMove(Match match, ChessPosition current,int side) {
 		List<ChessPosition> pos = new ArrayList<ChessPosition>();
 		int x,y,upBound,lowBound,leftBound,rightBound,value;
 		int dx[] = {0,2,2,-2,-2};
@@ -29,7 +29,7 @@ public class Bishop extends Chess {
 		
 		x = current.getCol() ;
 		y = current.getRow() ;
-		value = Match.tablePos[y][x];
+		value = match.getTablePos()[y][x];
 		if (y<=4) {
 			upBound = 0;
 			lowBound= 4;
@@ -48,9 +48,9 @@ public class Bishop extends Chess {
 			tempX=current.getCol() + cdx[i];
 			tempY=current.getRow() + cdy[i];
 			if (((x>=leftBound)&&(x<=rightBound))&&((y>=upBound)&&(y<=lowBound))){
-				if ((Match.tablePos[y][x]==0)||(Match.tablePos[y][x]*value < 0)){
-					if (Match.tablePos[tempY][tempX]==0) {
-						if (Match.tablePos[y][x]*value < 0) {
+				if ((match.getTablePos()[y][x]==0)||(match.getTablePos()[y][x]*value < 0)){
+					if (match.getTablePos()[tempY][tempX]==0) {
+						if (match.getTablePos()[y][x]*value < 0) {
 							CpTemp = new ChessPosition(x,y,true);
 						} else {
 							CpTemp = new ChessPosition(x,y,false);
@@ -64,7 +64,9 @@ public class Bishop extends Chess {
 		// TODO Auto-generated method stub
 		return pos;
 	}
-	public List<ChessPosition> getTargetPos(ChessPosition current,int side) {
+	
+	@Override
+	public List<ChessPosition> getTargetPos(Match match, ChessPosition current,int side) {
 		List<ChessPosition> pos = new ArrayList<ChessPosition>();
 		int x,y,upBound,lowBound,leftBound,rightBound,value;
 		int dx[] = {0,2,2,-2,-2};
@@ -79,7 +81,7 @@ public class Bishop extends Chess {
 		
 		x = current.getCol() ;
 		y = current.getRow() ;
-		value = Match.tablePos[y][x];
+		value = match.getTablePos()[y][x];
 		if (y<=4) {
 			upBound = 0;
 			lowBound= 4;
@@ -98,9 +100,9 @@ public class Bishop extends Chess {
 			tempX=current.getCol() + cdx[i];
 			tempY=current.getRow() + cdy[i];
 			if (((x>=leftBound)&&(x<=rightBound))&&((y>=upBound)&&(y<=lowBound))){
-				if (Match.tablePos[y][x]!=0){
-					if (Match.tablePos[tempY][tempX]==0) {
-						if (Match.tablePos[y][x]*value < 0) {
+				if (match.getTablePos()[y][x]!=0){
+					if (match.getTablePos()[tempY][tempX]==0) {
+						if (match.getTablePos()[y][x]*value < 0) {
 							CpTemp = new ChessPosition(x,y,true);
 						} else {
 							CpTemp = new ChessPosition(x,y,false);

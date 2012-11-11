@@ -5,7 +5,7 @@ import control.Computer;
 public class Player {
 	Computer com;
 	Match match;
-	public static boolean kiemtraquandochieutuong(int a[][]){
+	public boolean kiemtraquandochieutuong(int a[][]){
 		int i,j;
 		int x = 0,y = 0,dem,li;
 		for (i=0;i<=9;i++)
@@ -99,7 +99,7 @@ public class Player {
 			}
 		return true;
 	}
-	public static boolean kiemtraquandenchieutuong(int a[][]){
+	public boolean kiemtraquandenchieutuong(int a[][]){
 		int i,j;
 		int x = 0,y = 0,dem,li;
 		for (i=0;i<=9;i++)

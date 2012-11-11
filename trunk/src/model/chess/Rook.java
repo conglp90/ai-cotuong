@@ -15,13 +15,13 @@ public class Rook extends Chess {
 	}
 
 	@Override
-	public List <ChessPosition> getPosCanMove(ChessPosition current, int type) {
+	public List <ChessPosition> getPosCanMove(Match match, ChessPosition current, int type) {
 		List <ChessPosition> pos = new ArrayList<ChessPosition>();
 		int x,y,upBound,lowBound,leftBound,rightBound,value,i,omg;
 		ChessPosition CpTemp ;
 		x=current.getCol();
 		y=current.getRow();
-		value = Match.tablePos[y][x];
+		value = match.getTablePos()[y][x];
 		upBound  = 0 ; lowBound = 9;
 		leftBound = 0; rightBound = 8;
 		/*
@@ -29,7 +29,7 @@ public class Rook extends Chess {
 		 */
 		//sang phai
 		for (i=x+1 ; i<=rightBound ; i++ ){
-			omg = Match.tablePos[y][i] ;
+			omg = match.getTablePos()[y][i] ;
 			if (omg == 0) {
 				CpTemp = new ChessPosition(i,y,false);
 				pos.add(CpTemp);
@@ -44,7 +44,7 @@ public class Rook extends Chess {
 		}
 		//Sang ben trai
 		for (i=x-1 ; i>=leftBound ; i-- ){
-			omg = Match.tablePos[y][i] ;
+			omg = match.getTablePos()[y][i] ;
 			if (omg == 0) {
 				CpTemp = new ChessPosition(i,y,false);
 				pos.add(CpTemp);
@@ -58,7 +58,7 @@ public class Rook extends Chess {
 		}
 		//Di len tren
 		for (i=y-1 ; i>=upBound ; i-- ){
-			omg = Match.tablePos[i][x] ;
+			omg = match.getTablePos()[i][x] ;
 			if (omg == 0) {
 				CpTemp = new ChessPosition(x,i,false);
 				pos.add(CpTemp);
@@ -72,7 +72,7 @@ public class Rook extends Chess {
 		}
 		//di xuong duoi
 		for (i=y+1 ; i<=lowBound ; i++ ){
-			omg = Match.tablePos[i][x] ;
+			omg = match.getTablePos()[i][x] ;
 			if (omg == 0) {
 				CpTemp = new ChessPosition(x,i,false);
 				pos.add(CpTemp);
@@ -87,13 +87,15 @@ public class Rook extends Chess {
 		
 		return pos;
 	}
-	public List <ChessPosition> getTargetPos(ChessPosition current, int type) {
+	
+	@Override
+	public List <ChessPosition> getTargetPos(Match match, ChessPosition current, int type) {
 		List <ChessPosition> pos = new ArrayList<ChessPosition>();
 		int x,y,upBound,lowBound,leftBound,rightBound,value,i,omg;
 		ChessPosition CpTemp ;
 		x=current.getCol();
 		y=current.getRow();
-		value = Match.tablePos[y][x];
+		value = match.getTablePos()[y][x];
 		upBound  = 0 ; lowBound = 9;
 		leftBound = 0; rightBound = 8;
 		/*
@@ -101,7 +103,7 @@ public class Rook extends Chess {
 		 */
 		//sang phai
 		for (i=x+1 ; i<=rightBound ; i++ ){
-			omg = Match.tablePos[y][i] ;
+			omg = match.getTablePos()[y][i] ;
 			if (omg * value > 0) {
 				CpTemp = new ChessPosition(i,y,false);
 				pos.add(CpTemp);
@@ -116,7 +118,7 @@ public class Rook extends Chess {
 		}
 		//Sang ben trai
 		for (i=x-1 ; i>=leftBound ; i-- ){
-			omg = Match.tablePos[y][i] ;
+			omg = match.getTablePos()[y][i] ;
 			if (omg * value > 0) {
 				CpTemp = new ChessPosition(i,y,false);
 				pos.add(CpTemp);
@@ -130,7 +132,7 @@ public class Rook extends Chess {
 		}
 		//Di len tren
 		for (i=y-1 ; i>=upBound ; i-- ){
-			omg = Match.tablePos[i][x] ;
+			omg = match.getTablePos()[i][x] ;
 			if (omg * value > 0) {
 				CpTemp = new ChessPosition(x,i,false);
 				pos.add(CpTemp);
@@ -144,7 +146,7 @@ public class Rook extends Chess {
 		}
 		//di xuong duoi
 		for (i=y+1 ; i<=lowBound ; i++ ){
-			omg = Match.tablePos[i][x] ;
+			omg = match.getTablePos()[i][x] ;
 			if (omg * value > 0) {
 				CpTemp = new ChessPosition(x,i,false);
 				pos.add(CpTemp);

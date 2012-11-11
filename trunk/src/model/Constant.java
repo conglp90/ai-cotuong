@@ -1,15 +1,17 @@
 package model;
 
 public class Constant {
-	public final static int MAIN_WIDTH = 800;
-	public final static int MAIN_HEIGHT = 700-30;
-	public final static int LOCATEX = 200;
-	public final static int LOCATEY = 50;
+	/*public final static int MAIN_WIDTH = 800;
+	public final static int MAIN_HEIGHT = 700-30;*/
+	/*public final static int LOCATEX = 200;
+	public final static int LOCATEY = 50;*/
 
 	public final static int BOARD_X = 0;// vi tri ban co X
 	public final static int BOARD_Y = 0;// vi tri ban co Y
 	public static final int BOARD_WIDTH = 600;// chieu rong ban co
 	public static final int BOARD_HEIGHT = 700 - 30;// chieu cao ban co
+	public static final int MENU_WIDTH = 200;
+	public static final int MENU_HEIGHT = 700 - 30;
 	public static final int OX = 15;// tam toa do OX
 	public static final int OY = 15;
 	public static final int INFINITY = 15437998;
