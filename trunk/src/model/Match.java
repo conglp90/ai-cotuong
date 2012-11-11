@@ -458,4 +458,58 @@ public class Match {
 	public void setChess(Position[][] chess) {
 		this.chess = chess;
 	}
+
+
+
+	/**
+	 * @return the status
+	 */
+	public int[][] getStatus() {
+		return status;
+	}
+
+
+
+	/**
+	 * @param status the status to set
+	 */
+	public void setStatus(int[][] status) {
+		this.status = status;
+	}
+
+
+
+	/**
+	 * @return the fi
+	 */
+	public File getFi() {
+		return fi;
+	}
+
+
+
+	/**
+	 * @param fi the fi to set
+	 */
+	public void setFi(File fi) {
+		this.fi = fi;
+	}
+
+
+
+	/**
+	 * @param undo the undo to set
+	 */
+	public void setUndo(boolean undo) {
+		this.undo = undo;
+	}
+
+
+
+	/**
+	 * @param playWithCom the playWithCom to set
+	 */
+	public void setPlayWithCom(boolean playWithCom) {
+		this.playWithCom = playWithCom;
+	}
 }
