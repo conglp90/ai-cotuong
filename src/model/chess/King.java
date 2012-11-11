@@ -16,7 +16,7 @@ public class King extends Chess {
 	}
 
 	@Override
-	public List <ChessPosition> getPosCanMove(ChessPosition current,  int side) {
+	public List <ChessPosition> getPosCanMove(Match match, ChessPosition current,  int side) {
 		List <ChessPosition> pos = new ArrayList<ChessPosition>();
 		int x,y,upBound,lowBound,leftBound,rightBound,value,i,j;
 		boolean loMatTuong ;
@@ -25,7 +25,7 @@ public class King extends Chess {
 		ChessPosition CpTemp;
 		x = current.getCol() ;
 		y = current.getRow() ;
-		value = Match.tablePos[y][x];
+		value = match.getTablePos()[y][x];
 
 		//khoi tao gioi han di chuyen cho quan tuong
 		if (y<=2) {
@@ -46,13 +46,13 @@ public class King extends Chess {
 			x=current.getCol()+dx[i];
 			y=current.getRow()+dy[i];
 			if (((x>=leftBound)&&(x<=rightBound))&&((y>=upBound)&&(y<=lowBound))){
-				if ((Match.tablePos[y][x]==0)||(Match.tablePos[y][x]*value < 0)){
+				if ((match.getTablePos()[y][x]==0)||(match.getTablePos()[y][x]*value < 0)){
 					//Kiem tra xem co lo mat tuong ?
 					loMatTuong = false;
 					if (upBound == 0) {
 						for (j = y +1 ; j<= 9 ; j++) {
-							if (Match.tablePos[j][x] !=0) {
-								if (Match.tablePos[j][x] + value ==0 ) {
+							if (match.getTablePos()[j][x] !=0) {
+								if (match.getTablePos()[j][x] + value ==0 ) {
 									loMatTuong= true;
 								}
 								break;
@@ -60,8 +60,8 @@ public class King extends Chess {
 						}
 					} else {
 						for (j = y - 1 ; j>=0 ; j--) {
-							if (Match.tablePos[j][x] !=0) {
-								if (Match.tablePos[j][x] + value == 0 ) {
+							if (match.getTablePos()[j][x] !=0) {
+								if (match.getTablePos()[j][x] + value == 0 ) {
 									loMatTuong= true;
 								}
 								break;
@@ -72,7 +72,7 @@ public class King extends Chess {
 					
 					if (!loMatTuong) {
 						
-						if (Match.tablePos[y][x]*value < 0) {
+						if (match.getTablePos()[y][x]*value < 0) {
 							CpTemp = new ChessPosition(x,y,true);
 						} else {
 							CpTemp = new ChessPosition(x,y,false);
@@ -85,7 +85,9 @@ public class King extends Chess {
 		
 		return pos;
 	}
-	public List <ChessPosition> getTargetPos(ChessPosition current,  int side) {
+	
+	@Override
+	public List <ChessPosition> getTargetPos(Match match, ChessPosition current,  int side) {
 		List <ChessPosition> pos = new ArrayList<ChessPosition>();
 		int x,y,upBound,lowBound,leftBound,rightBound,value,i,j;
 		boolean loMatTuong ;
@@ -94,7 +96,7 @@ public class King extends Chess {
 		ChessPosition CpTemp;
 		x = current.getCol() ;
 		y = current.getRow() ;
-		value = Match.tablePos[y][x];
+		value = match.getTablePos()[y][x];
 
 		//khoi tao gioi han di chuyen cho quan tuong
 		if (y<=2) {
@@ -115,13 +117,13 @@ public class King extends Chess {
 			x=current.getCol()+dx[i];
 			y=current.getRow()+dy[i];
 			if (((x>=leftBound)&&(x<=rightBound))&&((y>=upBound)&&(y<=lowBound))){
-				if (Match.tablePos[y][x]!=0){
+				if (match.getTablePos()[y][x]!=0){
 					//Kiem tra xem co lo mat tuong ?
 					loMatTuong = false;
 					if (upBound == 0) {
 						for (j = y +1 ; j<= 9 ; j++) {
-							if (Match.tablePos[j][x] !=0) {
-								if (Match.tablePos[j][x] + value ==0 ) {
+							if (match.getTablePos()[j][x] !=0) {
+								if (match.getTablePos()[j][x] + value ==0 ) {
 									loMatTuong= true;
 								}
 								break;
@@ -129,8 +131,8 @@ public class King extends Chess {
 						}
 					} else {
 						for (j = y - 1 ; j>=0 ; j--) {
-							if (Match.tablePos[j][x] !=0) {
-								if (Match.tablePos[j][x] + value == 0 ) {
+							if (match.getTablePos()[j][x] !=0) {
+								if (match.getTablePos()[j][x] + value == 0 ) {
 									loMatTuong= true;
 								}
 								break;
@@ -141,7 +143,7 @@ public class King extends Chess {
 					
 					if (!loMatTuong) {
 						
-						if (Match.tablePos[y][x]*value < 0) {
+						if (match.getTablePos()[y][x]*value < 0) {
 							CpTemp = new ChessPosition(x,y,true);
 						} else {
 							CpTemp = new ChessPosition(x,y,false);

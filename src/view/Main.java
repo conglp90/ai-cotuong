@@ -1,16 +1,16 @@
 package view;
 
-import model.Constant;
+import javax.swing.SwingUtilities;
+
 
 public class Main {
 	public static void main(String[] args) {
-		
-        MainFrame f = new MainFrame();
-        f.pack();
-        f.setSize(Constant.MAIN_WIDTH,Constant.MAIN_HEIGHT);
-        f.setLocation(Constant.LOCATEX, Constant.LOCATEY);
-        f.setVisible(true);
-        f.setResizable(false);
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				new MainFrame();
+			}
+		});
     }
 
 }

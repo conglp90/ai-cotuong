@@ -57,7 +57,20 @@ public abstract class Chess {
 		this.died = status;
 	}
 	
-	// tra ve mang chua vi tri 
-	public abstract List<ChessPosition> getPosCanMove(ChessPosition current,int side);
-	public abstract List<ChessPosition> getTargetPos(ChessPosition current,int side);
+	/**
+	 *  tra ve mang chua vi tri co the di
+	 * @param match
+	 * @param current
+	 * @param side
+	 * @return
+	 */
+	public abstract List<ChessPosition> getPosCanMove(Match match, ChessPosition current,int side);
+	
+	/**
+	 * Hàm này lấy những vị trí mà quân cờ có thể ăn, hoặc quân cờ mà nó bảo vệ
+	 * @param current
+	 * @param side
+	 * @return
+	 */
+	public abstract List<ChessPosition> getTargetPos(Match match, ChessPosition current,int side);
 }

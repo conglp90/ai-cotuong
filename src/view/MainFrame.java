@@ -1,15 +1,11 @@
 package view;
 
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 
 import javax.swing.JFrame;
 
-import control.ComponentMover;
-
-import model.Constant;
 import model.Match;
+import control.ComponentMover;
 
 public class MainFrame extends JFrame {
 	/**
@@ -22,22 +18,27 @@ public class MainFrame extends JFrame {
 	private Match match = new Match();
 
 	public MainFrame() {
-		getContentPane().setBackground(Color.BLACK);
-		setUndecorated(true);
+		
+		
+		setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		// cho phep di chuyen cua so bang chuot
 		ComponentMover cm = new ComponentMover();
 		cm.registerComponent(this);
-		setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
-		getContentPane().setPreferredSize(new Dimension(Constant.MAIN_WIDTH, Constant.MAIN_HEIGHT));
 		
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setLocation(Constant.LOCATEX, Constant.LOCATEY);
-		//setResizable(false);
-		
+		// add 2 panel chinh
 		chessBoardPanel = new ChessBoardPanel(this);
 		getContentPane().add(chessBoardPanel);
+		
 		menuPanel = new MenuPanel(this);
 		getContentPane().add(menuPanel);
 	
+		setResizable(false); // khong thay doi kich thuoc duoc
+		setUndecorated(true); // khong co vien (border)
+		pack();
+		setLocationRelativeTo(null);
+		
 		setVisible(true);
 	}
 	

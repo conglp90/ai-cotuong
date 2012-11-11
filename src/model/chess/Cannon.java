@@ -16,13 +16,13 @@ public class Cannon extends Chess {
 	}
 
 	@Override
-	public List<ChessPosition> getPosCanMove(ChessPosition current,  int type) {
+	public List<ChessPosition> getPosCanMove(Match match, ChessPosition current,  int type) {
 		List<ChessPosition> pos = new ArrayList<ChessPosition>();
 		int x,y,upBound,lowBound,leftBound,rightBound,value,i,omg,j;
 		ChessPosition CpTemp;
 		x=current.getCol();
 		y=current.getRow();
-		value = Match.tablePos[y][x];
+		value = match.getTablePos()[y][x];
 		upBound  = 0 ; lowBound = 9;
 		leftBound = 0; rightBound = 8;
 		/*
@@ -33,14 +33,14 @@ public class Cannon extends Chess {
 		//Sang ben phai
 		
 		for (i=x+1 ; i<=rightBound ; i++){
-			omg = Match.tablePos[y][i] ;
+			omg = match.getTablePos()[y][i] ;
 			if (omg == 0) {
 				CpTemp = new ChessPosition(i,y,false);
 				pos.add(CpTemp);
 			} else {
 				for (j=i+1 ; j<=rightBound ; j++) {
-					if (Match.tablePos[y][j] != 0) {
-						if (value * Match.tablePos[y][j] < 0) {
+					if (match.getTablePos()[y][j] != 0) {
+						if (value * match.getTablePos()[y][j] < 0) {
 							CpTemp = new ChessPosition(j,y,true);
 							pos.add(CpTemp);
 						}
@@ -54,14 +54,14 @@ public class Cannon extends Chess {
 		
 		//Sang ben trai
 		for (i=x-1 ; i>=leftBound ; i--){
-			omg = Match.tablePos[y][i] ;
+			omg = match.getTablePos()[y][i] ;
 			if (omg == 0) {
 				CpTemp = new ChessPosition(i,y,false);
 				pos.add(CpTemp);
 			} else {
 				for (j=i-1 ; j>=leftBound ; j--) {
-					if (Match.tablePos[y][j] != 0) {
-						if (value * Match.tablePos[y][j] < 0) {
+					if (match.getTablePos()[y][j] != 0) {
+						if (value * match.getTablePos()[y][j] < 0) {
 							CpTemp = new ChessPosition(j,y,true);
 							pos.add(CpTemp);
 						}
@@ -73,14 +73,14 @@ public class Cannon extends Chess {
 		}
 		//Di len tren
 		for (i=y-1 ; i>=upBound ; i--){
-			omg = Match.tablePos[i][x] ;
+			omg = match.getTablePos()[i][x] ;
 			if (omg == 0) {
 				CpTemp = new ChessPosition(x,i,false);
 				pos.add(CpTemp);
 			} else {
 				for (j=i-1 ; j>=upBound ; j--) {
-					if (Match.tablePos[j][x] != 0) {
-						if (value * Match.tablePos[j][x] < 0) {
+					if (match.getTablePos()[j][x] != 0) {
+						if (value * match.getTablePos()[j][x] < 0) {
 							CpTemp = new ChessPosition(x,j,true);
 							pos.add(CpTemp);
 						}
@@ -92,14 +92,14 @@ public class Cannon extends Chess {
 		}
 		//di xuong duoi
 		for (i=y+1 ; i<=lowBound ; i++){
-			omg = Match.tablePos[i][x] ;
+			omg = match.getTablePos()[i][x] ;
 			if (omg == 0) {
 				CpTemp = new ChessPosition(x,i,false);
 				pos.add(CpTemp);
 			} else {
 				for (j=i+1 ; j<=lowBound ; j++) {
-					if (Match.tablePos[j][x] != 0) {
-						if (value * Match.tablePos[j][x] < 0) {
+					if (match.getTablePos()[j][x] != 0) {
+						if (value * match.getTablePos()[j][x] < 0) {
 							CpTemp = new ChessPosition(x,j,true);
 							pos.add(CpTemp);
 						}
@@ -111,13 +111,15 @@ public class Cannon extends Chess {
 		}
 		return pos;
 	}
-	public List<ChessPosition> getTargetPos(ChessPosition current,  int type) {
+	
+	@Override
+	public List<ChessPosition> getTargetPos(Match match, ChessPosition current,  int type) {
 		List<ChessPosition> pos = new ArrayList<ChessPosition>();
 		int x,y,upBound,lowBound,leftBound,rightBound,value,i,omg,j;
 		ChessPosition CpTemp;
 		x=current.getCol();
 		y=current.getRow();
-		value = Match.tablePos[y][x];
+		value = match.getTablePos()[y][x];
 		upBound  = 0 ; lowBound = 9;
 		leftBound = 0; rightBound = 8;
 		/*
@@ -128,11 +130,11 @@ public class Cannon extends Chess {
 		//Sang ben phai
 		
 		for (i=x+1 ; i<=rightBound ; i++){
-			omg = Match.tablePos[y][i] ;
+			omg = match.getTablePos()[y][i] ;
 			if (omg != 0) {
 				for (j=i+1 ; j<=rightBound ; j++) {
-					if (Match.tablePos[y][j] != 0) {
-						if (value * Match.tablePos[y][j] < 0) {
+					if (match.getTablePos()[y][j] != 0) {
+						if (value * match.getTablePos()[y][j] < 0) {
 							CpTemp = new ChessPosition(j,y,true);
 						} else CpTemp = new ChessPosition(j,y,false);
 						pos.add(CpTemp);
@@ -146,11 +148,11 @@ public class Cannon extends Chess {
 		
 		//Sang ben trai
 		for (i=x-1 ; i>=leftBound ; i--){
-			omg = Match.tablePos[y][i] ;
+			omg = match.getTablePos()[y][i] ;
 			if (omg != 0) {
 				for (j=i-1 ; j>=leftBound ; j--) {
-					if (Match.tablePos[y][j] != 0) {
-						if (value * Match.tablePos[y][j] < 0) {
+					if (match.getTablePos()[y][j] != 0) {
+						if (value * match.getTablePos()[y][j] < 0) {
 							CpTemp = new ChessPosition(j,y,true);
 						}else CpTemp = new ChessPosition(j,y,false);
 						pos.add(CpTemp);
@@ -162,11 +164,11 @@ public class Cannon extends Chess {
 		}
 		//Di len tren
 		for (i=y-1 ; i>=upBound ; i--){
-			omg = Match.tablePos[i][x] ;
+			omg = match.getTablePos()[i][x] ;
 			if (omg != 0) {
 				for (j=i-1 ; j>=upBound ; j--) {
-					if (Match.tablePos[j][x] != 0) {
-						if (value * Match.tablePos[j][x] < 0) {
+					if (match.getTablePos()[j][x] != 0) {
+						if (value * match.getTablePos()[j][x] < 0) {
 							CpTemp = new ChessPosition(x,j,true);
 						} else CpTemp = new ChessPosition(x,j,false);
 					pos.add(CpTemp);
@@ -178,11 +180,11 @@ public class Cannon extends Chess {
 		}
 		//di xuong duoi
 		for (i=y+1 ; i<=lowBound ; i++){
-			omg = Match.tablePos[i][x] ;
+			omg = match.getTablePos()[i][x] ;
 			if (omg != 0) {
 				for (j=i+1 ; j<=lowBound ; j++) {
-					if (Match.tablePos[j][x] != 0) {
-						if (value * Match.tablePos[j][x] < 0) {
+					if (match.getTablePos()[j][x] != 0) {
+						if (value * match.getTablePos()[j][x] < 0) {
 							CpTemp = new ChessPosition(x,j,true);
 						} else CpTemp = new ChessPosition(x,j,false);
 						pos.add(CpTemp);
