@@ -253,7 +253,7 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 									if (hienChieu<2)
 									showChieu();
 								}
-								System.out.println(match.getIsUndo());
+								System.out.println(match.getUndo());
 								
 								hienChieu=1;
 							}

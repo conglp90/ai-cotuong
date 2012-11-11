@@ -31,12 +31,12 @@ public class Match {
 
 	private int level = 0;
 	private boolean finish = false;
-	private boolean isActive = false;
-	private boolean isUndo = false;
-	private boolean isPause = false;
+	private boolean active = false;
+	private boolean undo = false;
+	private boolean pause = false;
 	private int x1 = -1, x2 = -1, y1 = -1, y2 = -1;
-	private boolean isPlayWithCom = true;
-	private boolean isComPlayFirst = false;
+	private boolean playWithCom = true;
+	private boolean comPlayFirst = false;
 	//ChessBoardPanel ches;
 	/*
 	 * public int tablePos[][]={{6, 4, 3, 2, 7, 2, 3, 4, 6}, {0, 0, 0, 0, 0, 0,
@@ -52,8 +52,8 @@ public class Match {
 	public Match() {
 		LoadMap();
 		finish = false;
-		isPlayWithCom = true;
-		isComPlayFirst = false;
+		playWithCom = true;
+		comPlayFirst = false;
 		pieceChess = new Chess[2][8];
 		pieceChess[0][1] = new Pawn(Constant.CHESS_DIR + "/totdo.png", 0, 0); // Tot
 																				// do
@@ -286,43 +286,43 @@ public class Match {
 	}
 	
 	public boolean isPlayWithCom() {
-		return this.isPlayWithCom;
+		return this.playWithCom;
 	}
 
 	public void setPLayWithCom(boolean status) {
-		this.isPlayWithCom = status;
+		this.playWithCom = status;
 	}
 
 	public boolean isComPlayFirst() {
-		return this.isComPlayFirst;
+		return this.comPlayFirst;
 	}
 
 	public void setComPlayFirst(boolean status) {
-		this.isComPlayFirst = status;
+		this.comPlayFirst = status;
 	}
 
 	public void setActive(boolean status) {
-		this.isActive = status;
+		this.active = status;
 	}
 
 	public boolean isActive() {
-		return this.isActive;
+		return this.active;
 	}
 
 	public void setPause(boolean status) {
-		this.isPause = status;
+		this.pause = status;
 	}
 
 	public void setIsUndo(boolean undo) {
-		this.isUndo = undo;
+		this.undo = undo;
 	}
 
-	public boolean getIsUndo() {
-		return this.isUndo;
+	public boolean getUndo() {
+		return this.undo;
 	}
 
 	public boolean isPause() {
-		return this.isPause;
+		return this.pause;
 	}
 
 	public boolean isFinish() {
