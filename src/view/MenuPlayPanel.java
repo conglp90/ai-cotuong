@@ -84,12 +84,15 @@ public class MenuPlayPanel extends MyPanel implements MouseListener {
 		JLabel source = (JLabel) e.getSource();
 		if (source == lbGoHome) {
 			cardPanel.swapPanel(MenuHomePanel.KEY);
+			cardPanel.getMainFrame().getChessBoardPanel().setActive(false);
+			cardPanel.getMainFrame().getChessBoardPanel().repaint();
+			cardPanel.getMainFrame().getChessBoardPanel().getMatch().writeMatchToFile("lastmap");
 		} else if (source == lbPausePlay) {
-			if (cardPanel.getMainFrame().getMatch().isPause()) {
-				cardPanel.getMainFrame().getMatch().setPause(false);
+			if (cardPanel.getMainFrame().getChessBoardPanel().isPause()) {
+				cardPanel.getMainFrame().getChessBoardPanel().setPause(false);
 				lbPausePlay.setIcon(imgPlay);
 			} else {
-				cardPanel.getMainFrame().getMatch().setPause(true);
+				cardPanel.getMainFrame().getChessBoardPanel().setPause(true);
 				lbPausePlay.setIcon(imgPause);
 			}
 			cardPanel.getMainFrame().getChessBoardPanel().repaint();
@@ -124,7 +127,7 @@ public class MenuPlayPanel extends MyPanel implements MouseListener {
 			source.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			source.setIcon(new ImageIcon(source.getIcon().toString() + "-hover"));
 
-			if (cardPanel.getMainFrame().getMatch().isPause())
+			if (cardPanel.getMainFrame().getChessBoardPanel().isPause())
 				source.setToolTipText("Play");
 			else
 				source.setToolTipText("Pause");
@@ -138,7 +141,7 @@ public class MenuPlayPanel extends MyPanel implements MouseListener {
 		JLabel source = (JLabel) e.getSource();
 		if (source == lbPausePlay) {
 			lbPausePlay.setIcon(
-					cardPanel.getMainFrame().getMatch().isPause() ? imgPlay : imgPause);
+					cardPanel.getMainFrame().getChessBoardPanel().isPause() ? imgPlay : imgPause);
 		}
 	}
 

@@ -10,6 +10,7 @@ import java.awt.event.MouseListener;
 import javax.swing.JLabel;
 
 import model.Constant;
+import model.Match;
 
 /**
  * @author heroandtn3
@@ -70,7 +71,17 @@ public class MenuHomePanel extends MyPanel implements MouseListener {
 		} else if (source == lbCreateGame) {
 			cardPanel.swapPanel(MenuCreatePanel.KEY);
 		} else if (source == lbLoadGame) {
-			cardPanel.swapPanel(MenuLoadPanel.KEY);
+			//cardPanel.swapPanel(MenuLoadPanel.KEY);
+			Match match = new Match();
+			if (match.readeMatchFromFile("lastmap")) {
+				System.out.println("load ok");
+			} else {
+				match.readDefaultMatch();
+			}
+			cardPanel.swapPanel(MenuPlayPanel.KEY);
+			cardPanel.getMainFrame().getChessBoardPanel().setMatch(match);
+			cardPanel.getMainFrame().getChessBoardPanel().initGame();
+			cardPanel.getMainFrame().getChessBoardPanel().repaint();
 		} else if (source == lbExit) {
 			System.exit(0);
 		}
