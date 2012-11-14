@@ -31,7 +31,9 @@ public class MenuNewPanel extends MyPanel implements MouseListener, ActionListen
 	 */
 	private static final long serialVersionUID = 1L;
 	public static final String KEY = "MenuNewPanel";
-	Match match = new Match();
+	
+	private Match match = null; // dung de set cho chessBoard
+	
 	// cac nut dieu khien
 	private MyLabelButton lbBackHome, lbOk;
 
@@ -62,8 +64,6 @@ public class MenuNewPanel extends MyPanel implements MouseListener, ActionListen
 	public MenuNewPanel(MenuPanel mp) {
 		// TODO Auto-generated constructor stub
 		super(mp);
-		match.LoadMap(); 
-		match = cardPanel.getMainFrame().getMatch();
 		initLabel();
 		initRadio();
 		addAll();
@@ -149,27 +149,31 @@ public class MenuNewPanel extends MyPanel implements MouseListener, ActionListen
 		}
 	}
 
-	/*
-	 * public void paintComponent(Graphics g) { g.drawImage(new
-	 * ImageIcon(Constant.IMG_DIR +"/welcome.jpg").getImage(), 0, 0,
-	 * this.getWidth(), this.getHeight(), null); }
-	 */
-
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
 		JLabel source = (JLabel) e.getSource();
+		
 		if (source == lbBackHome) {
 			cardPanel.swapPanel(MenuHomePanel.KEY);
+			
 		} else if (source == lbOk) {
+			// tao match de set vao chessBoardPanel
+			match = new Match();
+			
+			// thiet lap cac che do
 			if (modeGroup.getSelection().getActionCommand() == strCom) {
+				
 				// choi voi may
 				match.setPLayWithCom(true);
+				
 				if (whoGroup.getSelection().getActionCommand() == strComFirst) {
 					//may choi truoc
 					match.setComPlayFirst(true);
+					
 				} else {
 					match.setComPlayFirst(false);
+					
 				}
 				// chon level
 				String choice = levelGroup.getSelection().getActionCommand();
@@ -184,7 +188,8 @@ public class MenuNewPanel extends MyPanel implements MouseListener, ActionListen
 				match.setPLayWithCom(false);
 			}
 			cardPanel.swapPanel(MenuPlayPanel.KEY);
-			match.setActive(true);
+			cardPanel.getMainFrame().getChessBoardPanel().setMatch(match);
+			cardPanel.getMainFrame().getChessBoardPanel().initGame();
 			cardPanel.getMainFrame().getChessBoardPanel().repaint();
 			
 			// Sang Hero says: doan code nay suu tam tren mang, to cung chua hieu no lam

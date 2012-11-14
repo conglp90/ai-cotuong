@@ -20,7 +20,6 @@ import javax.swing.SwingUtilities;
 import model.ChessPosition;
 import model.Constant;
 import model.Match;
-import model.MoveInfo;
 import model.MyQueue;
 import model.MyStack;
 import model.Node;
@@ -29,12 +28,12 @@ import control.Computer;
 
 public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 		MouseListener {
-	
+
+	private static final long serialVersionUID = 1L;
+
 	// some images
 	private final Image imgBoard = new ImageIcon(Constant.BOARD_DIR
 			+ "/banco.png").getImage();
-	private final Image imgUndo = new ImageIcon(Constant.OPT_DIR + "/undo")
-			.getImage();
 	private final Image imgSelect = new ImageIcon(Constant.CHESS_DIR
 			+ "/select.png").getImage();
 	private final Image imgWelcome = new ImageIcon(Constant.IMG_DIR
@@ -45,26 +44,33 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 			+ "/diduoc.png").getImage();
 	private final Image imgAnduoc = new ImageIcon(Constant.CHESS_DIR
 			+ "/anduoc.png").getImage();
-	
-	
-	private int recentX = -1, recentY = -1, piece = 0, type = 0,x=-1,y=-1;
-	private static final long serialVersionUID = 1L;
-	private boolean selected = false, okXY = false,ok=true;
-	private int hienChieu=1;
-	private MyQueue queue=new MyQueue();
-	private MyStack stack=new MyStack();
-	// private boolean ok=MenuNewPanel.dichuyen;
+
+	private int recentX = -1, recentY = -1, piece = 0, type = 0, x = -1,
+			y = -1;
+
+	private boolean selected = false, okXY = false;
+	private int hienChieu = 1;
+	private MyQueue queue = new MyQueue();
+	private MyStack stack = new MyStack();
+
 	private MainFrame mainFrame;
-	private Match match;
-	private MoveInfo newmove;
+	private Match match = null;
 	private Computer com = new Computer();
 	private Player player = new Player();
-	private ChessPosition current = null, h = null;
+	private ChessPosition posCurrent = null;
 	private List<ChessPosition> posCanMove = new ArrayList<ChessPosition>();
+	
+	// game control
+	private boolean active = false;
+	private boolean pause = true;
 
+	
+	/**
+	 * Constructor
+	 * @param mainFrame
+	 */
 	public ChessBoardPanel(MainFrame mainFrame) {
 		this.mainFrame = mainFrame;
-		this.match = this.mainFrame.getMatch();
 		setBackground(Color.GREEN);
 		setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
 		setPreferredSize(new Dimension(Constant.BOARD_WIDTH,
@@ -72,17 +78,43 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 		add(new JLabel("Chess"));
 		addMouseListener(this);
 	}
+
+	/**
+	 * Khoi tao game
+	 */
+	public void initGame() {
+		recentX = recentY = -1;
+		piece = type = 0;
+		x = y = -1;
+		hienChieu = 1;
+
+		selected = false;
+		okXY = false;
+		queue = new MyQueue();
+
+		com = new Computer();
+		player = new Player();
+
+		posCurrent = null;
+		posCanMove = new ArrayList<ChessPosition>();
+		
+		active = true;
+		pause = false;
+	}
+
 	@Override
 	public void paint(Graphics g) {
-		if (!match.isActive()) {
-			drawWelcome(g);
-		} else if (match.isPause()) {
-			drawPauseScreen(g);
+		
+		if (active) {
+			if (!pause) {
+				drawBoard(g);
+				drawChess(g);
+			} else {
+				drawPauseScreen(g);
+			}
 		} else {
-			drawBoard(g);
-			drawChess(g);
+			drawWelcome(g);
 		}
-
 	}
 
 	private void drawPauseScreen(Graphics g) {
@@ -98,7 +130,6 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 	private void drawBoard(Graphics g) {
 		g.drawImage(imgBoard, Constant.BOARD_X, Constant.BOARD_Y,
 				Constant.BOARD_WIDTH, Constant.BOARD_HEIGHT, null);
-		//g.drawImage(match.imgUndo,600,600,42,42,null);
 	}
 
 	private void drawChess(Graphics g) {
@@ -115,17 +146,18 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 							Constant.OX + j * Constant.length, Constant.OY + i
 									* Constant.length, 42, 42, null);
 				}
-				g.drawImage(imgSelect, Constant.OX + Constant.length
-						* match.getX1(), Constant.OY + Constant.length * match.getY1(), 42, 42,
+				g.drawImage(imgSelect,
+						Constant.OX + Constant.length * match.getX1(),
+						Constant.OY + Constant.length * match.getY1(), 42, 42,
 						null);
-				g.drawImage(imgSelect, Constant.OX + Constant.length
-						* match.getX2(), Constant.OY + Constant.length * match.getY2(), 42, 42,
+				g.drawImage(imgSelect,
+						Constant.OX + Constant.length * match.getX2(),
+						Constant.OY + Constant.length * match.getY2(), 42, 42,
 						null);
 			}
 		for (ChessPosition h : posCanMove) {
-			g.drawImage(imgSelect, Constant.OX + Constant.length
-					* recentX, Constant.OY + Constant.length * recentY, 42, 42,
-					null);
+			g.drawImage(imgSelect, Constant.OX + Constant.length * recentX,
+					Constant.OY + Constant.length * recentY, 42, 42, null);
 			if (h.getCanBeEaten()) {
 				g.drawImage(imgAnduoc, Constant.OX + h.getCol()
 						* Constant.length + 7, Constant.OY + h.getRow()
@@ -135,194 +167,245 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 						* Constant.length + 7, Constant.OY + h.getRow()
 						* Constant.length + 7, 25, 25, null);
 		}
-		//repaint();
+		// repaint();
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		
-		x = (e.getX() - Constant.OX) / Constant.length;
-		y = (e.getY() - Constant.OY) / Constant.length;
-		if (!match.isComPlayFirst()&& !match.isFinish()){
-		// x1,y1 la toa do select dong tho li hien o sang len
-			if (((x >= 0) && (x < 9)) && ((y >= 0) && (y < 10))) {
-				if (!selected) {
-					if (match.getTablePos()[y][x] < 0) {
-						piece = match.getTablePos()[y][x];
-						int side = 1;
-						if (y <= 4)
-							side = -1;
-						type = 1;
-						current = new ChessPosition(x, y, false);
-						posCanMove = match.getPieceChess()[type][Math.abs(piece)]
-								.getPosCanMove(match, current, side);
-						recentX = x;
-						recentY = y;
-						selected = true;
-					}
-				} else {
-					okXY = false;
-					for (int count = 0; count < posCanMove.size(); count++) {
-						ChessPosition pos = posCanMove.get(count);
-						if ((x == pos.getCol()) && (y == pos.getRow())) {
-							okXY = true;
-						}
-					}
-					if (okXY) {
-						piece = match.getTablePos()[y][x];
-						if ((piece == 0) ||(piece * match.getTablePos()[recentY][recentX] < 0)) {
-								if (match.getTablePos()[y][x]==7){
-									match.setFinish(true);
-									showDlgYou();//hien thong bao nguoi thang
-								}
-								int cuoi=match.getTablePos()[y][x];
-								match.getTablePos()[y][x] = match.getTablePos()[recentY][recentX];
-								int dau=match.getTablePos()[recentY][recentX];
-								stack.push(new Node(recentY, recentX, y, x,dau,cuoi));
-								match.getTablePos()[recentY][recentX] = 0;
-								
-								selected = false;
-								match.setComPlayFirst(true);
-								hienChieu=1;
-						} 
-						posCanMove.clear();
-					} else {
+		if (active && !pause) {
+			for (int i = 0; i < match.getTablePos().length; i++) {
+				System.out.println();
+				for (int j = 0; j < match.getTablePos()[0].length; j++)
+					System.out.printf("%3d", match.getTablePos()[i][j]);
+			}
+			x = (e.getX() - Constant.OX) / Constant.length;
+			y = (e.getY() - Constant.OY) / Constant.length;
+			if (!match.isFinish()) {
+				
+				if (((x >= 0) && (x < 9)) && ((y >= 0) && (y < 10))) {
+					if (!selected) {
 						if (match.getTablePos()[y][x] < 0) {
 							piece = match.getTablePos()[y][x];
 							int side = 1;
 							if (y <= 4)
 								side = -1;
 							type = 1;
-							current = new ChessPosition(x, y, false);
-							posCanMove = match.getPieceChess()[type][Math.abs(piece)]
-									.getPosCanMove(match, current,  side);
+							posCurrent = new ChessPosition(x, y, false);
+							posCanMove = match.getPieceChess()[type][Math
+									.abs(piece)].getPosCanMove(match, posCurrent,
+									side);
 							recentX = x;
 							recentY = y;
 							selected = true;
 						}
-	
-					}
-				}
-				
-				int a[][]=new int[9][8];
-				a=match.getTablePos();
-				repaint();
-				if (!player.kiemtraquandenchieutuong(a)){
-					if (hienChieu<2)
-					showChieu();
-				}
-				
-				
-			}
-		}
-		repaint();
-		
-		// Sang Hero says: doan code nay suu tam tren mang, to cung chua hieu no lam
-		// to dang doc them ve Threads trong java, hy vong se hieu :)) 
-		// p/s: Computer xu li cham qua
-		if (!match.isFinish())
-		new Thread() {
-	        public void run() {
-	            SwingUtilities.invokeLater(new Runnable() {
-						@Override
-						public void run() {
-							// TODO Auto-generated method stub
-							if (match.isComPlayFirst()){ 
-								com.thinking(match, 0);
-								if (Math.abs(match.getTablePos()[match.getNewMove().getyy()][match.getNewMove().getxx()])==7){
-									match.setFinish(true);
-									showDlgCom();//hien thong bao may thang
-								}
-								int dau=match.getTablePos()[match.getNewMove().gety()][match.getNewMove().getx()];
-								int cuoi=match.getTablePos()[match.getNewMove().getyy()][match.getNewMove().getxx()];
-								match.tryMove(match.getNewMove());
-								match.setComPlayFirst(false);
-								//x1,y1,x2,y2 toa do can select khi maydi
-								match.setX1(match.getNewMove().getx());
-								match.setY1(match.getNewMove().gety());
-								match.setX2(match.getNewMove().getxx());
-								match.setY2(match.getNewMove().getyy());
-								
-								stack.push(new Node(match.getNewMove().gety(),
-										match.getNewMove().getx(),match.getNewMove().getyy(),
-										match.getNewMove().getxx(),dau,cuoi));
-								int a[][]=new int[9][8];
-								a=match.getTablePos();
-								repaint();
-								if (!player.kiemtraquandochieutuong(a)){
-									if (hienChieu<2)
-									showChieu();
-								}
-								System.out.println(match.getUndo());
-								
-								hienChieu=1;
+					} else {
+						okXY = false;
+						for (int count = 0; count < posCanMove.size(); count++) {
+							ChessPosition pos = posCanMove.get(count);
+							if ((x == pos.getCol()) && (y == pos.getRow())) {
+								okXY = true;
 							}
 						}
-	                });
-	        }
-	    }.run();
-	    // end doan code suu tam	
-	}
-	
-	public void showUndo(){
-			match.setX1(-1);
-			match.setY1(-1);
-			match.setX2(-1);
-			match.setY2(-1);
-			Node node=stack.pop();
-			if(node!=null){
-				System.out.println(node.getXdau()+" "+node.getYdau()+" "+node.getXcuoi()+" "+node.getYcuoi());
-				match.getTablePos()[node.getXdau()][node.getYdau()] = node.getGtDau();
-				match.getTablePos()[node.getXcuoi()][node.getYcuoi()] = node.getGtCuoi();
-				queue.insert(new Node(node.getXdau(),node.getYdau(),node.getXcuoi(),node.getYcuoi(),node.getGtDau(),node.getGtCuoi()));
-				
+						if (okXY) {
+							piece = match.getTablePos()[y][x];
+							if ((piece == 0)
+									|| (piece
+											* match.getTablePos()[recentY][recentX] < 0)) {
+								if (match.getTablePos()[y][x] == 7) {
+									match.setFinish(true);
+									showDlgYou();// hien thong bao nguoi thang
+								}
+								int cuoi = match.getTablePos()[y][x];
+								match.getTablePos()[y][x] = match.getTablePos()[recentY][recentX];
+								int dau = match.getTablePos()[recentY][recentX];
+								stack.push(new Node(recentY, recentX, y, x, dau,
+										cuoi));
+								match.getTablePos()[recentY][recentX] = 0;
+
+								selected = false;
+								if (match.isComPlayFirst()) {
+									match.setComPlayFirst(false);
+								} else {
+									match.setComPlayFirst(true);
+								}
+								
+								hienChieu = 1;
+							}
+							posCanMove.clear();
+						} else {
+							if (match.getTablePos()[y][x] < 0) {
+								piece = match.getTablePos()[y][x];
+								int side = 1;
+								if (y <= 4)
+									side = -1;
+								type = 1;
+								posCurrent = new ChessPosition(x, y, false);
+								posCanMove = match.getPieceChess()[type][Math
+										.abs(piece)].getPosCanMove(match,
+										posCurrent, side);
+								recentX = x;
+								recentY = y;
+								selected = true;
+							}
+
+						}
+					}
+
+					int a[][] = new int[9][8];
+					a = match.getTablePos();
+					repaint();
+					if (!player.kiemtraquandenchieutuong(a)) {
+						if (hienChieu < 2)
+							showChieu();
+					}
+
+				}
 			}
-			else System.out.println("khong con phan tu");
-			Node node1=stack.pop();
-			if(node1!=null){
-				System.out.println(node1.getXdau()+" "+node1.getYdau()+" "+node1.getXcuoi()+" "+node1.getYcuoi());
-				match.getTablePos()[node1.getXdau()][node1.getYdau()] = node1.getGtDau();
-				match.getTablePos()[node1.getXcuoi()][node1.getYcuoi()] = node1.getGtCuoi();
-				queue.insert(new Node(node1.getXdau(),node1.getYdau(),node1.getXcuoi(),node1.getYcuoi(),node1.getGtDau(),node1.getGtCuoi()));
-			}
-			else System.out.println("khong con phan tu");
-	}
-	public void showRedo(){
+			repaint();
+
+			// Sang Hero says: doan code nay suu tam tren mang, to cung chua hieu no
+			// lam
+			// to dang doc them ve Threads trong java, hy vong se hieu :))
+			// p/s: Computer xu li cham qua
+			if (!match.isFinish() && match.isPlayWithCom() && match.isComPlayFirst())
+				new Thread() {
+					public void run() {
+						SwingUtilities.invokeLater(new Runnable() {
+							@Override
+							public void run() {
+								// TODO Auto-generated method stub
+								if (match.isComPlayFirst()) {
+									com.thinking(match, 0);
+									if (Math.abs(match.getTablePos()[match
+											.getNewMove().getyy()][match
+											.getNewMove().getxx()]) == 7) {
+										match.setFinish(true);
+										showDlgCom();// hien thong bao may thang
+									}
+									int dau = match.getTablePos()[match
+											.getNewMove().gety()][match
+											.getNewMove().getx()];
+									int cuoi = match.getTablePos()[match
+											.getNewMove().getyy()][match
+											.getNewMove().getxx()];
+									match.tryMove(match.getNewMove());
+									match.setComPlayFirst(false);
+									// x1,y1,x2,y2 toa do can select khi maydi
+									match.setX1(match.getNewMove().getx());
+									match.setY1(match.getNewMove().gety());
+									match.setX2(match.getNewMove().getxx());
+									match.setY2(match.getNewMove().getyy());
+
+									stack.push(new Node(match.getNewMove().gety(),
+											match.getNewMove().getx(), match
+													.getNewMove().getyy(), match
+													.getNewMove().getxx(), dau,
+											cuoi));
+									int a[][] = new int[9][8];
+									a = match.getTablePos();
+									repaint();
+									if (!player.kiemtraquandochieutuong(a)) {
+										if (hienChieu < 2)
+											showChieu();
+									}
+									System.out.println(match.getUndo());
+
+									hienChieu = 1;
+								}
+							}
+						});
+					}
+				}.run();
+			// end doan code suu tam
+		} else {
+			System.out.println("Chua active hoac dang pause");
+		}
+	} // ket thuc phuong thuc mouseClicked()
+
+	public void showUndo() {
 		match.setX1(-1);
 		match.setY1(-1);
 		match.setX2(-1);
 		match.setY2(-1);
-		Node node=queue.remove();
-		if(node!=null){
-			System.out.println(node.getXdau()+" "+node.getYdau()+" "+node.getXcuoi()+" "+node.getYcuoi());
-			match.getTablePos()[node.getXdau()][node.getYdau()] = node.getGtDau();
-			match.getTablePos()[node.getXcuoi()][node.getYcuoi()] = node.getGtCuoi();
-			stack.push(new Node(node.getXcuoi(),node.getYcuoi(),node.getXdau(),node.getYdau(),node.getGtCuoi(),node.getGtDau()));
-		}
-		else System.out.println("khong con phan tu");
-		Node node1=queue.remove();
-		if(node1!=null){
-			System.out.println(node1.getXdau()+" "+node1.getYdau()+" "+node1.getXcuoi()+" "+node1.getYcuoi());
-			match.getTablePos()[node1.getXdau()][node1.getYdau()] = node1.getGtDau();
-			match.getTablePos()[node1.getXcuoi()][node1.getYcuoi()] = node1.getGtCuoi();
-			stack.push(new Node(node1.getXcuoi(),node1.getYcuoi(),node1.getXdau(),node1.getYdau(),node1.getGtCuoi(),node1.getGtDau()));
+		Node node = stack.pop();
+		if (node != null) {
+			System.out.println(node.getXdau() + " " + node.getYdau() + " "
+					+ node.getXcuoi() + " " + node.getYcuoi());
+			match.getTablePos()[node.getXdau()][node.getYdau()] = node
+					.getGtDau();
+			match.getTablePos()[node.getXcuoi()][node.getYcuoi()] = node
+					.getGtCuoi();
+			queue.insert(new Node(node.getXdau(), node.getYdau(), node
+					.getXcuoi(), node.getYcuoi(), node.getGtDau(), node
+					.getGtCuoi()));
 
-		}
-		else System.out.println("khong con phan tu");
-}
-	public void showDlgYou(){
-		JOptionPane.showConfirmDialog(this,"Bạn có muốn thoát Game?","You Win",
+		} else
+			System.out.println("khong con phan tu");
+		Node node1 = stack.pop();
+		if (node1 != null) {
+			System.out.println(node1.getXdau() + " " + node1.getYdau() + " "
+					+ node1.getXcuoi() + " " + node1.getYcuoi());
+			match.getTablePos()[node1.getXdau()][node1.getYdau()] = node1
+					.getGtDau();
+			match.getTablePos()[node1.getXcuoi()][node1.getYcuoi()] = node1
+					.getGtCuoi();
+			queue.insert(new Node(node1.getXdau(), node1.getYdau(), node1
+					.getXcuoi(), node1.getYcuoi(), node1.getGtDau(), node1
+					.getGtCuoi()));
+		} else
+			System.out.println("khong con phan tu");
+	}
+
+	public void showRedo() {
+		match.setX1(-1);
+		match.setY1(-1);
+		match.setX2(-1);
+		match.setY2(-1);
+		Node node = queue.remove();
+		if (node != null) {
+			System.out.println(node.getXdau() + " " + node.getYdau() + " "
+					+ node.getXcuoi() + " " + node.getYcuoi());
+			match.getTablePos()[node.getXdau()][node.getYdau()] = node
+					.getGtDau();
+			match.getTablePos()[node.getXcuoi()][node.getYcuoi()] = node
+					.getGtCuoi();
+			stack.push(new Node(node.getXcuoi(), node.getYcuoi(), node
+					.getXdau(), node.getYdau(), node.getGtCuoi(), node
+					.getGtDau()));
+		} else
+			System.out.println("khong con phan tu");
+		Node node1 = queue.remove();
+		if (node1 != null) {
+			System.out.println(node1.getXdau() + " " + node1.getYdau() + " "
+					+ node1.getXcuoi() + " " + node1.getYcuoi());
+			match.getTablePos()[node1.getXdau()][node1.getYdau()] = node1
+					.getGtDau();
+			match.getTablePos()[node1.getXcuoi()][node1.getYcuoi()] = node1
+					.getGtCuoi();
+			stack.push(new Node(node1.getXcuoi(), node1.getYcuoi(), node1
+					.getXdau(), node1.getYdau(), node1.getGtCuoi(), node1
+					.getGtDau()));
+
+		} else
+			System.out.println("khong con phan tu");
+	}
+
+	public void showDlgYou() {
+		JOptionPane.showConfirmDialog(this, "Bạn có muốn thoát Game?",
+				"You Win", JOptionPane.OK_OPTION);
+	}
+
+	public void showDlgCom() {
+		JOptionPane.showConfirmDialog(this, "Ban Co Muon Thoat Game?",
+				"Com Win", JOptionPane.OK_OPTION);
+	}
+
+	public void showChieu() {
+		JOptionPane.showConfirmDialog(this, "Da bi chieu", "Chieu Tuong",
 				JOptionPane.OK_OPTION);
-	}
-	public void showDlgCom(){
-		JOptionPane.showConfirmDialog(this,"Ban Co Muon Thoat Game?","Com Win",
-			JOptionPane.OK_OPTION);
-	}
-	public void showChieu(){
-		JOptionPane.showConfirmDialog(this,"Da bi chieu","Chieu Tuong",
-			JOptionPane.OK_OPTION);
 		hienChieu++;
 	}
+
 	@Override
 	public void mouseEntered(MouseEvent e) {
 
@@ -342,19 +425,61 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
 		// TODO Auto-generated method stub
 
+	}
+
+	/**
+	 * @return the match
+	 */
+	public Match getMatch() {
+		return match;
+	}
+
+	/**
+	 * @param match the match to set
+	 */
+	public void setMatch(Match match) {
+		this.match = match;
+	}
+
+	/**
+	 * @return the active
+	 */
+	public boolean isActive() {
+		return active;
+	}
+
+	/**
+	 * @param active the active to set
+	 */
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
+	/**
+	 * @return the pause
+	 */
+	public boolean isPause() {
+		return pause;
+	}
+
+	/**
+	 * @param pause the pause to set
+	 */
+	public void setPause(boolean pause) {
+		this.pause = pause;
 	}
 
 }

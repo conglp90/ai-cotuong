@@ -50,8 +50,8 @@ public class MainFrame extends JFrame {
 		return this.menuPanel;
 	}
 	
-	public Match getMatch() {
+	/*public Match getMatch() {
 		return this.match;
-	}
+	}*/
 	
 }

@@ -3,12 +3,17 @@ package model;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.swing.text.TabExpander;
 
 import model.chess.Advisor;
 import model.chess.Bishop;
@@ -28,32 +33,20 @@ public class Match {
 	private int status[][] = new int[13][13];
 	private MoveInfo newMove;
 
-
 	private int level = 0;
 	private boolean finish = false;
-	private boolean active = false;
 	private boolean undo = false;
-	private boolean pause = false;
 	private int x1 = -1, x2 = -1, y1 = -1, y2 = -1;
 	private boolean playWithCom = true;
 	private boolean comPlayFirst = false;
-	//ChessBoardPanel ches;
-	/*
-	 * public int tablePos[][]={{6, 4, 3, 2, 7, 2, 3, 4, 6}, {0, 0, 0, 0, 0, 0,
-	 * 0, 0, 0}, {0, 5, 0, 0, 0, 0, 0, 5, 0}, {1, 0, 1, 0, 1, 0, 1, 0, 1}, {0,
-	 * 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0}, {-1, 0, -1, 0,-1,
-	 * 0,-1, 0,-1}, {0, -5, 0, 0, 0, 0, 0,-5, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0},
-	 * {-6, -4,-3,-2,-7,-2,-3,-4,-6}};
-	 */
+
 
 	private int tablePos[][];
-	private File fi;
+	
 
 	public Match() {
-		LoadMap();
+		readDefaultMatch();
 		finish = false;
-		playWithCom = true;
-		comPlayFirst = false;
 		pieceChess = new Chess[2][8];
 		pieceChess[0][1] = new Pawn(Constant.CHESS_DIR + "/totdo.png", 0, 0); // Tot
 																				// do
@@ -83,20 +76,20 @@ public class Match {
 		pieceChess[1][6] = new Rook(Constant.CHESS_DIR + "/xeden.png", 0, 0); // Tot
 																				// do
 		pieceChess[1][7] = new King(Constant.CHESS_DIR + "/tuongden.png", 0, 0); // Tot
-																					// do
 
 	}
 
-	
-
-	public void LoadMap() {
+	/**
+	 * Doc match mac dinh
+	 */
+	public void readDefaultMatch() {
 		int x = 0, y = 0;
 		setX1(-1);
 		setY1(-1);
 		setY2(-1);
 		setX2(-1);
 		tablePos = new int[10][9];
-		fi = new File(Constant.MAP_DIR + "/map.txt");
+		File fi = new File(Constant.MAP_DIR + "/map.txt");
 		try {
 			FileInputStream fi1 = new FileInputStream(fi);
 			BufferedReader br = new BufferedReader(new InputStreamReader(fi1));
@@ -116,6 +109,122 @@ public class Match {
 		} catch (IOException e) {
 			Logger.getLogger(Match.class.getName()).log(Level.SEVERE, null, e);
 		}
+	}
+	
+	/**
+	 * Doc match tu file
+	 * Cau truc file nhu sau:
+	 * Dong 1: 1 so chi level
+	 * Dong 2: 1 so chi finish hay chua, 1 neu finish, 0 neu chua finish
+	 * Dong 3: 1 so chi la co choi voi may khong, 1 neu choi voi may, 0 neu khong choi voi may
+	 * Dong 4: 1 so chi xem den luot ai choi, 1 neu den luot may, 0 neu den luot nguoi choi
+	 * Con lai la 1 mang 2 chieu 10 hang va 9 cot
+	 */
+	public boolean readeMatchFromFile(String filename) {
+		int[][] outMatrix = null;
+		File fi = new File(Constant.MAP_DIR + "/" + filename);
+		int row = 10, col = 9;
+
+		try {
+			FileInputStream fis = new FileInputStream(fi);
+			BufferedReader br = new BufferedReader(new InputStreamReader(fis));
+			String s = new String();
+			try {
+				// doc level
+				s = br.readLine().trim();
+				level = new Integer(s);
+				
+				int tmp;
+				// doc finish
+				tmp = 0;
+				s = br.readLine().trim();
+				tmp = new Integer(s);
+				if (tmp == 1)
+					finish = true;
+				else
+					finish = false;
+				
+				// doc choi voi may
+				tmp = 0;
+				s = br.readLine().trim();
+				tmp = new Integer(s);
+				if (tmp == 1)
+					playWithCom = true;
+				else
+					playWithCom = false;
+				
+				// doc xem ai di truoc
+				tmp = 0;
+				s = br.readLine().trim();
+				tmp = new Integer(s);
+				if (tmp == 1)
+					comPlayFirst = true;
+				else
+					comPlayFirst = false;
+				
+				// doc ma tran
+				outMatrix = new int[row][col];
+				for (int i = 0; i < row; i++) {
+					s = br.readLine().trim();
+					String[] B = s.split(" ");
+					for (int j = 0; j < col; j++) {
+						outMatrix[i][j] = new Integer(B[j].trim());
+					}
+				}
+				tablePos = outMatrix;
+				br.close();
+			} catch (IOException ex) {
+				return false;
+			}
+		} catch (FileNotFoundException ex) {
+			return false;
+		}
+		return true;
+	}
+	
+	/**
+	 * Ghi match ra file
+	 * Cau truc file nhu sau:
+	 * Dong 1: 1 so chi level
+	 * Dong 2: 1 so chi finish hay chua, 1 neu finish, 0 neu chua finish
+	 * Dong 3: 1 so chi la co choi voi may khong, 1 neu choi voi may, 0 neu khong choi voi may
+	 * Dong 4: 1 so chi xem den luot ai choi, 1 neu den luot may, 0 neu den luot nguoi choi
+	 * Con lai la 1 mang 2 chieu 10 hang va 9 cot
+	 */
+	public boolean writeMatchToFile(String filename) {
+		PrintStream out;
+		File fo = new File(Constant.MAP_DIR + "/" + filename);
+		int row = tablePos.length;
+		int col = tablePos[0].length;
+		try {
+			FileOutputStream fos = new FileOutputStream(fo);
+			out = new PrintStream(fos);
+
+			out.println(level);
+			if (finish)
+				out.println(1);
+			else
+				out.println(0);
+			if (playWithCom)
+				out.println(1);
+			else
+				out.println(0);
+			if (comPlayFirst)
+				out.println(1);
+			else
+				out.println(0);
+
+			for (int i = 0; i < row; i++) {
+				for (int j = 0; j < col; j++) {
+					out.printf("%d ", tablePos[i][j]);
+				}
+				out.println();
+			}
+			out.close();
+		} catch (FileNotFoundException ex) {
+			return false;
+		}
+		return true;
 	}
 
 	public void initChess() {
@@ -224,11 +333,10 @@ public class Match {
 	}
 
 	/**
-	 * codevui IT4: Là tổng hợp các nước đi 
-	 * codevui IT4: được sắp xếp theo một thứ tự ưu tiên nhất định 
-	 * codevui IT4: type là loại quân sẽ đi
-	 * codevui IT4: type = 0 ;à bên máy
-	 * codevui IT4: type =1 là bên người
+	 * codevui IT4: Là tổng hợp các nước đi codevui IT4: được sắp xếp theo một
+	 * thứ tự ưu tiên nhất định codevui IT4: type là loại quân sẽ đi codevui
+	 * IT4: type = 0 ;à bên máy codevui IT4: type =1 là bên người
+	 * 
 	 * @param match
 	 * @param type
 	 * @return
@@ -247,8 +355,8 @@ public class Match {
 				y = chess[type][i].getY();
 				// System.out.println(x+" "+y+" "+status[y][x]);
 				current = new ChessPosition(x, y, false);
-				posCanMove = pieceChess[type][piece].getPosCanMove(match, current,
-						type);
+				posCanMove = pieceChess[type][piece].getPosCanMove(match,
+						current, type);
 				for (ChessPosition pos : posCanMove) {
 					int fromid = status[y][x];
 					int yy = pos.getRow();
@@ -284,7 +392,7 @@ public class Match {
 
 		return arr;
 	}
-	
+
 	public boolean isPlayWithCom() {
 		return this.playWithCom;
 	}
@@ -301,28 +409,12 @@ public class Match {
 		this.comPlayFirst = status;
 	}
 
-	public void setActive(boolean status) {
-		this.active = status;
-	}
-
-	public boolean isActive() {
-		return this.active;
-	}
-
-	public void setPause(boolean status) {
-		this.pause = status;
-	}
-
 	public void setIsUndo(boolean undo) {
 		this.undo = undo;
 	}
 
 	public boolean getUndo() {
 		return this.undo;
-	}
-
-	public boolean isPause() {
-		return this.pause;
 	}
 
 	public boolean isFinish() {
@@ -381,13 +473,12 @@ public class Match {
 	}
 
 	/**
-	 * @param newMove the newMove to set
+	 * @param newMove
+	 *            the newMove to set
 	 */
 	public void setNewMove(MoveInfo newMove) {
 		this.newMove = newMove;
 	}
-
-
 
 	/**
 	 * @return the pieceChess
@@ -396,16 +487,13 @@ public class Match {
 		return pieceChess;
 	}
 
-
-
 	/**
-	 * @param pieceChess the pieceChess to set
+	 * @param pieceChess
+	 *            the pieceChess to set
 	 */
 	public void setPieceChess(Chess[][] pieceChess) {
 		this.pieceChess = pieceChess;
 	}
-
-
 
 	/**
 	 * @return the tablePos
@@ -414,16 +502,13 @@ public class Match {
 		return tablePos;
 	}
 
-
-
 	/**
-	 * @param tablePos the tablePos to set
+	 * @param tablePos
+	 *            the tablePos to set
 	 */
 	public void setTablePos(int[][] tablePos) {
 		this.tablePos = tablePos;
 	}
-
-
 
 	/**
 	 * @return the count
@@ -432,16 +517,13 @@ public class Match {
 		return count;
 	}
 
-
-
 	/**
-	 * @param count the count to set
+	 * @param count
+	 *            the count to set
 	 */
 	public void setCount(int[] count) {
 		this.count = count;
 	}
-
-
 
 	/**
 	 * @return the chess
@@ -450,16 +532,13 @@ public class Match {
 		return chess;
 	}
 
-
-
 	/**
-	 * @param chess the chess to set
+	 * @param chess
+	 *            the chess to set
 	 */
 	public void setChess(Position[][] chess) {
 		this.chess = chess;
 	}
-
-
 
 	/**
 	 * @return the status
@@ -468,46 +547,25 @@ public class Match {
 		return status;
 	}
 
-
-
 	/**
-	 * @param status the status to set
+	 * @param status
+	 *            the status to set
 	 */
 	public void setStatus(int[][] status) {
 		this.status = status;
 	}
 
-
-
 	/**
-	 * @return the fi
-	 */
-	public File getFi() {
-		return fi;
-	}
-
-
-
-	/**
-	 * @param fi the fi to set
-	 */
-	public void setFi(File fi) {
-		this.fi = fi;
-	}
-
-
-
-	/**
-	 * @param undo the undo to set
+	 * @param undo
+	 *            the undo to set
 	 */
 	public void setUndo(boolean undo) {
 		this.undo = undo;
 	}
 
-
-
 	/**
-	 * @param playWithCom the playWithCom to set
+	 * @param playWithCom
+	 *            the playWithCom to set
 	 */
 	public void setPlayWithCom(boolean playWithCom) {
 		this.playWithCom = playWithCom;
