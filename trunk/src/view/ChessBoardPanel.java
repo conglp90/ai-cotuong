@@ -109,6 +109,12 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 		
 		active = true;
 		pause = false;
+		
+		if (match != null) {
+			mainFrame.getMenuPanel().getPlayMenu().setSlLevelValue(match.getLevel());
+		} else {
+			System.out.println("Chua set match cho ChessBoardPanel");
+		}
 	}
 
 	@Override
@@ -183,6 +189,7 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if (active && !pause) {
+			mainFrame.getMenuPanel().getPlayMenu().setComPlaying(match.isComPlayFirst());
 			/*for (int i = 0; i < match.getTablePos().length; i++) {
 				System.out.println();
 				for (int j = 0; j < match.getTablePos()[0].length; j++)
@@ -272,6 +279,7 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 				}
 			}
 			repaint();
+			mainFrame.getMenuPanel().getPlayMenu().setComPlaying(match.isComPlayFirst());
 
 			// Sang Hero says: doan code nay suu tam tren mang, to cung chua hieu no
 			// lam
@@ -284,6 +292,7 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 							@Override
 							public void run() {
 								// TODO Auto-generated method stub
+								
 								if (match.isComPlayFirst()) {
 									com.thinking(match, 0);
 									if (Math.abs(match.getTablePos()[match
@@ -314,6 +323,7 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 									int a[][] = new int[9][8];
 									a = match.getTablePos();
 									repaint();
+									mainFrame.getMenuPanel().getPlayMenu().setComPlaying(match.isComPlayFirst());
 									if (!player.kiemtraquandochieutuong(a)) {
 										if (hienChieu < 2)
 											showChieu();
@@ -411,30 +421,29 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 	}
 
 	public void showChieu() {
-		lbChieuTuong.setVisible(true);
-		validate();
+		
 		Thread t = new Thread(new Runnable() {
-			int tmp = 1;
-			int delta = 1;
 			@Override
 			public void run() {
-				while (tmp > 0) {
-					lbChieuTuong.setBackground(new Color(255, 9, 2, tmp));
-					tmp += delta;
-					if (tmp > 50) delta = -1;
-					try {
-						Thread.sleep(50);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+				if (match.isComPlayFirst()) {
+					mainFrame.getMenuPanel().getPlayMenu().setWarnByHum(true);
+				} else {
+					mainFrame.getMenuPanel().getPlayMenu().setWarnByCom(true);
 				}
-				lbChieuTuong.setVisible(false);
+				try {
+					Thread.sleep(3000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				mainFrame.getMenuPanel().getPlayMenu().setWarnByHum(false);
+				mainFrame.getMenuPanel().getPlayMenu().setWarnByCom(false);
 			}
 		});
+		
 		t.start();
 		
-		validate();
+		
 		hienChieu++;
 	}
 
