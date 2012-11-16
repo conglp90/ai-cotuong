@@ -23,6 +23,7 @@ public class Constant {
 	public static final String OPT_DIR = "src/images/option";
 	public static final String LEVEL_DIR = "src/images/level";
     public static final String MAP_DIR="src/model/map";
+    public static final String COM_DIR = "src/images/com/";
 	// menu
 	public final static int UNDO_X = 800;// toa do Undo
 	public final static int UNDO_Y = 300;
@@ -32,5 +33,5 @@ public class Constant {
 
 	public final static int IMG_HEIGHT = 50;
 	public final static int IMG_WIDTH = 75;
-	public static final int Depth = 4;
+	//public static final int Depth = 4;
 }
