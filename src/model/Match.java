@@ -31,9 +31,9 @@ public class Match {
 	private Chess[][] pieceChess;
 	private int count[] = new int[2];
 	private int status[][] = new int[13][13];
-	private MoveInfo newMove;
+	private MoveInfo newMove = new MoveInfo();
 
-	private int level = 0;
+	private int level = 2;
 	private boolean finish = false;
 	private boolean nguoichoinguoi=false;
 	private boolean undo = false;
