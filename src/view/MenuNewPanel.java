@@ -180,7 +180,15 @@ public class MenuNewPanel extends MyPanel implements MouseListener, ActionListen
 				String choice = levelGroup.getSelection().getActionCommand();
 				for (int i=0; i<4; i++) {
 					if (choice.equals(strLevel[i])) {
-						match.setLevel(i);
+						int lv = 2;
+						if (i == 0) {
+							lv = 2;
+						} else if (i == 1) {
+							lv = 4;
+						} else if (i == 2 || i == 3) {
+							lv = 6;
+						}
+						match.setLevel(lv);
 						break;
 					}
 				}
@@ -193,6 +201,14 @@ public class MenuNewPanel extends MyPanel implements MouseListener, ActionListen
 			cardPanel.getMainFrame().getChessBoardPanel().setMatch(match);
 			cardPanel.getMainFrame().getChessBoardPanel().initGame();
 			cardPanel.getMainFrame().getChessBoardPanel().repaint();
+			cardPanel.getPlayMenu().setSlLevelValue(match.getLevel());
+			if (match.isPlayWithCom()) {
+				cardPanel.getPlayMenu().setLbCom(match.getLevel());
+			} else {
+				cardPanel.getPlayMenu().setLbCom(0);
+			}
+			
+			cardPanel.getPlayMenu().setComPlaying(match.isComPlayFirst());
 			
 			// Sang Hero says: doan code nay suu tam tren mang, to cung chua hieu no lam
 			// to dang doc them ve Threads trong java, hy vong se hieu :)) 
@@ -213,6 +229,7 @@ public class MenuNewPanel extends MyPanel implements MouseListener, ActionListen
 									match.setX2(match.getNewMove().getxx());
 									match.setY2(match.getNewMove().getyy());
 									cardPanel.getMainFrame().getChessBoardPanel().repaint();
+									cardPanel.getPlayMenu().setComPlaying(match.isComPlayFirst());
 								}
 							}
 		                });

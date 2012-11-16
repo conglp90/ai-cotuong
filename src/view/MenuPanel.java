@@ -73,4 +73,11 @@ public class MenuPanel extends JPanel {
 	public MainFrame getMainFrame() {
 		return this.mainFrame;
 	}
+
+	/**
+	 * @return the playMenu
+	 */
+	public MenuPlayPanel getPlayMenu() {
+		return playMenu;
+	}
 }
