@@ -35,6 +35,7 @@ public class Match {
 
 	private int level = 0;
 	private boolean finish = false;
+	private boolean nguoichoinguoi=false;
 	private boolean undo = false;
 	private int x1 = -1, x2 = -1, y1 = -1, y2 = -1;
 	private boolean playWithCom = true;
@@ -333,9 +334,9 @@ public class Match {
 	}
 
 	/**
-	 * codevui IT4: Là tổng hợp các nước đi codevui IT4: được sắp xếp theo một
-	 * thứ tự ưu tiên nhất định codevui IT4: type là loại quân sẽ đi codevui
-	 * IT4: type = 0 ;à bên máy codevui IT4: type =1 là bên người
+	 * codevui IT4: LÃ  tá»•ng há»£p cÃ¡c nÆ°á»›c Ä‘i codevui IT4: Ä‘Æ°á»£c sáº¯p xáº¿p theo má»™t
+	 * thá»© tá»± Æ°u tiÃªn nháº¥t Ä‘á»‹nh codevui IT4: type lÃ  loáº¡i quÃ¢n sáº½ Ä‘i codevui
+	 * IT4: type = 0 ;Ã  bÃªn mÃ¡y codevui IT4: type =1 lÃ  bÃªn ngÆ°á»�i
 	 * 
 	 * @param match
 	 * @param type
@@ -392,7 +393,12 @@ public class Match {
 
 		return arr;
 	}
-
+	public boolean nguoichoinguoi(){
+		return this.nguoichoinguoi;
+	}
+	public void setNguoichoinguoi(boolean status){
+		this.nguoichoinguoi=status;
+	}
 	public boolean isPlayWithCom() {
 		return this.playWithCom;
 	}
