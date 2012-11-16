@@ -28,7 +28,7 @@ public class Computer {
 				match.undoMove(move);
 				if (value > best) {
 					best = value;
-					if (depth == Constant.Depth){
+					if (depth == match.getLevel()){
 						System.out.println(move.getx()+" "+move.gety()+" "+ best);
 						match.setNewMove(move);
 					} 
@@ -91,7 +91,7 @@ public class Computer {
 	}
 	public void thinking(Match match, int type) {
 		match.initChess();
-		alphaBeta(match, -Constant.INFINITY,Constant.INFINITY,Constant.Depth,type);
+		alphaBeta(match, -Constant.INFINITY,Constant.INFINITY, match.getLevel(),type);
 		
 	}
 }
