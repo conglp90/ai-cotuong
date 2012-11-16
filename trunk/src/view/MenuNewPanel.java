@@ -166,6 +166,7 @@ public class MenuNewPanel extends MyPanel implements MouseListener, ActionListen
 				
 				// choi voi may
 				match.setPLayWithCom(true);
+				match.setNguoichoinguoi(false);
 				
 				if (whoGroup.getSelection().getActionCommand() == strComFirst) {
 					//may choi truoc
@@ -186,6 +187,7 @@ public class MenuNewPanel extends MyPanel implements MouseListener, ActionListen
 			} else {
 				// 2 nguoi choi
 				match.setPLayWithCom(false);
+				match.setNguoichoinguoi(true);
 			}
 			cardPanel.swapPanel(MenuPlayPanel.KEY);
 			cardPanel.getMainFrame().getChessBoardPanel().setMatch(match);

@@ -194,7 +194,7 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 				
 				if (((x >= 0) && (x < 9)) && ((y >= 0) && (y < 10))) {
 					if (!selected) {
-						if (match.getTablePos()[y][x] < 0) {
+						if (match.getTablePos()[y][x]<0 || (match.getTablePos()[y][x]>0 && match.nguoichoinguoi())) {
 							piece = match.getTablePos()[y][x];
 							int side = 1;
 							if (y <= 4)
@@ -219,9 +219,9 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 						if (okXY) {
 							piece = match.getTablePos()[y][x];
 							if ((piece == 0)
-									|| (piece
-											* match.getTablePos()[recentY][recentX] < 0)) {
-								if (match.getTablePos()[y][x] == 7) {
+									|| ((piece
+											* match.getTablePos()[recentY][recentX] != 0) || (match.getTablePos()[y][x]>0 && match.nguoichoinguoi()))) {
+								if (Math.abs(match.getTablePos()[y][x])==7) {
 									match.setFinish(true);
 									showDlgYou();// hien thong bao nguoi thang
 								}
@@ -243,7 +243,7 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 							}
 							posCanMove.clear();
 						} else {
-							if (match.getTablePos()[y][x] < 0) {
+							if (match.getTablePos()[y][x] != 0  || (match.getTablePos()[y][x]>0 && match.nguoichoinguoi())) {
 								piece = match.getTablePos()[y][x];
 								int side = 1;
 								if (y <= 4)
