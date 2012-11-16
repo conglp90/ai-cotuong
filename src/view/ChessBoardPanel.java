@@ -2,7 +2,6 @@ package view;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.MouseEvent;
@@ -12,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -63,7 +63,9 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 	// game control
 	private boolean active = false;
 	private boolean pause = true;
-
+	
+	// hien thong bao chieu tuong
+	private JLabel lbChieuTuong = new JLabel("CHIEU TUONG");
 	
 	/**
 	 * Constructor
@@ -72,11 +74,18 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 	public ChessBoardPanel(MainFrame mainFrame) {
 		this.mainFrame = mainFrame;
 		setBackground(Color.GREEN);
-		setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
+		
 		setPreferredSize(new Dimension(Constant.BOARD_WIDTH,
 				Constant.BOARD_HEIGHT));
 		add(new JLabel("Chess"));
 		addMouseListener(this);
+		setLayout(null);
+		lbChieuTuong.setOpaque(true);
+		lbChieuTuong.setBackground(Color.RED);
+		lbChieuTuong.setBounds(0, 302, 600, 67);
+		add(lbChieuTuong);
+		lbChieuTuong.setVisible(false);
+		validate();
 	}
 
 	/**
@@ -103,8 +112,8 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 	}
 
 	@Override
-	public void paint(Graphics g) {
-		
+	public void paintComponent(Graphics g) {
+		super.paintComponents(g);
 		if (active) {
 			if (!pause) {
 				drawBoard(g);
@@ -143,13 +152,14 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 				x = Math.abs(piece);
 				if (x > 0) {
 					g.drawImage(match.getPieceChess()[type][x].getShape(),
-							Constant.OX + j * Constant.length, Constant.OY + i
-									* Constant.length, 42, 42, null);
+								Constant.OX + j * Constant.length, 
+								Constant.OY + i	* Constant.length, 
+								42, 42, null);
 				}
 				g.drawImage(imgSelect,
-						Constant.OX + Constant.length * match.getX1(),
-						Constant.OY + Constant.length * match.getY1(), 42, 42,
-						null);
+							Constant.OX + Constant.length * match.getX1(),
+							Constant.OY + Constant.length * match.getY1(), 
+							42, 42,	null);
 				g.drawImage(imgSelect,
 						Constant.OX + Constant.length * match.getX2(),
 						Constant.OY + Constant.length * match.getY2(), 42, 42,
@@ -173,11 +183,11 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if (active && !pause) {
-			for (int i = 0; i < match.getTablePos().length; i++) {
+			/*for (int i = 0; i < match.getTablePos().length; i++) {
 				System.out.println();
 				for (int j = 0; j < match.getTablePos()[0].length; j++)
 					System.out.printf("%3d", match.getTablePos()[i][j]);
-			}
+			}*/
 			x = (e.getX() - Constant.OX) / Constant.length;
 			y = (e.getY() - Constant.OY) / Constant.length;
 			if (!match.isFinish()) {
@@ -401,8 +411,30 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 	}
 
 	public void showChieu() {
-		JOptionPane.showConfirmDialog(this, "Da bi chieu", "Chieu Tuong",
-				JOptionPane.OK_OPTION);
+		lbChieuTuong.setVisible(true);
+		validate();
+		Thread t = new Thread(new Runnable() {
+			int tmp = 1;
+			int delta = 1;
+			@Override
+			public void run() {
+				while (tmp > 0) {
+					lbChieuTuong.setBackground(new Color(255, 9, 2, tmp));
+					tmp += delta;
+					if (tmp > 50) delta = -1;
+					try {
+						Thread.sleep(50);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				lbChieuTuong.setVisible(false);
+			}
+		});
+		t.start();
+		
+		validate();
 		hienChieu++;
 	}
 
