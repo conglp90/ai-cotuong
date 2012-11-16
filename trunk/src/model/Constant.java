@@ -1,10 +1,6 @@
 package model;
 
 public class Constant {
-	/*public final static int MAIN_WIDTH = 800;
-	public final static int MAIN_HEIGHT = 700-30;*/
-	/*public final static int LOCATEX = 200;
-	public final static int LOCATEY = 50;*/
 
 	public final static int BOARD_X = 0;// vi tri ban co X
 	public final static int BOARD_Y = 0;// vi tri ban co Y
@@ -33,5 +29,4 @@ public class Constant {
 
 	public final static int IMG_HEIGHT = 50;
 	public final static int IMG_WIDTH = 75;
-	//public static final int Depth = 4;
 }

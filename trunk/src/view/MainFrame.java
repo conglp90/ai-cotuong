@@ -4,7 +4,6 @@ import java.awt.FlowLayout;
 
 import javax.swing.JFrame;
 
-import model.Match;
 import control.ComponentMover;
 
 public class MainFrame extends JFrame {
@@ -14,8 +13,6 @@ public class MainFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private MenuPanel menuPanel;
 	private ChessBoardPanel chessBoardPanel;
-	
-	private Match match = new Match();
 
 	public MainFrame() {
 		
