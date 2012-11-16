@@ -15,18 +15,6 @@ import javax.swing.event.ChangeListener;
 import model.Constant;
 
 /**
- * This code was edited or generated using CloudGarden's Jigloo
- * SWT/Swing GUI Builder, which is free for non-commercial
- * use. If Jigloo is being used commercially (ie, by a corporation,
- * company or business for any purpose whatever) then you
- * should purchase a license for each developer using Jigloo.
- * Please visit www.cloudgarden.com for details.
- * Use of Jigloo implies acceptance of these licensing terms.
- * A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED FOR
- * THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
- * LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
- */
-/**
  * @author heroandtn3
  * 
  */
@@ -102,10 +90,8 @@ public class MenuPlayPanel extends MyPanel {
 							//TODO add your code for butPlayPause.mouseClicked
 							if (cardPanel.getMainFrame().getChessBoardPanel().isPause()) {
 								cardPanel.getMainFrame().getChessBoardPanel().setPause(false);
-								butPlayPause.setText("Pl");
 							} else {
 								cardPanel.getMainFrame().getChessBoardPanel().setPause(true);
-								butPlayPause.setText("Ps");
 							}
 							cardPanel.getMainFrame().getChessBoardPanel().repaint();
 						}
@@ -164,6 +150,7 @@ public class MenuPlayPanel extends MyPanel {
 						public void mouseClicked(MouseEvent evt) {
 							//TODO add your code for butReset.mouseClicked
 							cardPanel.getMainFrame().getChessBoardPanel().getMatch().readDefaultMatch();
+							cardPanel.getMainFrame().getChessBoardPanel().getMatch().setFinish(false);
 							cardPanel.getMainFrame().getChessBoardPanel().initGame();
 							cardPanel.getMainFrame().getChessBoardPanel().repaint();
 						}

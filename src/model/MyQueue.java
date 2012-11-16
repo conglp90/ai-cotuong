@@ -1,6 +1,5 @@
 package model;
 
-import javax.naming.spi.DirStateFactory.Result;
 
 public class MyQueue {
 	private Node[] value;
