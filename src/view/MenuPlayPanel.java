@@ -2,6 +2,7 @@
  * 
  */
 package view;
+import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -123,7 +124,6 @@ public class MenuPlayPanel extends MyPanel {
 					butUndo.addMouseListener(new MouseAdapter() {
 						public void mouseClicked(MouseEvent evt) {
 							//TODO add your code for butUndo.mouseClicked
-							System.out.println("Undo");
 							cardPanel.getMainFrame().getChessBoardPanel().showUndo();
 							cardPanel.getMainFrame().getChessBoardPanel().repaint();
 						}
@@ -136,7 +136,6 @@ public class MenuPlayPanel extends MyPanel {
 					butRedo.addMouseListener(new MouseAdapter() {
 						public void mouseClicked(MouseEvent evt) {
 							//TODO add your code for butRedo.mouseClicked
-							System.out.println("Redo");
 							cardPanel.getMainFrame().getChessBoardPanel().showRedo();
 							cardPanel.getMainFrame().getChessBoardPanel().repaint();
 						}
@@ -181,7 +180,6 @@ public class MenuPlayPanel extends MyPanel {
 							JSlider source = (JSlider) evt.getSource();
 						    if (!source.getValueIsAdjusting()) {
 						        int lv = (int)source.getValue();
-						        System.out.println(lv);
 						        if ((lv %2 ) != 0) { // la so le
 						        	slLevel.setValue(lv - 1);
 						        }
@@ -245,7 +243,7 @@ public class MenuPlayPanel extends MyPanel {
 
 			}
 		} catch(Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 	} // ket thuc phuong thuc initGUI()
 	

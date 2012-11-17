@@ -72,7 +72,6 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 	 */
 	public ChessBoardPanel(MainFrame mainFrame) {
 		this.mainFrame = mainFrame;
-		setBackground(Color.GREEN);
 		
 		setPreferredSize(new Dimension(Constant.BOARD_WIDTH,
 				Constant.BOARD_HEIGHT));
@@ -111,8 +110,6 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 		
 		if (match != null) {
 			mainFrame.getMenuPanel().getPlayMenu().setSlLevelValue(match.getLevel());
-		} else {
-			System.out.println("Chua set match cho ChessBoardPanel");
 		}
 	}
 
@@ -189,11 +186,6 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 	public void mouseClicked(MouseEvent e) {
 		if (active && !pause) {
 			mainFrame.getMenuPanel().getPlayMenu().setComPlaying(match.isComPlayFirst());
-			/*for (int i = 0; i < match.getTablePos().length; i++) {
-				System.out.println();
-				for (int j = 0; j < match.getTablePos()[0].length; j++)
-					System.out.printf("%3d", match.getTablePos()[i][j]);
-			}*/
 			x = (e.getX() - Constant.OX) / Constant.length;
 			y = (e.getY() - Constant.OY) / Constant.length;
 			if (!match.isFinish()) {
@@ -327,7 +319,6 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 										if (hienChieu < 2)
 											showChieu();
 									}
-									System.out.println(match.getUndo());
 
 									hienChieu = 1;
 								}
@@ -336,8 +327,6 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 					}
 				}.run();
 			// end doan code suu tam
-		} else {
-			System.out.println("Chua active hoac dang pause");
 		}
 	} // ket thuc phuong thuc mouseClicked()
 
@@ -348,8 +337,6 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 		match.setY2(-1);
 		Node node = stack.pop();
 		if (node != null) {
-			System.out.println(node.getXdau() + " " + node.getYdau() + " "
-					+ node.getXcuoi() + " " + node.getYcuoi());
 			match.getTablePos()[node.getXdau()][node.getYdau()] = node
 					.getGtDau();
 			match.getTablePos()[node.getXcuoi()][node.getYcuoi()] = node
@@ -358,12 +345,9 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 					.getXcuoi(), node.getYcuoi(), node.getGtDau(), node
 					.getGtCuoi()));
 
-		} else
-			System.out.println("khong con phan tu");
+		}
 		Node node1 = stack.pop();
 		if (node1 != null) {
-			System.out.println(node1.getXdau() + " " + node1.getYdau() + " "
-					+ node1.getXcuoi() + " " + node1.getYcuoi());
 			match.getTablePos()[node1.getXdau()][node1.getYdau()] = node1
 					.getGtDau();
 			match.getTablePos()[node1.getXcuoi()][node1.getYcuoi()] = node1
@@ -371,8 +355,7 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 			queue.insert(new Node(node1.getXdau(), node1.getYdau(), node1
 					.getXcuoi(), node1.getYcuoi(), node1.getGtDau(), node1
 					.getGtCuoi()));
-		} else
-			System.out.println("khong con phan tu");
+		}
 	}
 
 	public void showRedo() {
@@ -382,8 +365,6 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 		match.setY2(-1);
 		Node node = queue.remove();
 		if (node != null) {
-			System.out.println(node.getXdau() + " " + node.getYdau() + " "
-					+ node.getXcuoi() + " " + node.getYcuoi());
 			match.getTablePos()[node.getXdau()][node.getYdau()] = node
 					.getGtDau();
 			match.getTablePos()[node.getXcuoi()][node.getYcuoi()] = node
@@ -391,12 +372,9 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 			stack.push(new Node(node.getXcuoi(), node.getYcuoi(), node
 					.getXdau(), node.getYdau(), node.getGtCuoi(), node
 					.getGtDau()));
-		} else
-			System.out.println("khong con phan tu");
+		}
 		Node node1 = queue.remove();
 		if (node1 != null) {
-			System.out.println(node1.getXdau() + " " + node1.getYdau() + " "
-					+ node1.getXcuoi() + " " + node1.getYcuoi());
 			match.getTablePos()[node1.getXdau()][node1.getYdau()] = node1
 					.getGtDau();
 			match.getTablePos()[node1.getXcuoi()][node1.getYcuoi()] = node1
@@ -405,8 +383,7 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 					.getXdau(), node1.getYdau(), node1.getGtCuoi(), node1
 					.getGtDau()));
 
-		} else
-			System.out.println("khong con phan tu");
+		}
 	}
 
 	public void showDlgYou() {
@@ -433,7 +410,7 @@ public class ChessBoardPanel extends JPanel implements MouseMotionListener,
 					Thread.sleep(3000);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					//e.printStackTrace();
 				}
 				mainFrame.getMenuPanel().getPlayMenu().setWarnByHum(false);
 				mainFrame.getMenuPanel().getPlayMenu().setWarnByCom(false);

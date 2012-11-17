@@ -32,7 +32,7 @@ public class MenuHomePanel extends MyPanel implements MouseListener {
 	public MenuHomePanel(MenuPanel mp) {
 		// TODO Auto-generated constructor stub
 		super(mp);
-		setBackground(Color.GREEN);
+		this.setBackground(Color.GREEN);
 		setPreferredSize(cardPanel.getPreferredSize());
 
 		initLabel();
@@ -74,7 +74,6 @@ public class MenuHomePanel extends MyPanel implements MouseListener {
 			//cardPanel.swapPanel(MenuLoadPanel.KEY);
 			Match match = new Match();
 			if (match.readeMatchFromFile("lastmap")) {
-				System.out.println("load ok");
 			} else {
 				match.readDefaultMatch();
 			}

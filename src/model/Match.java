@@ -352,7 +352,6 @@ public class Match {
 				piece = chess[type][i].getPiece();
 				x = chess[type][i].getX();
 				y = chess[type][i].getY();
-				// System.out.println(x+" "+y+" "+status[y][x]);
 				current = new ChessPosition(x, y, false);
 				posCanMove = pieceChess[type][piece].getPosCanMove(match,
 						current, type);
