@@ -24,12 +24,10 @@ public class Computer {
 		for (MoveInfo move : arr){
 				match.tryMove(move);
 				value = -alphaBeta(match, -beta,-alpha,depth - 1, 1 - type);
-				//if (move.getpiece() == -7) System.out.println(value+" "+best+" "+depth);
 				match.undoMove(move);
 				if (value > best) {
 					best = value;
 					if (depth == match.getLevel()){
-						System.out.println(move.getx()+" "+move.gety()+" "+ best);
 						match.setNewMove(move);
 					} 
 				}
