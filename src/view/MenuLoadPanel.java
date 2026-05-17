@@ -56,26 +56,30 @@ public class MenuLoadPanel extends MyPanel implements MouseListener {
 
 	}
 
+	private void loadAndInitializeMatch() {
+		Match match = new Match();
+		if (!match.readeMatchFromFile("lastmap")) {
+			match.readDefaultMatch();
+		}
+		cardPanel.swapPanel(MenuPlayPanel.KEY);
+		cardPanel.getMainFrame().getChessBoardPanel().setMatch(match);
+		cardPanel.getMainFrame().getChessBoardPanel().initGame();
+		cardPanel.getMainFrame().getChessBoardPanel().repaint();
+		cardPanel.getPlayMenu().setSlLevelValue(match.getLevel());
+		if (match.isPlayWithCom()) {
+			cardPanel.getPlayMenu().setLbCom(match.getLevel());
+		} else {
+			cardPanel.getPlayMenu().setLbCom(0);
+		}
+		cardPanel.getPlayMenu().setComPlaying(match.isComPlayFirst());
+	}
+
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
 		JLabel source = (JLabel) e.getSource();
 		if (source == lbLoadLastGame) {
-			Match match = new Match();
-			if (!match.readeMatchFromFile("lastmap")) {
-				match.readDefaultMatch();
-			}
-			cardPanel.swapPanel(MenuPlayPanel.KEY);
-			cardPanel.getMainFrame().getChessBoardPanel().setMatch(match);
-			cardPanel.getMainFrame().getChessBoardPanel().initGame();
-			cardPanel.getMainFrame().getChessBoardPanel().repaint();
-			cardPanel.getPlayMenu().setSlLevelValue(match.getLevel());
-			if (match.isPlayWithCom()) {
-				cardPanel.getPlayMenu().setLbCom(match.getLevel());
-			} else {
-				cardPanel.getPlayMenu().setLbCom(0);
-			}
-			cardPanel.getPlayMenu().setComPlaying(match.isComPlayFirst());
+			loadAndInitializeMatch();
 		} else if (source == lbBackHome) {
 			cardPanel.swapPanel(MenuHomePanel.KEY);
 		}
