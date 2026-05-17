@@ -70,6 +70,7 @@ public class MenuHomePanel extends MyPanel implements MouseListener {
 		} else if (source == lbCreateGame) {
 			cardPanel.swapPanel(MenuCreatePanel.KEY);
 		} else if (source == lbLoadGame) {
+			cardPanel.getLoadMenu().refreshPreviewInfo();
 			cardPanel.swapPanel(MenuLoadPanel.KEY);
 		} else if (source == lbExit) {
 			System.exit(0);
