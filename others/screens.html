@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Các Màn Hình – AI Cờ Tướng</title>
+  <style>
+    /* ── reset ──────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #1a1a2e;
+      color: #eee;
+      padding: 40px 20px;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2rem;
+      color: #f0c040;
+      margin-bottom: 8px;
+      text-shadow: 0 2px 8px #0008;
+    }
+    .subtitle {
+      text-align: center;
+      color: #aaa;
+      margin-bottom: 40px;
+      font-size: .95rem;
+    }
+
+    /* ── section headers ─────────────────────────────────── */
+    .section {
+      margin-bottom: 60px;
+    }
+    .section-title {
+      font-size: 1.25rem;
+      color: #f0c040;
+      border-left: 4px solid #f0c040;
+      padding-left: 10px;
+      margin-bottom: 16px;
+    }
+    .section-desc {
+      color: #bbb;
+      font-size: .88rem;
+      margin-bottom: 16px;
+    }
+
+    /* ── window frame ────────────────────────────────────── */
+    .window-wrap {
+      display: inline-flex;
+      flex-direction: column;
+      border: 2px solid #555;
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: 0 8px 32px #0008;
+    }
+    .title-bar {
+      background: #2a2a3e;
+      color: #ccc;
+      font-size: .78rem;
+      padding: 4px 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .title-bar-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+    .dot-red   { background: #ff5f57; }
+    .dot-amber { background: #febc2e; }
+    .dot-green { background: #28c840; }
+
+    /* ── game window (board + menu side by side) ─────────── */
+    .game-window {
+      display: flex;
+      flex-direction: row;
+    }
+
+    /* ── board panel ─────────────────────────────────────── */
+    .board-panel {
+      width: 600px;
+      height: 670px;
+      position: relative;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .board-panel img.bg {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* chess grid overlay */
+    .chess-grid {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+    }
+
+    /* ── menu panel ──────────────────────────────────────── */
+    .menu-panel {
+      width: 200px;
+      height: 670px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 12px 8px;
+      gap: 10px;
+      position: relative;
+    }
+    .menu-green  { background: #4a7c4e; }
+    .menu-white  { background: #e8e8e8; color: #222; }
+    .menu-yellow { background: #d4b800; color: #222; }
+    .menu-dark   { background: #2e2e3e; }
+
+    /* ── menu buttons ────────────────────────────────────── */
+    .menu-btn {
+      width: 180px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 12px;
+      border-radius: 6px;
+      background: rgba(255,255,255,.13);
+      cursor: pointer;
+      font-size: .85rem;
+      font-weight: 600;
+      color: #fff;
+      border: 1px solid rgba(255,255,255,.25);
+      transition: background .15s;
+    }
+    .menu-btn.dark-btn {
+      background: rgba(0,0,0,.18);
+      color: #222;
+      border-color: rgba(0,0,0,.2);
+    }
+    .menu-btn img { width: 28px; height: 28px; object-fit: contain; }
+
+    /* icon placeholder */
+    .ico {
+      width: 28px; height: 28px;
+      border-radius: 4px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+    /* ── avatar area ─────────────────────────────────────── */
+    .avatar-area {
+      width: 180px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .avatar-area img {
+      width: 120px;
+      height: auto;
+      border-radius: 6px;
+      margin-bottom: 4px;
+    }
+    .avatar-label {
+      font-size: .75rem;
+      color: #bbb;
+    }
+
+    /* think spinner */
+    .think-ico {
+      width: 36px; height: 36px;
+      background: url('../src/images/thinking.png') center/contain no-repeat;
+      align-self: flex-end;
+      margin-right: 10px;
+      opacity: .8;
+    }
+
+    /* ── play buttons bar ────────────────────────────────── */
+    .play-bar {
+      width: 180px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      justify-content: center;
+    }
+    .play-btn {
+      width: 48px; height: 48px;
+      border-radius: 8px;
+      background: #3a3a5a;
+      border: 1px solid #555;
+      display: flex;
+      align-items: center; justify-content: center;
+      font-size: 1.2rem;
+      cursor: pointer;
+      color: #eee;
+    }
+
+    /* ── level slider area ───────────────────────────────── */
+    .level-area {
+      width: 180px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .level-area label {
+      font-size: .78rem;
+      color: #aaa;
+    }
+    .level-area input[type=range] {
+      width: 100%;
+      accent-color: #f0c040;
+    }
+
+    /* ── radio group ─────────────────────────────────────── */
+    .radio-group {
+      width: 180px;
+    }
+    .radio-group p {
+      font-size: .8rem;
+      font-weight: 700;
+      color: #555;
+      margin-bottom: 4px;
+    }
+    .radio-group label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: .82rem;
+      color: #333;
+      margin-bottom: 3px;
+    }
+
+    /* ── pause overlay ───────────────────────────────────── */
+    .pause-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,.65);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .pause-overlay .pause-icon {
+      font-size: 5rem;
+      line-height: 1;
+    }
+    .pause-overlay p {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #f0c040;
+      text-shadow: 0 2px 8px #000a;
+    }
+
+    /* ── dialog overlay ──────────────────────────────────── */
+    .dialog-wrap {
+      position: relative;
+      width: 360px;
+      height: 170px;
+      display: inline-flex;
+      flex-direction: column;
+      border: 2px solid #888;
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: 0 8px 24px #0009;
+    }
+    .dialog-title {
+      background: #3a6bc8;
+      color: #fff;
+      font-size: .82rem;
+      font-weight: 700;
+      padding: 5px 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .dialog-body {
+      background: #f0f0f0;
+      color: #222;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      font-size: .9rem;
+    }
+    .dialog-body-row {
+      display: flex;
+      gap: 10px;
+    }
+    .dialog-btn {
+      padding: 5px 22px;
+      border-radius: 4px;
+      border: 1px solid #aaa;
+      background: #e0e0e0;
+      font-size: .82rem;
+      cursor: pointer;
+      color: #222;
+    }
+    .dialog-btn.primary { background: #3a6bc8; color: #fff; border-color: #3a6bc8; }
+
+    /* ── board image with chess overlay ─────────────────── */
+    .board-canvas {
+      position: absolute;
+      top: 0; left: 0;
+      width: 600px; height: 670px;
+    }
+
+    /* chieutướng banner */
+    .chieu-banner {
+      position: absolute;
+      left: 0; right: 0;
+      top: 302px;
+      height: 67px;
+      background: red;
+      color: #fff;
+      font-size: 1.5rem;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      letter-spacing: 4px;
+      text-shadow: 1px 1px 4px #000;
+    }
+
+    /* responsive shrink for small screens */
+    @media (max-width: 900px) {
+      .window-wrap { transform-origin: top left; transform: scale(.55); }
+    }
+    @media (max-width: 600px) {
+      .window-wrap { transform: scale(.38); }
+    }
+  </style>
+</head>
+<body>
+
+<h1>🎮 Các Màn Hình – AI Cờ Tướng</h1>
+<p class="subtitle">Mô tả trực quan tất cả các màn hình của ứng dụng</p>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- SCREEN 1 – HOME / WELCOME                                  -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-title">1. Màn Hình Chào (Home / Welcome)</div>
+  <div class="section-desc">
+    Màn hình khởi động của ứng dụng. Bảng cờ hiển thị hình nền chào mừng.
+    Menu bên phải gồm 4 nút điều hướng.
+  </div>
+
+  <div class="window-wrap">
+    <div class="title-bar">
+      <span class="title-bar-dot dot-red"></span>
+      <span class="title-bar-dot dot-amber"></span>
+      <span class="title-bar-dot dot-green"></span>
+      AI Cờ Tướng
+    </div>
+    <div class="game-window">
+
+      <!-- board -->
+      <div class="board-panel">
+        <img class="bg" src="../src/images/welcome.jpg"
+             onerror="this.style.background='#5c3d11'; this.removeAttribute('src')"
+             alt="Welcome board" />
+      </div>
+
+      <!-- menu – home -->
+      <div class="menu-panel menu-green">
+        <div style="flex:1"></div>
+
+        <div class="menu-btn">
+          <img src="../src/images/option/newgame.gif"
+               onerror="this.style.display='none'" alt="">
+          <span>🆕 Trò Chơi Mới</span>
+        </div>
+
+        <div class="menu-btn">
+          <img src="../src/images/option/creategame.gif"
+               onerror="this.style.display='none'" alt="">
+          <span>🛠 Tạo Game</span>
+        </div>
+
+        <div class="menu-btn">
+          <img src="../src/images/option/loadgame.gif"
+               onerror="this.style.display='none'" alt="">
+          <span>📂 Tải Game</span>
+        </div>
+
+        <div class="menu-btn">
+          <img src="../src/images/option/exit.gif"
+               onerror="this.style.display='none'" alt="">
+          <span>🚪 Thoát</span>
+        </div>
+
+        <div style="flex:1"></div>
+      </div>
+
+    </div><!-- .game-window -->
+  </div><!-- .window-wrap -->
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- SCREEN 2 – NEW GAME SETUP                                  -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-title">2. Màn Hình Cài Đặt Trò Chơi Mới (New Game)</div>
+  <div class="section-desc">
+    Người dùng chọn chế độ chơi, ai đi trước, và mức độ khó (cấp độ).
+    Ảnh nhân vật cấp độ xuất hiện ở cuối menu.
+  </div>
+
+  <div class="window-wrap">
+    <div class="title-bar">
+      <span class="title-bar-dot dot-red"></span>
+      <span class="title-bar-dot dot-amber"></span>
+      <span class="title-bar-dot dot-green"></span>
+      AI Cờ Tướng
+    </div>
+    <div class="game-window">
+
+      <div class="board-panel">
+        <img class="bg" src="../src/images/welcome2.jpg"
+             onerror="this.style.background='#5c3d11'; this.removeAttribute('src')"
+             alt="Board" />
+      </div>
+
+      <div class="menu-panel menu-white">
+
+        <!-- top buttons -->
+        <div style="display:flex; gap:6px; width:180px;">
+          <div class="menu-btn dark-btn" style="flex:1; justify-content:center;">
+            ← Quay lại
+          </div>
+          <div class="menu-btn dark-btn" style="flex:1; background:#2a7a2a; color:#fff; justify-content:center;">
+            ✔ OK
+          </div>
+        </div>
+
+        <!-- mode -->
+        <div class="radio-group">
+          <p>Chế độ chơi:</p>
+          <label><input type="radio" name="mode" checked> Người vs Máy</label>
+          <label><input type="radio" name="mode"> Người vs Người</label>
+        </div>
+
+        <!-- who first -->
+        <div class="radio-group">
+          <p>Ai đi trước?</p>
+          <label><input type="radio" name="who" checked> Máy đi trước</label>
+          <label><input type="radio" name="who"> Người đi trước</label>
+        </div>
+
+        <!-- level -->
+        <div class="radio-group">
+          <p>Cấp độ:</p>
+          <label><input type="radio" name="lv" checked> Captain America</label>
+          <label><input type="radio" name="lv"> Iron Man</label>
+          <label><input type="radio" name="lv"> Thor</label>
+          <label><input type="radio" name="lv"> Hulk</label>
+        </div>
+
+        <!-- level image preview -->
+        <img src="../src/images/level/Captain Amerian.png"
+             style="width:100px; height:auto; border-radius:8px; border:2px solid #ddd;"
+             onerror="this.style.background='#ccc'; this.style.width='100px'; this.style.height='120px'; this.removeAttribute('src')"
+             alt="Captain America" />
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- SCREEN 3 – CREATE GAME                                     -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-title">3. Màn Hình Tạo Game (Create Game)</div>
+  <div class="section-desc">
+    Màn hình cho phép tuỳ chỉnh thiết lập bàn cờ (đang được phát triển thêm).
+    Nền menu màu vàng đặc trưng.
+  </div>
+
+  <div class="window-wrap">
+    <div class="title-bar">
+      <span class="title-bar-dot dot-red"></span>
+      <span class="title-bar-dot dot-amber"></span>
+      <span class="title-bar-dot dot-green"></span>
+      AI Cờ Tướng
+    </div>
+    <div class="game-window">
+
+      <div class="board-panel">
+        <img class="bg" src="../src/images/board/board.png"
+             onerror="this.style.background='#5c3d11'; this.removeAttribute('src')"
+             alt="Board" />
+      </div>
+
+      <div class="menu-panel menu-yellow">
+        <div style="font-size:1.1rem; font-weight:700; color:#333; margin-bottom:8px;">
+          🛠 Tạo Game
+        </div>
+        <div class="menu-btn dark-btn" style="justify-content:center;">
+          ← Quay lại
+        </div>
+        <div style="flex:1; display:flex; align-items:center; justify-content:center; color:#7a5c00; font-style:italic; font-size:.8rem; text-align:center; padding:12px;">
+          (Tính năng đang được<br>phát triển…)
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- SCREEN 4 – PLAYING                                         -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-title">4. Màn Hình Đang Chơi (Play Screen)</div>
+  <div class="section-desc">
+    Bàn cờ với các quân được vẽ lên. Menu bên phải hiển thị avatar nhân vật,
+    indicator "đang suy nghĩ", các nút điều khiển và thanh mức độ.
+  </div>
+
+  <div class="window-wrap">
+    <div class="title-bar">
+      <span class="title-bar-dot dot-red"></span>
+      <span class="title-bar-dot dot-amber"></span>
+      <span class="title-bar-dot dot-green"></span>
+      AI Cờ Tướng
+    </div>
+    <div class="game-window">
+
+      <!-- board with chess -->
+      <div class="board-panel">
+        <img class="bg" src="../src/images/board/board.png"
+             onerror="this.style.background='#c8a86e'; this.removeAttribute('src')"
+             alt="Chess board" />
+
+        <!-- SVG chess overlay (simplified layout) -->
+        <svg class="board-canvas" viewBox="0 0 600 670"
+             xmlns="http://www.w3.org/2000/svg">
+
+          <!-- Red pieces (bottom) row 9 -->
+          <!-- xe (rook) -->
+          <image href="../src/images/chess/xedo.png"     x="15"   y="551" width="42" height="42"
+                 onerror="" />
+          <image href="../src/images/chess/mado.png"     x="82"   y="551" width="42" height="42" />
+          <image href="../src/images/chess/tinhdo.png"   x="149"  y="551" width="42" height="42" />
+          <image href="../src/images/chess/sydo.png"     x="216"  y="551" width="42" height="42" />
+          <image href="../src/images/chess/tuongdo.png"  x="283"  y="551" width="42" height="42" />
+          <image href="../src/images/chess/sydo.png"     x="350"  y="551" width="42" height="42" />
+          <image href="../src/images/chess/tinhdo.png"   x="417"  y="551" width="42" height="42" />
+          <image href="../src/images/chess/mado.png"     x="484"  y="551" width="42" height="42" />
+          <image href="../src/images/chess/xedo.png"     x="551"  y="551" width="42" height="42" />
+          <!-- pao (cannon) -->
+          <image href="../src/images/chess/phaodo.png"   x="82"   y="417" width="42" height="42" />
+          <image href="../src/images/chess/phaodo.png"   x="484"  y="417" width="42" height="42" />
+          <!-- tot (pawn) -->
+          <image href="../src/images/chess/totdo.png"    x="15"   y="484" width="42" height="42" />
+          <image href="../src/images/chess/totdo.png"    x="149"  y="484" width="42" height="42" />
+          <image href="../src/images/chess/totdo.png"    x="283"  y="484" width="42" height="42" />
+          <image href="../src/images/chess/totdo.png"    x="417"  y="484" width="42" height="42" />
+          <image href="../src/images/chess/totdo.png"    x="551"  y="484" width="42" height="42" />
+
+          <!-- Black pieces (top) row 0 -->
+          <image href="../src/images/chess/xeden.png"    x="15"   y="15"  width="42" height="42" />
+          <image href="../src/images/chess/maden.png"    x="82"   y="15"  width="42" height="42" />
+          <image href="../src/images/chess/tinhden.png"  x="149"  y="15"  width="42" height="42" />
+          <image href="../src/images/chess/syden.png"    x="216"  y="15"  width="42" height="42" />
+          <image href="../src/images/chess/tuongden.png" x="283"  y="15"  width="42" height="42" />
+          <image href="../src/images/chess/syden.png"    x="350"  y="15"  width="42" height="42" />
+          <image href="../src/images/chess/tinhden.png"  x="417"  y="15"  width="42" height="42" />
+          <image href="../src/images/chess/maden.png"    x="484"  y="15"  width="42" height="42" />
+          <image href="../src/images/chess/xeden.png"    x="551"  y="15"  width="42" height="42" />
+          <!-- pao -->
+          <image href="../src/images/chess/phaoden.png"  x="82"   y="149" width="42" height="42" />
+          <image href="../src/images/chess/phaoden.png"  x="484"  y="149" width="42" height="42" />
+          <!-- tot -->
+          <image href="../src/images/chess/totden.png"   x="15"   y="216" width="42" height="42" />
+          <image href="../src/images/chess/totden.png"   x="149"  y="216" width="42" height="42" />
+          <image href="../src/images/chess/totden.png"   x="283"  y="216" width="42" height="42" />
+          <image href="../src/images/chess/totden.png"   x="417"  y="216" width="42" height="42" />
+          <image href="../src/images/chess/totden.png"   x="551"  y="216" width="42" height="42" />
+
+          <!-- selection highlight example -->
+          <image href="../src/images/chess/select.png"   x="283"  y="551" width="42" height="42" />
+        </svg>
+      </div>
+
+      <!-- play menu -->
+      <div class="menu-panel menu-dark">
+
+        <!-- COM avatar at top -->
+        <div class="avatar-area">
+          <img src="../src/images/com/captain.png"
+               onerror="this.style.background='#555'; this.style.display='block'; this.style.width='80px'; this.style.height='80px'; this.removeAttribute('src')"
+               style="width:100px; border-radius:8px;"
+               alt="Captain America" />
+          <span class="avatar-label">Máy tính (Captain America)</span>
+        </div>
+
+        <!-- thinking indicator -->
+        <div style="display:flex; width:180px; justify-content:flex-end; padding-right:4px;">
+          <img src="../src/images/thinking.png"
+               style="width:36px; height:36px; opacity:.8;"
+               onerror="this.style.background='#444'; this.style.borderRadius='50%'; this.removeAttribute('src')"
+               alt="Thinking" />
+        </div>
+
+        <div style="flex:1"></div>
+
+        <!-- control buttons -->
+        <div class="play-bar">
+          <div class="play-btn" title="Home">🏠</div>
+          <div class="play-btn" title="Reset">🔄</div>
+          <div class="play-btn" title="Hint">💡</div>
+          <div class="play-btn" title="Undo">↩</div>
+          <div class="play-btn" title="Pause">⏸</div>
+          <div class="play-btn" title="Redo">↪</div>
+        </div>
+
+        <!-- level slider -->
+        <div class="level-area">
+          <label>Cấp độ: <strong style="color:#f0c040;">2</strong></label>
+          <input type="range" min="2" max="6" step="2" value="2" />
+          <div style="display:flex; justify-content:space-between; font-size:.7rem; color:#888;">
+            <span>2</span><span>4</span><span>6</span>
+          </div>
+        </div>
+
+        <div style="flex:1"></div>
+
+        <!-- human avatar at bottom -->
+        <div class="avatar-area">
+          <span class="avatar-label">Người chơi</span>
+          <img src="../src/images/com/human.png"
+               onerror="this.style.background='#555'; this.style.display='block'; this.style.width='80px'; this.style.height='80px'; this.removeAttribute('src')"
+               style="width:100px; border-radius:8px;"
+               alt="Human" />
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- SCREEN 5 – PAUSED                                          -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-title">5. Màn Hình Tạm Dừng (Pause)</div>
+  <div class="section-desc">
+    Khi người dùng nhấn nút Pause, bàn cờ bị che phủ bởi một lớp mờ
+    với icon và chữ "TẠM DỪNG".
+  </div>
+
+  <div class="window-wrap">
+    <div class="title-bar">
+      <span class="title-bar-dot dot-red"></span>
+      <span class="title-bar-dot dot-amber"></span>
+      <span class="title-bar-dot dot-green"></span>
+      AI Cờ Tướng
+    </div>
+    <div class="game-window">
+
+      <div class="board-panel">
+        <img class="bg" src="../src/images/board/board.png"
+             onerror="this.style.background='#c8a86e'; this.removeAttribute('src')"
+             alt="Board" />
+        <!-- pause overlay -->
+        <div class="pause-overlay">
+          <div class="pause-icon">⏸</div>
+          <p>TẠM DỪNG</p>
+          <div style="font-size:.9rem; color:#ccc;">Nhấn ▶ để tiếp tục chơi</div>
+        </div>
+      </div>
+
+      <!-- play menu (same as play screen) -->
+      <div class="menu-panel menu-dark">
+        <div class="avatar-area">
+          <img src="../src/images/com/captain.png"
+               onerror="this.style.background='#555'; this.style.display='block'; this.style.width='80px'; this.style.height='80px'; this.removeAttribute('src')"
+               style="width:100px; border-radius:8px;" alt="COM" />
+          <span class="avatar-label">Máy tính</span>
+        </div>
+        <div style="flex:1"></div>
+        <div class="play-bar">
+          <div class="play-btn" title="Home">🏠</div>
+          <div class="play-btn" title="Reset">🔄</div>
+          <div class="play-btn" title="Hint">💡</div>
+          <div class="play-btn" title="Undo">↩</div>
+          <div class="play-btn" title="Play" style="background:#2a5e2a;">▶</div>
+          <div class="play-btn" title="Redo">↪</div>
+        </div>
+        <div class="level-area">
+          <label>Cấp độ: <strong style="color:#f0c040;">2</strong></label>
+          <input type="range" min="2" max="6" step="2" value="2" />
+        </div>
+        <div style="flex:1"></div>
+        <div class="avatar-area">
+          <span class="avatar-label">Người chơi</span>
+          <img src="../src/images/com/human.png"
+               onerror="this.style.background='#555'; this.style.display='block'; this.style.width='80px'; this.style.height='80px'; this.removeAttribute('src')"
+               style="width:100px; border-radius:8px;" alt="Human" />
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- SCREEN 6 – CHIẾU TƯỚNG (Check notification)               -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-title">6. Thông Báo Chiếu Tướng (Check)</div>
+  <div class="section-desc">
+    Khi một bên chiếu tướng, một banner đỏ "CHIẾU TƯỚNG" xuất hiện trên bàn cờ.
+  </div>
+
+  <div class="window-wrap">
+    <div class="title-bar">
+      <span class="title-bar-dot dot-red"></span>
+      <span class="title-bar-dot dot-amber"></span>
+      <span class="title-bar-dot dot-green"></span>
+      AI Cờ Tướng
+    </div>
+    <div class="game-window">
+
+      <div class="board-panel">
+        <img class="bg" src="../src/images/board/board.png"
+             onerror="this.style.background='#c8a86e'; this.removeAttribute('src')"
+             alt="Board" />
+        <svg class="board-canvas" viewBox="0 0 600 670" xmlns="http://www.w3.org/2000/svg">
+          <image href="../src/images/chess/xedo.png"    x="15"  y="551" width="42" height="42" />
+          <image href="../src/images/chess/tuongdo.png" x="283" y="551" width="42" height="42" />
+          <image href="../src/images/chess/tuongden.png" x="283" y="15"  width="42" height="42" />
+        </svg>
+        <!-- chiếu tướng banner -->
+        <div class="chieu-banner">CHIẾU TƯỚNG</div>
+      </div>
+
+      <div class="menu-panel menu-dark">
+        <div class="avatar-area">
+          <img src="../src/images/com/captain.png"
+               onerror="this.style.background='#555'; this.style.display='block'; this.style.width='80px'; this.style.height='80px'; this.removeAttribute('src')"
+               style="width:100px; border-radius:8px;" alt="COM" />
+          <span class="avatar-label">Máy tính</span>
+        </div>
+        <div style="flex:1"></div>
+        <div class="play-bar">
+          <div class="play-btn">🏠</div>
+          <div class="play-btn">🔄</div>
+          <div class="play-btn">💡</div>
+          <div class="play-btn">↩</div>
+          <div class="play-btn">⏸</div>
+          <div class="play-btn">↪</div>
+        </div>
+        <div style="flex:1"></div>
+        <div class="avatar-area">
+          <span class="avatar-label">Người chơi</span>
+          <img src="../src/images/com/human.png"
+               onerror="this.style.background='#555'; this.style.display='block'; this.style.width='80px'; this.style.height='80px'; this.removeAttribute('src')"
+               style="width:100px; border-radius:8px;" alt="Human" />
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- SCREEN 7 – WIN / LOSE DIALOGS                              -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-title">7. Hộp Thoại Thắng / Thua</div>
+  <div class="section-desc">
+    Khi ván đấu kết thúc, ứng dụng hiện hộp thoại xác nhận.
+  </div>
+
+  <div style="display:flex; flex-wrap:wrap; gap:30px;">
+
+    <!-- You Win -->
+    <div>
+      <div style="margin-bottom:8px; color:#bbb; font-size:.85rem;">🏆 Người chơi thắng</div>
+      <div class="dialog-wrap">
+        <div class="dialog-title">
+          <span>🏆</span> You Win
+        </div>
+        <div class="dialog-body">
+          <span>Bạn có muốn thoát Game?</span>
+          <div class="dialog-body-row">
+            <button class="dialog-btn primary">OK</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Computer Win -->
+    <div>
+      <div style="margin-bottom:8px; color:#bbb; font-size:.85rem;">🤖 Máy tính thắng</div>
+      <div class="dialog-wrap">
+        <div class="dialog-title" style="background:#8b0000;">
+          <span>🤖</span> Com Win
+        </div>
+        <div class="dialog-body">
+          <span>Ban Co Muon Thoat Game?</span>
+          <div class="dialog-body-row">
+            <button class="dialog-btn primary">OK</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── footer ──────────────────────────────────────────────── -->
+<div style="text-align:center; margin-top:60px; color:#555; font-size:.8rem;">
+  AI Cờ Tướng · Mô tả các màn hình ứng dụng ·
+  Tổng cộng 7 màn hình / hộp thoại
+</div>
+
+</body>
+</html>
