@@ -134,7 +134,7 @@ public class MenuLoadPanel extends MyPanel implements MouseListener {
 			lbTurnInfo.setText(previewMatch.isComPlayFirst() ? "Turn: Computer" : "Turn: Human");
 			lbLevelInfo.setText("Level: " + previewMatch.getLevel());
 		} else {
-			lbTurnInfo.setText(previewMatch.isComPlayFirst() ? "Turn: Player 2" : "Turn: Player 1");
+			lbTurnInfo.setText("Turn: Resume match");
 			lbLevelInfo.setText("Level: Not used");
 		}
 		lbHint.setText(hasSavedMatch ? "<html><div style='text-align:center;'>Data source:<br>src/model/map/lastmap</div></html>"
