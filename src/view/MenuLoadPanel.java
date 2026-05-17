@@ -131,11 +131,12 @@ public class MenuLoadPanel extends MyPanel implements MouseListener {
 		lbSaveState.setText(hasSavedMatch ? "Saved match ready" : "No saved match yet");
 		lbModeInfo.setText(previewMatch.isPlayWithCom() ? "Mode: Human vs Com" : "Mode: Human vs Human");
 		if (previewMatch.isPlayWithCom()) {
+			lbTurnInfo.setVisible(true);
 			lbTurnInfo.setText(previewMatch.isComPlayFirst() ? "Turn: Computer" : "Turn: Human");
 			lbLevelInfo.setText("Level: " + previewMatch.getLevel());
 		} else {
-			lbTurnInfo.setText("Turn: Resume match");
-			lbLevelInfo.setText("Level: Not used");
+			lbTurnInfo.setVisible(false);
+			lbLevelInfo.setText("Level: N/A");
 		}
 		lbHint.setText(hasSavedMatch ? "<html><div style='text-align:center;'>Data source:<br>src/model/map/lastmap</div></html>"
 				: "<html><div style='text-align:center;'>Fallback:<br>default board layout</div></html>");
