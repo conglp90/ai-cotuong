@@ -79,7 +79,7 @@ flowchart LR
 | ( ) Human                        |
 |                                  |
 | Select level:                    |
-| (o) Captain Amerian              |
+| (o) Captain America              |
 | ( ) Iron Man                     |
 | ( ) Thor                         |
 | ( ) Hulk                         |
@@ -90,6 +90,7 @@ flowchart LR
 
 - **Back** quay về `MenuHomePanel`.
 - **OK** tạo `Match` mới, đồng bộ `ChessBoardPanel`, rồi chuyển sang `MenuPlayPanel`.
+- Ghi chú: text level đầu tiên trong code hiện tại vẫn đang là `Captain Amerian`.
 
 ### 3.3 `MenuCreatePanel`
 
