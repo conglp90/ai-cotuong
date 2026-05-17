@@ -22,6 +22,14 @@ import model.Match;
  * 
  */
 public class MenuLoadPanel extends MyPanel implements MouseListener {
+	private static final int TITLE_FONT_SIZE = 24;
+	private static final int SUBTITLE_FONT_SIZE = 12;
+	private static final int INFO_TITLE_FONT_SIZE = 15;
+	private static final int INFO_FONT_SIZE = 13;
+	private static final Color PANEL_COLOR = new Color(26, 33, 51);
+	private static final Color PREVIEW_COLOR = new Color(36, 45, 69);
+	private static final Color ACCENT_COLOR = new Color(246, 200, 95);
+	private static final Color MUTED_TEXT_COLOR = new Color(196, 204, 224);
 
 	/**
 	 * 
@@ -39,6 +47,8 @@ public class MenuLoadPanel extends MyPanel implements MouseListener {
 	private JLabel lbTurnInfo = new JLabel();
 	private JLabel lbLevelInfo = new JLabel();
 	private JLabel lbHint = new JLabel();
+	private Match previewMatch;
+	private boolean hasSavedMatch;
 
 	/**
 	 * 
@@ -48,7 +58,7 @@ public class MenuLoadPanel extends MyPanel implements MouseListener {
 		super(mp);
 
 		setPreferredSize(cardPanel.getPreferredSize());
-		setBackground(new Color(26, 33, 51));
+		setBackground(PANEL_COLOR);
 
 		initLabel();
 		refreshPreviewInfo();
@@ -81,37 +91,21 @@ public class MenuLoadPanel extends MyPanel implements MouseListener {
 	}
 
 	private void initLabel() {
-		lbTitle.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
-		lbTitle.setForeground(new Color(246, 200, 95));
-		lbTitle.setHorizontalAlignment(JLabel.CENTER);
-
-		lbSubtitle.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 12));
-		lbSubtitle.setForeground(Color.WHITE);
-		lbSubtitle.setHorizontalAlignment(JLabel.CENTER);
+		configureLabel(lbTitle, new Font(Font.SANS_SERIF, Font.BOLD, TITLE_FONT_SIZE), ACCENT_COLOR);
+		configureLabel(lbSubtitle, new Font(Font.SANS_SERIF, Font.PLAIN, SUBTITLE_FONT_SIZE), Color.WHITE);
 
 		lbPreview.setOpaque(true);
-		lbPreview.setBackground(new Color(36, 45, 69));
+		lbPreview.setBackground(PREVIEW_COLOR);
 		lbPreview.setBorder(BorderFactory.createCompoundBorder(
-				BorderFactory.createLineBorder(new Color(246, 200, 95), 2),
+				BorderFactory.createLineBorder(ACCENT_COLOR, 2),
 				BorderFactory.createEmptyBorder(14, 14, 14, 14)));
 		lbPreview.setHorizontalAlignment(JLabel.CENTER);
 
-		lbSaveState.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 15));
-		lbModeInfo.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 13));
-		lbTurnInfo.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 13));
-		lbLevelInfo.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 13));
-		lbHint.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 12));
-
-		lbSaveState.setForeground(new Color(246, 200, 95));
-		lbModeInfo.setForeground(Color.WHITE);
-		lbTurnInfo.setForeground(Color.WHITE);
-		lbLevelInfo.setForeground(Color.WHITE);
-		lbHint.setForeground(new Color(196, 204, 224));
-		lbSaveState.setHorizontalAlignment(JLabel.CENTER);
-		lbModeInfo.setHorizontalAlignment(JLabel.CENTER);
-		lbTurnInfo.setHorizontalAlignment(JLabel.CENTER);
-		lbLevelInfo.setHorizontalAlignment(JLabel.CENTER);
-		lbHint.setHorizontalAlignment(JLabel.CENTER);
+		configureLabel(lbSaveState, new Font(Font.SANS_SERIF, Font.BOLD, INFO_TITLE_FONT_SIZE), ACCENT_COLOR);
+		configureLabel(lbModeInfo, new Font(Font.SANS_SERIF, Font.PLAIN, INFO_FONT_SIZE), Color.WHITE);
+		configureLabel(lbTurnInfo, new Font(Font.SANS_SERIF, Font.PLAIN, INFO_FONT_SIZE), Color.WHITE);
+		configureLabel(lbLevelInfo, new Font(Font.SANS_SERIF, Font.PLAIN, INFO_FONT_SIZE), Color.WHITE);
+		configureLabel(lbHint, new Font(Font.SANS_SERIF, Font.ITALIC, SUBTITLE_FONT_SIZE), MUTED_TEXT_COLOR);
 
 		lbLoadLastGame = new MyLabelButton(Constant.OPT_DIR+ "/ok", "Load last saved game", false);
 		lbLoadLastGame.addMouseListener(this);
@@ -121,26 +115,32 @@ public class MenuLoadPanel extends MyPanel implements MouseListener {
 
 	}
 
+	private void configureLabel(JLabel label, Font font, Color foreground) {
+		label.setFont(font);
+		label.setForeground(foreground);
+		label.setHorizontalAlignment(JLabel.CENTER);
+	}
+
 	public void refreshPreviewInfo() {
-		Match match = new Match();
-		boolean hasSavedMatch = match.readeMatchFromFile("lastmap");
+		previewMatch = new Match();
+		hasSavedMatch = previewMatch.readeMatchFromFile("lastmap");
 		if (!hasSavedMatch) {
-			match.readDefaultMatch();
+			previewMatch.readDefaultMatch();
 		}
 
 		lbSaveState.setText(hasSavedMatch ? "Saved match ready" : "No saved match yet");
-		lbModeInfo.setText(match.isPlayWithCom() ? "Mode: Human vs Com" : "Mode: Human vs Human");
-		if (match.isPlayWithCom()) {
-			lbTurnInfo.setText(match.isComPlayFirst() ? "Turn: Computer" : "Turn: Human");
-			lbLevelInfo.setText("Level: " + match.getLevel());
+		lbModeInfo.setText(previewMatch.isPlayWithCom() ? "Mode: Human vs Com" : "Mode: Human vs Human");
+		if (previewMatch.isPlayWithCom()) {
+			lbTurnInfo.setText(previewMatch.isComPlayFirst() ? "Turn: Computer" : "Turn: Human");
+			lbLevelInfo.setText("Level: " + previewMatch.getLevel());
 		} else {
-			lbTurnInfo.setText(match.isComPlayFirst() ? "Turn: Player 2" : "Turn: Player 1");
+			lbTurnInfo.setText(previewMatch.isComPlayFirst() ? "Turn: Player 2" : "Turn: Player 1");
 			lbLevelInfo.setText("Level: Not used");
 		}
 		lbHint.setText(hasSavedMatch ? "<html><div style='text-align:center;'>Data source:<br>src/model/map/lastmap</div></html>"
 				: "<html><div style='text-align:center;'>Fallback:<br>default board layout</div></html>");
 
-		lbPreview.setIcon(createPreviewIcon(match));
+		lbPreview.setIcon(createPreviewIcon(previewMatch));
 		lbLoadLastGame.setToolTipText(hasSavedMatch ? "Load last saved game" : "Load default match");
 	}
 
@@ -159,21 +159,20 @@ public class MenuLoadPanel extends MyPanel implements MouseListener {
 	}
 
 	private void loadAndInitializeMatch() {
-		Match match = new Match();
-		if (!match.readeMatchFromFile("lastmap")) {
-			match.readDefaultMatch();
+		if (previewMatch == null) {
+			refreshPreviewInfo();
 		}
 		cardPanel.swapPanel(MenuPlayPanel.KEY);
-		cardPanel.getMainFrame().getChessBoardPanel().setMatch(match);
+		cardPanel.getMainFrame().getChessBoardPanel().setMatch(previewMatch);
 		cardPanel.getMainFrame().getChessBoardPanel().initGame();
 		cardPanel.getMainFrame().getChessBoardPanel().repaint();
-		cardPanel.getPlayMenu().setSlLevelValue(match.getLevel());
-		if (match.isPlayWithCom()) {
-			cardPanel.getPlayMenu().setLbCom(match.getLevel());
+		cardPanel.getPlayMenu().setSlLevelValue(previewMatch.getLevel());
+		if (previewMatch.isPlayWithCom()) {
+			cardPanel.getPlayMenu().setLbCom(previewMatch.getLevel());
 		} else {
 			cardPanel.getPlayMenu().setLbCom(0);
 		}
-		cardPanel.getPlayMenu().setComPlaying(match.isComPlayFirst());
+		cardPanel.getPlayMenu().setComPlaying(previewMatch.isComPlayFirst());
 	}
 
 	@Override

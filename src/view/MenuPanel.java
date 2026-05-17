@@ -81,6 +81,9 @@ public class MenuPanel extends JPanel {
 		return playMenu;
 	}
 
+	/**
+	 * @return the loadMenu
+	 */
 	public MenuLoadPanel getLoadMenu() {
 		return loadMenu;
 	}
